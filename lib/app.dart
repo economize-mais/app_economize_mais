@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:app_economize_mais/providers/cadastro_provider.dart';
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/screens/login/login_screen.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/routes/app_routes.dart';
@@ -14,7 +14,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => CadastroProvider(),
+          create: (_) => UsuarioProvider(),
         ),
       ],
       child: MaterialApp(

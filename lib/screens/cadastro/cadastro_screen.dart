@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:app_economize_mais/models/cadastro_model.dart';
-import 'package:app_economize_mais/providers/cadastro_provider.dart';
+import 'package:app_economize_mais/models/usuario_model.dart';
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
@@ -109,8 +109,8 @@ class CadastroScreen extends StatelessWidget {
                     nomeCompletoController.text =
                         nomeCompletoController.text.trim();
 
-                    Provider.of<CadastroProvider>(context, listen: false)
-                        .cadastroModel = CadastroModel(
+                    Provider.of<UsuarioProvider>(context, listen: false)
+                        .usuarioModel = UsuarioModel(
                       nomeCompletoController.text,
                       cpfController.text,
                       telefoneController.text,
