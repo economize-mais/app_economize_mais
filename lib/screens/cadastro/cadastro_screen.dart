@@ -31,9 +31,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
     formKey = GlobalKey<FormState>();
     nomeCompletoController = TextEditingController(text: 'Iago Engel Serafin');
-    cpfController = TextEditingController(text: '123.456.789-00');
+    cpfController = TextEditingController(text: '208.835.840-42');
     telefoneController = TextEditingController(text: '(35) 9 9999-9999');
-    emailController = TextEditingController(text: 'example@example.com');
+    emailController = TextEditingController(text: 'teste3@example.com');
     dataNascimentoController = TextEditingController(text: '17/12/1998');
     generoController = TextEditingController(text: 'Feminino');
   }
@@ -146,6 +146,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
     if (!formKey.currentState!.validate()) return;
     nomeCompletoController.text = nomeCompletoController.text.trim();
     emailController.text = emailController.text.trim();
+    cpfController.text = cpfController.text
+        .replaceAll('.', '')
+        .replaceAll('/', '')
+        .replaceAll('-', '');
 
     Provider.of<UsuarioProvider>(context, listen: false).usuarioModel =
         UsuarioModel(
@@ -163,6 +167,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
       'email': emailController.text,
       'fullName': nomeCompletoController.text,
       'birthDate': birthDate,
+      'cpfCnpj': cpfController.text,
       'gender': generoController.text[0],
     };
 

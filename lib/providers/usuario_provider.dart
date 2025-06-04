@@ -37,6 +37,21 @@ class UsuarioProvider extends ChangeNotifier {
     _setIsLoading(false);
   }
 
+  Future cadastrarUsuario(Map<String, dynamic> userJson) async {
+    _setIsLoading(true);
+    try {
+      hasError = false;
+      final response = await loginService.cadastrarUsuario(userJson);
+      print(response);
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+    }
+    _setIsLoading(false);
+  }
+
   _setIsLoading(bool value) {
     isLoading = value;
     notifyListeners();

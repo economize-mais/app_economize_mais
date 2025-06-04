@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/screens/cadastro/cadastro_senha_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/anuncie%20conosco/anuncie_conosco_screen.dart';
 import 'package:app_economize_mais/screens/cadastro/cadastro_endereco_screen.dart';
@@ -22,6 +23,10 @@ abstract class AppRoutes {
       case '/cadastro/endereco':
         return MaterialPageRoute(
             builder: (_) => CadastroEnderecoScreen(
+                userJson: (settings.arguments as Map)['userJson']));
+      case '/cadastro/senha':
+        return MaterialPageRoute(
+            builder: (_) => CadastroSenhaScreen(
                 userJson: (settings.arguments as Map)['userJson']));
       case '/cadastro/recuperar-senha':
         return MaterialPageRoute(

@@ -15,4 +15,14 @@ class LoginService {
       rethrow;
     }
   }
+
+  Future cadastrarUsuario(Map<String, dynamic> userJson) async {
+    try {
+      final response = await apiLoading.post('/User', data: userJson);
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

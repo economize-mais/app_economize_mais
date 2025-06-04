@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';
 class PopupErrorWidget extends StatelessWidget {
   final String title;
   final String content;
+  final bool showActions;
 
   const PopupErrorWidget({
     super.key,
     this.title = 'Ops... Um erro ocorreu',
     required this.content,
+    this.showActions = true,
   });
 
   @override

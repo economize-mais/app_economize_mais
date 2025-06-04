@@ -1,0 +1,118 @@
+import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class CadastroSenhaScreen extends StatefulWidget {
+  final Map<String, dynamic> userJson;
+
+  const CadastroSenhaScreen({
+    super.key,
+    required this.userJson,
+  });
+
+  @override
+  State<CadastroSenhaScreen> createState() => _CadastroSenhaScreenState();
+}
+
+class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
+  late GlobalKey<FormState> formKey;
+  late TextEditingController senhaController;
+  late TextEditingController confirmaSenhaController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    formKey = GlobalKey<FormState>();
+    senhaController = TextEditingController(text: 'Teste@123');
+    confirmaSenhaController = TextEditingController(text: 'Teste@123');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Defina sua senha',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppScheme.gray[4],
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                LabeledOutlineTextFieldWidget(
+                  controller: senhaController,
+                  label: 'Senha',
+                  isPassword: true,
+                  paddingTop: 15,
+                ),
+                LabeledOutlineTextFieldWidget(
+                  controller: confirmaSenhaController,
+                  label: 'Confirmar Senha',
+                  isPassword: true,
+                  paddingTop: 15,
+                  paddingBottom: 25,
+                ),
+                Consumer<UsuarioProvider>(
+                  builder: (context, usuarioProvider, child) => Visibility(
+                    visible: !usuarioProvider.isLoading,
+                    replacement: const Center(child: CircularProgressIndicator()),
+                    child: FilledButton(
+                      onPressed: () => cadastrar(usuarioProvider),
+                      child: const Text('Cadastrar'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future cadastrar(UsuarioProvider usuarioProvider) async {
+    if (!formKey.currentState!.validate()) return;
+
+    final userJson = {
+      ...widget.userJson,
+      'password': confirmaSenhaController.text,
+      'userType': 'USER'
+    };
+
+    await usuarioProvider.cadastrarUsuario(userJson);
+
+    if (!mounted) return;
+
+    if (usuarioProvider.hasError) {
+      showDialog(
+        context: context,
+        builder: (context) => PopupErrorWidget(
+          content: usuarioProvider.errorMessage,
+        ),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) => PopupErrorWidget(
+        title: 'Usuário cadastrado!',
+        content: usuarioProvider.errorMessage,
+        showActions: false,
+      ),
+    ).then((_) => Navigator.popUntil(context, (route) => route.isFirst));
+  }
+}

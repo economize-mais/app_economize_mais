@@ -166,7 +166,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     );
   }
 
-  void continuar() {
+  Future continuar() async {
     if (!formKey.currentState!.validate()) return;
     ruaController.text = ruaController.text.trim();
     bairroController.text = bairroController.text.trim();
@@ -189,9 +189,8 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
       ],
     };
 
-    // Navigator.popUntil(
-    //   context,
-    //   (route) => route.isFirst,
-    // );
+    Navigator.pushNamed(context, '/cadastro/senha', arguments: {
+      'userJson': userJson,
+    });
   }
 }
