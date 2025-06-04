@@ -21,7 +21,8 @@ abstract class AppRoutes {
         return MaterialPageRoute(builder: (_) => const CadastroScreen());
       case '/cadastro/endereco':
         return MaterialPageRoute(
-            builder: (_) => const CadastroEnderecoScreen());
+            builder: (_) => CadastroEnderecoScreen(
+                userJson: (settings.arguments as Map)['userJson']));
       case '/cadastro/recuperar-senha':
         return MaterialPageRoute(
             builder: (_) => const CadastroRecuperarSenhaScreen());
@@ -46,7 +47,8 @@ abstract class AppRoutes {
       case '/trocar-senha':
         return MaterialPageRoute(builder: (_) => const TrocarSenhaScreen());
       case '/perguntas-frequentes':
-        return MaterialPageRoute(builder: (_) => const PerguntasFrequentesScreen());
+        return MaterialPageRoute(
+            builder: (_) => const PerguntasFrequentesScreen());
       case '/contato-suporte':
         return MaterialPageRoute(builder: (_) => const ContatoSuporteScreen());
       case '/anuncie-conosco':

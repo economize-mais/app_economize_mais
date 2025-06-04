@@ -1,7 +1,6 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:app_economize_mais/screens/login/widget/criar_conta_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:provider/provider.dart';
@@ -101,7 +100,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text('Recuperar Senha'),
                 ),
                 const SizedBox(height: 4),
-                const CriarContaWidget(),
+                const Text(
+                  'Não possui uma conta?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12),
+                ),
+                OutlinedButton(
+                  onPressed: () => Navigator.pushNamed(context, '/cadastro'),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  child: const Text('Criar nova conta'),
+                ),
               ],
             ),
           ),
