@@ -8,11 +8,18 @@ class UsuarioProvider extends ChangeNotifier {
   final LoginService loginService = LoginService();
 
   late UsuarioModel usuarioModel;
-  late UserModel userModel;
+  late UserModel? userModel;
 
   bool isLoading = false;
   bool hasError = false;
   String errorMessage = '';
+
+  void limparCampos() {
+    userModel = null;
+    isLoading = false;
+    hasError = false;
+    errorMessage = '';
+  }
 
   Future login(String email, String password) async {
     _setIsLoading(true);
@@ -23,9 +30,9 @@ class UsuarioProvider extends ChangeNotifier {
       userModel = UserModel.fromJson(response);
     } catch (e) {
       hasError = true;
-      errorMessage =
-          e is DioException ? e.response?.data['message'] : e.toString();
-      print(e);
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
     }
     _setIsLoading(false);
   }

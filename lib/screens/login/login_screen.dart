@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     formKey = GlobalKey<FormState>();
     emailController =
         TextEditingController(text: 'marcus.miguel.dev@gmail.com');
-    passwordController = TextEditingController(text: 'Mudar@123-');
+    passwordController = TextEditingController(text: 'Mudar@123');
   }
 
   @override
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 LabeledOutlineTextFieldWidget(
                   controller: passwordController,
                   label: 'Senha',
-                  obscureText: true,
+                  isPassword: true,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25, bottom: 15),
@@ -118,7 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (usuarioProvider.hasError) {
-      print(usuarioProvider.errorMessage);
       showDialog(
         context: context,
         builder: (context) => PopupErrorWidget(

@@ -31,19 +31,19 @@ class TrocarSenhaScreen extends StatelessWidget {
               LabeledOutlineTextFieldWidget(
                 controller: senhaController,
                 label: 'Senha',
-                obscureText: true,
+                isPassword: true,
                 paddingBottom: 15,
               ),
               LabeledOutlineTextFieldWidget(
                 controller: novaSenhaController,
                 label: 'Nova Senha',
-                obscureText: true,
+                isPassword: true,
                 paddingBottom: 15,
               ),
               LabeledOutlineTextFieldWidget(
                 controller: confirmarNovaSenhaController,
                 label: 'Confirmar Nova Senha',
-                obscureText: true,
+                isPassword: true,
                 paddingBottom: 25,
               ),
               FilledButton(

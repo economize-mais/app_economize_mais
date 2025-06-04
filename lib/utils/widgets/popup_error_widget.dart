@@ -37,7 +37,7 @@ class PopupErrorWidget extends StatelessWidget {
             textStyle: const TextStyle(decoration: TextDecoration.none),
             backgroundColor: AppScheme.gray[2],
           ),
-          child: const Text('Copiar'),
+          child: const Text('Copiar Erro'),
         ),
       ],
     );
