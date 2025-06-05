@@ -32,13 +32,13 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     super.initState();
 
     formKey = GlobalKey<FormState>();
-    cepController = TextEditingController(text: '37130-079');
-    ruaController = TextEditingController(text: 'Rua');
-    numeroController = TextEditingController(text: '079');
-    bairroController = TextEditingController(text: 'Bairro');
-    cidadeController = TextEditingController(text: 'Alfenas');
-    ufController = TextEditingController(text: 'MG');
-    complementoController = TextEditingController(text: 'Casa');
+    cepController = TextEditingController();
+    ruaController = TextEditingController();
+    numeroController = TextEditingController();
+    bairroController = TextEditingController();
+    cidadeController = TextEditingController();
+    ufController = TextEditingController();
+    complementoController = TextEditingController();
   }
 
   @override

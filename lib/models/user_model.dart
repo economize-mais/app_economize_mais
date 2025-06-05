@@ -8,9 +8,9 @@ class UserModel {
   final String? birthDate;
   final List<AddressModel> addresses;
   final String gender;
-  final String companyName;
-  final String tradeName;
-  final String logoUrl;
+  final String? companyName;
+  final String? tradeName;
+  final String? logoUrl;
 
   UserModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
