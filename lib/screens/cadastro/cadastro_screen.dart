@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/models/usuario_model.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
-import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
@@ -30,12 +29,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
     super.initState();
 
     formKey = GlobalKey<FormState>();
-    nomeCompletoController = TextEditingController();
-    cpfController = TextEditingController();
-    telefoneController = TextEditingController();
-    emailController = TextEditingController();
-    dataNascimentoController = TextEditingController();
-    generoController = TextEditingController();
+    nomeCompletoController = TextEditingController(text: 'Iago Teste 2');
+    cpfController = TextEditingController(text: '690.642.850-04');
+    telefoneController = TextEditingController(text: '35991999999');
+    emailController = TextEditingController(text: 'iagoteste2@teste.com');
+    dataNascimentoController = TextEditingController(text: '01/01/2000');
+    generoController = TextEditingController(text: 'Masculino');
   }
 
   @override
@@ -64,13 +63,11 @@ class _CadastroScreenState extends State<CadastroScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Tela de cadastro',
+                  'Insira seus dados para criar a sua conta',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppScheme.gray[4],
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 LabeledOutlineTextFieldWidget(
                   controller: nomeCompletoController,
@@ -127,12 +124,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButtonWithIconWidget(
-                    onPressed: adicionarEndereco,
-                    label: 'Adicionar Endereço',
-                  ),
+                TextButtonWithIconWidget(
+                  onPressed: adicionarEndereco,
+                  label: 'Adicionar Endereço',
                 ),
               ],
             ),
@@ -176,3 +170,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
     });
   }
 }
+
+// {
+// 	"email": "marcusmigueell@gmail.com",
+// 	"password": "Mudar@123"
+// }

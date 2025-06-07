@@ -17,12 +17,12 @@ class TextButtonWithIconWidget extends StatelessWidget {
       icon: const Icon(
         Icons.add,
       ),
+      style: TextButton.styleFrom(alignment: Alignment.centerLeft),
       label: Text(
         label,
-        style: const TextStyle(
-          decoration: TextDecoration.none,
-          fontSize: 14,
-        ),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              decoration: TextDecoration.none,
+            ),
       ),
     );
   }

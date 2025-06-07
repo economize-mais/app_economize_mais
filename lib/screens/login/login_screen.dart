@@ -1,7 +1,6 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -46,24 +45,17 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    minWidth: 220,
-                    maxHeight: 150,
-                  ),
-                  child: Image.asset(
-                    'assets/icons/logo-verde.png',
-                    fit: BoxFit.fitWidth,
-                  ),
+                Image.asset(
+                  'assets/icons/logo-verde2.png',
+                  width: 220,
+                  height: 220,
                 ),
                 Text(
                   'Entre na sua conta',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppScheme.gray[4],
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 LabeledOutlineTextFieldWidget(
                   controller: emailController,
@@ -92,23 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextButton(
                   onPressed: () =>
                       Navigator.pushNamed(context, '/cadastro/recuperar-senha'),
-                  style: TextButton.styleFrom(
-                    visualDensity: const VisualDensity(vertical: -3),
-                    minimumSize: const Size.fromHeight(40),
-                  ),
                   child: const Text('Recuperar Senha'),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Não possui uma conta?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12),
-                ),
+                const Text('Não possui uma conta?'),
                 OutlinedButton(
                   onPressed: () => Navigator.pushNamed(context, '/cadastro'),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                  ),
                   child: const Text('Criar nova conta'),
                 ),
               ],

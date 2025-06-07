@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class AppScheme {
-  static const Color brightGreen = Color(0xFF00FF5F);
+  static const Color brightGreen = Color(0xFF11FF88);
   static const MaterialColor gray = MaterialColor(0xFFD9D9D9, <int, Color>{
     1: Color(0xFFD9D9D9),
     2: Color(0xFFBFBFBF),
@@ -37,6 +37,8 @@ abstract class AppScheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
+        visualDensity: const VisualDensity(vertical: -3),
+        minimumSize: const Size.fromHeight(40),
         foregroundColor: gray[4],
         textStyle:
             const TextStyle(fontSize: 12, decoration: TextDecoration.underline),
@@ -44,6 +46,7 @@ abstract class AppScheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: TextButton.styleFrom(
+        minimumSize: const Size.fromHeight(40),
         foregroundColor: gray[4],
         textStyle: const TextStyle(
           fontSize: 14,
@@ -55,6 +58,48 @@ abstract class AppScheme {
       titleTextStyle: TextStyle(
         color: gray[4],
         fontSize: 12,
+      ),
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      fillColor: AppScheme.lightGray,
+      errorStyle: TextStyle(
+        color: red,
+        fontWeight: FontWeight.bold,
+      )
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(
+        color: Colors.red,
+        //   color: gray[4],
+        fontSize: 14,
+      ),
+      bodyMedium: TextStyle(
+        color: Colors.green,
+        //   color: gray[4],
+        fontSize: 12,
+      ),
+      bodySmall: TextStyle(
+        color: Colors.blue,
+        //   color: gray[4],
+        fontSize: 10,
+      ),
+      labelLarge: TextStyle(
+        color: Colors.purple,
+      ),
+      labelMedium: TextStyle(
+        color: Colors.green,
+      ),
+      labelSmall: TextStyle(
+        color: Colors.black,
+      ),
+      titleLarge: TextStyle(
+        color: Colors.cyan,
+      ),
+      titleMedium: TextStyle(
+        color: Colors.pink,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.indigo,
       ),
     ),
   );

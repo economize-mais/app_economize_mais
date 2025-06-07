@@ -46,20 +46,14 @@ class _LabeledOutlineTextFieldWidgetState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.label,
-            style: TextStyle(
-              color: AppScheme.gray[4],
-              fontSize: 12,
-            ),
-          ),
+          Text(widget.label),
           TextFormField(
             controller: widget.controller,
             keyboardType: widget.keyboardType,
             maxLines: widget.maxLines,
             decoration: InputDecoration(
               filled: true,
-              fillColor: widget.fillColor,
+              // fillColor: widget.fillColor,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
@@ -74,10 +68,7 @@ class _LabeledOutlineTextFieldWidgetState
                     )
                   : null,
             ),
-            style: TextStyle(
-              color: AppScheme.gray[3],
-              fontSize: 12,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
             obscureText: obscureText,
             inputFormatters: widget.inputFormatters,
             validator: (value) {

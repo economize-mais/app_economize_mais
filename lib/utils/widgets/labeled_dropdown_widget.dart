@@ -26,27 +26,20 @@ class _LabeledDropdownWidgetState extends State<LabeledDropdownWidget> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          widget.label,
-          style: TextStyle(
-            color: AppScheme.gray[4],
-            fontSize: 12,
-          ),
-        ),
+        Text(widget.label),
         DropdownButtonFormField<String>(
           value: widget.value,
           isExpanded: true,
+          dropdownColor: AppScheme.lightGray,
+          iconEnabledColor: AppScheme.gray[4],
           decoration: const InputDecoration(
             filled: true,
             fillColor: AppScheme.lightGray,
             border: OutlineInputBorder(borderSide: BorderSide.none),
           ),
-          style: TextStyle(
-            color: AppScheme.gray[4],
-            fontSize: 12,
-          ),
+          style: Theme.of(context).textTheme.bodyMedium,
           onChanged: widget.onChanged ??
               (newValue) => setState(() {
                     widget.controller.text = newValue!;
