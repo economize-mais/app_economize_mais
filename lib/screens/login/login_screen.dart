@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Consumer<UsuarioProvider>(
                     builder: (context, usuarioProvider, child) => Visibility(
                       visible: !usuarioProvider.isLoading,
-                      replacement: const CircularProgressIndicator(),
+                      replacement: const CustomCircularProgressIndicator(),
                       child: FilledButton(
                         onPressed: () => login(usuarioProvider),
                         child: const Text('Entrar'),

@@ -68,7 +68,8 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
                 Consumer<UsuarioProvider>(
                   builder: (context, usuarioProvider, child) => Visibility(
                     visible: !usuarioProvider.isLoading,
-                    replacement: const Center(child: CircularProgressIndicator()),
+                    replacement:
+                        const Center(child: CircularProgressIndicator()),
                     child: FilledButton(
                       onPressed: () => cadastrar(usuarioProvider),
                       child: const Text('Cadastrar'),
@@ -111,7 +112,6 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
       builder: (context) => PopupErrorWidget(
         title: 'Usuário cadastrado!',
         content: usuarioProvider.errorMessage,
-        showActions: false,
       ),
     ).then((_) => Navigator.popUntil(context, (route) => route.isFirst));
   }
