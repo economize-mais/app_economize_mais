@@ -33,34 +33,32 @@ class _CadastroRecuperarSenhaScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Recuperar senha',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 15),
-                LabeledOutlineTextFieldWidget(
-                  controller: emailController,
-                  label: 'Insira seu e-mail para recuperar a sua senha',
-                ),
-                const SizedBox(height: 25),
-                FilledButton(
-                  onPressed: recurarSenha,
-                  child: const Text('Enviar'),
-                ),
-              ],
-            ),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Recuperar senha',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 15),
+              LabeledOutlineTextFieldWidget(
+                controller: emailController,
+                label: 'Insira seu e-mail para recuperar a sua senha',
+              ),
+              const SizedBox(height: 25),
+              FilledButton(
+                onPressed: recurarSenha,
+                child: const Text('Enviar'),
+              ),
+            ],
           ),
         ),
       ),

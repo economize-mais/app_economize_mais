@@ -51,85 +51,82 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Insira seus dados para criar a sua conta',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: nomeCompletoController,
-                  label: 'Nome Completo',
-                  paddingTop: 15,
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: cpfController,
-                  label: 'CPF',
-                  paddingTop: 15,
-                  inputFormatters: [
-                    MaskTextInputFormatter(
-                        mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')})
-                  ],
-                  keyboardType: TextInputType.number,
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: telefoneController,
-                  label: 'Telefone',
-                  paddingTop: 15,
-                  inputFormatters: [
-                    MaskTextInputFormatter(
-                        mask: "(##) # ####-####",
-                        filter: {"#": RegExp(r'[0-9]')})
-                  ],
-                  keyboardType: TextInputType.number,
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: emailController,
-                  label: 'Email',
-                  paddingTop: 15,
-                  paddingBottom: 15,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: LabeledOutlineDatePicker(
-                        controller: dataNascimentoController,
-                      ),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Insira seus dados para criar a sua conta',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: LabeledDropdownWidget(
-                        controller: generoController,
-                        value: generoController.text.isEmpty
-                            ? 'Feminino'
-                            : generoController.text,
-                        items: const ['Feminino', 'Masculino', 'Outro'],
-                        label: 'Gênero',
-                      ),
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: nomeCompletoController,
+                label: 'Nome Completo',
+                paddingTop: 15,
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: cpfController,
+                label: 'CPF',
+                paddingTop: 15,
+                inputFormatters: [
+                  MaskTextInputFormatter(
+                      mask: "###.###.###-##", filter: {"#": RegExp(r'[0-9]')})
+                ],
+                keyboardType: TextInputType.number,
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: telefoneController,
+                label: 'Telefone',
+                paddingTop: 15,
+                inputFormatters: [
+                  MaskTextInputFormatter(
+                      mask: "(##) # ####-####", filter: {"#": RegExp(r'[0-9]')})
+                ],
+                keyboardType: TextInputType.number,
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: emailController,
+                label: 'Email',
+                paddingTop: 15,
+                paddingBottom: 15,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: LabeledOutlineDatePicker(
+                      controller: dataNascimentoController,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 25),
-                TextButtonWithIconWidget(
-                  onPressed: adicionarEndereco,
-                  label: 'Adicionar Endereço',
-                ),
-              ],
-            ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: LabeledDropdownWidget(
+                      controller: generoController,
+                      value: generoController.text.isEmpty
+                          ? 'Feminino'
+                          : generoController.text,
+                      items: const ['Feminino', 'Masculino', 'Outro'],
+                      label: 'Gênero',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              TextButtonWithIconWidget(
+                onPressed: adicionarEndereco,
+                label: 'Adicionar Endereço',
+              ),
+            ],
           ),
         ),
       ),

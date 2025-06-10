@@ -36,65 +36,63 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/icons/logo-verde.png',
-                  width: 220,
-                  height: 220,
-                ),
-                Text(
-                  'Entre na sua conta',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: emailController,
-                  label: 'E-mail',
-                  paddingTop: 15,
-                  paddingBottom: 10,
-                ),
-                LabeledOutlineTextFieldWidget(
-                  controller: passwordController,
-                  label: 'Senha',
-                  isPassword: true,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 25, bottom: 15),
-                  child: Consumer<UsuarioProvider>(
-                    builder: (context, usuarioProvider, child) => Visibility(
-                      visible: !usuarioProvider.isLoading,
-                      replacement: const CustomCircularProgressIndicator(),
-                      child: FilledButton(
-                        onPressed: () => login(usuarioProvider),
-                        child: const Text('Entrar'),
-                      ),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icons/logo-verde.png',
+                width: 220,
+                height: 220,
+              ),
+              Text(
+                'Entre na sua conta',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: emailController,
+                label: 'E-mail',
+                paddingTop: 15,
+                paddingBottom: 10,
+              ),
+              LabeledOutlineTextFieldWidget(
+                controller: passwordController,
+                label: 'Senha',
+                isPassword: true,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 25, bottom: 15),
+                child: Consumer<UsuarioProvider>(
+                  builder: (context, usuarioProvider, child) => Visibility(
+                    visible: !usuarioProvider.isLoading,
+                    replacement: const CustomCircularProgressIndicator(),
+                    child: FilledButton(
+                      onPressed: () => login(usuarioProvider),
+                      child: const Text('Entrar'),
                     ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, '/cadastro/recuperar-senha'),
-                  child: const Text('Recuperar Senha'),
-                ),
-                const SizedBox(height: 4),
-                const Text('Não possui uma conta?'),
-                OutlinedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/cadastro'),
-                  child: const Text('Criar nova conta'),
-                ),
-              ],
-            ),
+              ),
+              TextButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/cadastro/recuperar-senha'),
+                child: const Text('Recuperar Senha'),
+              ),
+              const SizedBox(height: 4),
+              const Text('Não possui uma conta?'),
+              OutlinedButton(
+                onPressed: () => Navigator.pushNamed(context, '/cadastro'),
+                child: const Text('Criar nova conta'),
+              ),
+            ],
           ),
         ),
       ),
