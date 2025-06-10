@@ -1,10 +1,13 @@
+import 'dart:async';
+
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/formatters/uppercase_text_formatter.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:provider/provider.dart';
 
-// TODO: adicionar funcionalidade de geolocalização e botões para ler e aceitar termos e condições assim como politicas de privacidade
 class CadastroEnderecoScreen extends StatefulWidget {
   final Map<String, dynamic> userJson;
 
@@ -26,6 +29,8 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
   late TextEditingController cidadeController;
   late TextEditingController ufController;
   late TextEditingController complementoController;
+
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -52,6 +57,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     cidadeController.dispose();
     ufController.dispose();
     complementoController.dispose();
+    _debounce?.cancel();
   }
 
   @override
@@ -80,15 +86,20 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                   children: [
                     Expanded(
                       flex: 4,
-                      child: LabeledOutlineTextFieldWidget(
-                        controller: cepController,
-                        label: 'CEP',
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          MaskTextInputFormatter(
+                      child: KeyboardListener(
+                        focusNode: FocusNode(),
+                        onKeyEvent: onKeyEvent,
+                        child: LabeledOutlineTextFieldWidget(
+                          controller: cepController,
+                          label: 'CEP',
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            MaskTextInputFormatter(
                               mask: "#####-###",
-                              filter: {'#': RegExp(r'[0-9]')}),
-                        ],
+                              filter: {'#': RegExp(r'[0-9]')},
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     IconButton(
@@ -164,6 +175,25 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
         ),
       ),
     );
+  }
+
+  Future onKeyEvent(KeyEvent keyEvent) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+
+    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
+
+    _debounce = Timer(const Duration(milliseconds: 700), () async {
+      if (cepController.text.length != 9) return;
+      final zipcode = await usuarioProvider.pegarCEP(cepController.text);
+      if (zipcode == null) return;
+
+      setState(() {
+        ruaController.text = zipcode.street;
+        bairroController.text = zipcode.neighborhood;
+        cidadeController.text = zipcode.city;
+        ufController.text = zipcode.state;
+      });
+    });
   }
 
   Future continuar() async {

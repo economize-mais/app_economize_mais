@@ -25,4 +25,14 @@ class LoginService {
       rethrow;
     }
   }
+
+  Future pegarCEP(String cep) async {
+    try {
+      final response = await apiLoading.get('/ZipCode/$cep');
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

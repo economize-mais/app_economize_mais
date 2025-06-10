@@ -34,6 +34,7 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
           decoration: const InputDecoration(
             filled: true,
             border: OutlineInputBorder(borderSide: BorderSide.none),
+            constraints: BoxConstraints(minHeight: 49, maxHeight: 49),
           ),
           style: Theme.of(context).textTheme.bodyMedium,
           inputFormatters: [

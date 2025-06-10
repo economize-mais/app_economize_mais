@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/models/user_model.dart';
+import 'package:app_economize_mais/models/zipcode_model.dart';
 import 'package:app_economize_mais/services/login_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,21 @@ class UsuarioProvider extends ChangeNotifier {
           : 'Um erro inesperado ocorreu';
     }
     _setIsLoading(false);
+  }
+
+  Future<ZipcodeModel?> pegarCEP(String cep) async {
+    try {
+      hasError = false;
+      final response = await loginService.pegarCEP(cep);
+
+      return ZipcodeModel.fromJson(response);
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      return null;
+    }
   }
 
   _setIsLoading(bool value) {

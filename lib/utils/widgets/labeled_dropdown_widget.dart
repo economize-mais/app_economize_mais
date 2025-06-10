@@ -38,6 +38,7 @@ class _LabeledDropdownWidgetState extends State<LabeledDropdownWidget> {
             filled: true,
             fillColor: AppScheme.lightGray,
             border: OutlineInputBorder(borderSide: BorderSide.none),
+            constraints: BoxConstraints(minHeight: 49, maxHeight: 49),
           ),
           style: Theme.of(context).textTheme.bodyMedium,
           onChanged: widget.onChanged ??
