@@ -61,45 +61,50 @@ abstract class AppScheme {
       ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
-      fillColor: AppScheme.lightGray,
-      errorStyle: TextStyle(
-        color: red,
-        fontWeight: FontWeight.bold,
-      )
-    ),
+        fillColor: AppScheme.lightGray,
+        errorStyle: TextStyle(
+          color: red,
+          fontWeight: FontWeight.bold,
+        )),
     textTheme: TextTheme(
       bodyLarge: TextStyle(
-        color: Colors.red,
-        //   color: gray[4],
+        // color: Colors.red,
+        color: gray[4],
         fontSize: 14,
       ),
       bodyMedium: TextStyle(
-        color: Colors.green,
-        //   color: gray[4],
+        // color: Colors.green,
+        color: gray[4],
         fontSize: 12,
       ),
       bodySmall: TextStyle(
-        color: Colors.blue,
-        //   color: gray[4],
+        // color: Colors.blue,
+        color: gray[4],
         fontSize: 10,
       ),
       labelLarge: TextStyle(
-        color: Colors.purple,
+        // color: Colors.purple,
+        color: gray[4],
       ),
       labelMedium: TextStyle(
-        color: Colors.green,
+        // color: Colors.green,
+        color: gray[4],
       ),
       labelSmall: TextStyle(
-        color: Colors.black,
+        // color: Colors.black,
+        color: gray[4],
       ),
       titleLarge: TextStyle(
-        color: Colors.cyan,
+        // color: Colors.cyan,
+        color: gray[4],
       ),
       titleMedium: TextStyle(
-        color: Colors.pink,
+        // color: Colors.pink,
+        color: gray[4],
       ),
       titleSmall: TextStyle(
-        color: Colors.indigo,
+        // color: Colors.indigo,
+        color: gray[4],
       ),
     ),
   );

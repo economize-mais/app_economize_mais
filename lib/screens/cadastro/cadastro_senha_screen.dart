@@ -33,49 +33,53 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Defina sua senha',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppScheme.gray[4],
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              LabeledOutlineTextFieldWidget(
-                controller: senhaController,
-                label: 'Senha',
-                isPassword: true,
-                paddingTop: 15,
-              ),
-              LabeledOutlineTextFieldWidget(
-                controller: confirmaSenhaController,
-                label: 'Confirmar Senha',
-                isPassword: true,
-                paddingTop: 15,
-                paddingBottom: 25,
-              ),
-              Consumer<UsuarioProvider>(
-                builder: (context, usuarioProvider, child) => Visibility(
-                  visible: !usuarioProvider.isLoading,
-                  replacement:
-                      const Center(child: CircularProgressIndicator()),
-                  child: FilledButton(
-                    onPressed: () => cadastrar(usuarioProvider),
-                    child: const Text('Cadastrar'),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Defina sua senha',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppScheme.gray[4],
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  LabeledOutlineTextFieldWidget(
+                    controller: senhaController,
+                    label: 'Senha',
+                    isPassword: true,
+                    paddingTop: 15,
+                  ),
+                  LabeledOutlineTextFieldWidget(
+                    controller: confirmaSenhaController,
+                    label: 'Confirmar Senha',
+                    isPassword: true,
+                    paddingTop: 15,
+                    paddingBottom: 25,
+                  ),
+                  Consumer<UsuarioProvider>(
+                    builder: (context, usuarioProvider, child) => Visibility(
+                      visible: !usuarioProvider.isLoading,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: FilledButton(
+                        onPressed: () => cadastrar(usuarioProvider),
+                        child: const Text('Cadastrar'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

@@ -62,113 +62,117 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Adicione seu endereço para criar a sua conta',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppScheme.gray[4],
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 15),
-              Row(
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: KeyboardListener(
-                      focusNode: FocusNode(),
-                      onKeyEvent: onKeyEvent,
-                      child: LabeledOutlineTextFieldWidget(
-                        controller: cepController,
-                        label: 'CEP',
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          MaskTextInputFormatter(
-                            mask: "#####-###",
-                            filter: {'#': RegExp(r'[0-9]')},
+                  Text(
+                    'Adicione seu endereço para criar a sua conta',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppScheme.gray[4],
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: KeyboardListener(
+                          focusNode: FocusNode(),
+                          onKeyEvent: onKeyEvent,
+                          child: LabeledOutlineTextFieldWidget(
+                            controller: cepController,
+                            label: 'CEP',
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              MaskTextInputFormatter(
+                                mask: "#####-###",
+                                filter: {'#': RegExp(r'[0-9]')},
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    iconSize: 30,
-                    icon: const Icon(Icons.help_outline_rounded),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              LabeledOutlineTextFieldWidget(
-                controller: ruaController,
-                label: 'Rua/Avenida/Travessia',
-              ),
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  Expanded(
-                    child: LabeledOutlineTextFieldWidget(
-                      controller: numeroController,
-                      label: 'Número',
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: LabeledOutlineTextFieldWidget(
-                      controller: bairroController,
-                      label: 'Bairro',
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: LabeledOutlineTextFieldWidget(
-                      controller: cidadeController,
-                      label: 'Cidade',
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: LabeledOutlineTextFieldWidget(
-                      controller: ufController,
-                      label: 'UF',
-                      inputFormatters: [
-                        UpperCaseTextFormatter(),
-                        MaskTextInputFormatter(
-                          mask: '##',
-                          filter: {
-                            '#': RegExp(r'[A-Z]'),
-                          },
                         ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        iconSize: 30,
+                        icon: const Icon(Icons.help_outline_rounded),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  LabeledOutlineTextFieldWidget(
+                    controller: ruaController,
+                    label: 'Rua/Avenida/Travessia',
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LabeledOutlineTextFieldWidget(
+                          controller: numeroController,
+                          label: 'Número',
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: LabeledOutlineTextFieldWidget(
+                          controller: bairroController,
+                          label: 'Bairro',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LabeledOutlineTextFieldWidget(
+                          controller: cidadeController,
+                          label: 'Cidade',
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: LabeledOutlineTextFieldWidget(
+                          controller: ufController,
+                          label: 'UF',
+                          inputFormatters: [
+                            UpperCaseTextFormatter(),
+                            MaskTextInputFormatter(
+                              mask: '##',
+                              filter: {
+                                '#': RegExp(r'[A-Z]'),
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  LabeledOutlineTextFieldWidget(
+                    controller: complementoController,
+                    label: 'Complemento',
+                  ),
+                  const SizedBox(height: 25),
+                  FilledButton(
+                    onPressed: continuar,
+                    child: const Text('Continuar'),
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
-              LabeledOutlineTextFieldWidget(
-                controller: complementoController,
-                label: 'Complemento',
-              ),
-              const SizedBox(height: 25),
-              FilledButton(
-                onPressed: continuar,
-                child: const Text('Continuar'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
