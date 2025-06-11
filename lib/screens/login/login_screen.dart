@@ -86,12 +86,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextButton(
                     onPressed: () => Navigator.pushNamed(
                         context, '/cadastro/recuperar-senha'),
+                    style: TextButton.styleFrom(
+                      minimumSize: const Size.fromHeight(40),
+                    ),
                     child: const Text('Recuperar Senha'),
                   ),
                   const SizedBox(height: 4),
                   const Text('Não possui uma conta?'),
                   OutlinedButton(
                     onPressed: () => Navigator.pushNamed(context, '/cadastro'),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(40),
+                    ),
                     child: const Text('Criar nova conta'),
                   ),
                 ],

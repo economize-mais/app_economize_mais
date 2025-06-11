@@ -38,7 +38,6 @@ abstract class AppScheme {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         visualDensity: const VisualDensity(vertical: -3),
-        minimumSize: const Size.fromHeight(40),
         foregroundColor: gray[4],
         textStyle:
             const TextStyle(fontSize: 12, decoration: TextDecoration.underline),
@@ -46,7 +45,7 @@ abstract class AppScheme {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: TextButton.styleFrom(
-        minimumSize: const Size.fromHeight(40),
+        visualDensity: const VisualDensity(vertical: -3),
         foregroundColor: gray[4],
         textStyle: const TextStyle(
           fontSize: 14,
