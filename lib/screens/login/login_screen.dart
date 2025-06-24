@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/screens/login/widget/popup_como_conheceu_pesquisa_widget.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    Navigator.pushReplacementNamed(context, '/home');
+    await showDialog(
+      context: context,
+      builder: (context) => const PopupComoConheceuPesquisaWidget(),
+    ).then((_) {
+      Navigator.pushReplacementNamed(context, '/home');
+    });
   }
 }

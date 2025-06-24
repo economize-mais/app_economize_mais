@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/mock/produtos_itens_mock.dart';
-import 'package:app_economize_mais/screens/home/widgets/categorias_list_view_widget.dart';
 import 'package:app_economize_mais/screens/home/widgets/destaques_semana_widget.dart';
 import 'package:app_economize_mais/screens/home/widgets/negocios_list_view_widget.dart';
 import 'package:app_economize_mais/utils/widgets/filter_search_text_field_widget.dart';
@@ -314,12 +313,12 @@ const listaEmpresas = [
     ],
   },
   {
-    'grupo': 'Loja e Serviços',
+    'grupo': 'Lojas',
     'empresas': [
       {
         'nome': "Cacau Show",
         'assetUrl': 'lojas_servicos/cacaushow.png',
-        'tipo': 'Loja e Serviços',
+        'tipo': 'Lojas',
         'unidade': 'Unidade 1',
         'endereco': 'Rua ABC, nº 123',
         'produtos': [
@@ -332,7 +331,7 @@ const listaEmpresas = [
       {
         'nome': 'Brasil Cacau',
         'assetUrl': 'lojas_servicos/brasil-cacau.png',
-        'tipo': 'Loja e Serviços',
+        'tipo': 'Lojas',
         'unidade': 'Unidade 1',
         'endereco': 'Rua ABC, nº 123',
         'produtos': [
@@ -345,7 +344,7 @@ const listaEmpresas = [
       {
         'nome': 'Kopenhagen',
         'assetUrl': 'lojas_servicos/kopenhagen.png',
-        'tipo': 'Loja e Serviços',
+        'tipo': 'Lojas',
         'unidade': 'Unidade 1',
         'endereco': 'Rua ABC, nº 123',
         'produtos': [
@@ -358,7 +357,7 @@ const listaEmpresas = [
       {
         'nome': 'SLD Nutrição Esportiva',
         'assetUrl': 'lojas_servicos/sld.png',
-        'tipo': 'Loja e Serviços',
+        'tipo': 'Lojas',
         'unidade': 'Unidade 1',
         'endereco': 'Rua ABC, nº 123',
         'produtos': [
@@ -371,7 +370,7 @@ const listaEmpresas = [
       {
         'nome': 'Center Fitness Suplementos',
         'assetUrl': 'lojas_servicos/center-fitness.png',
-        'tipo': 'Loja e Serviços',
+        'tipo': 'Lojas',
         'unidade': 'Unidade 1',
         'endereco': 'Rua ABC, nº 123',
         'produtos': [
@@ -411,7 +410,7 @@ class InitialScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const FilterSearchTextFieldWidget(),
-            const CategoriasListViewWidget(),
+            const SizedBox(height: 15),
             const DestaquesSemanaWidget(),
             ...listaEmpresas.map((item) => NegociosListViewWidget(
                   negocios: item,

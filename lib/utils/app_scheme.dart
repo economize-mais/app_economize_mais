@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class AppScheme {
-  static const Color brightGreen = Color(0xFF11FF88);
+  static const Color brightGreen = Color(0xFF59CF00);
   static const MaterialColor gray = MaterialColor(0xFFD9D9D9, <int, Color>{
     1: Color(0xFFD9D9D9),
     2: Color(0xFFBFBFBF),

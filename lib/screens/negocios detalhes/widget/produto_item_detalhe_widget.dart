@@ -1,6 +1,8 @@
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProdutoItemDetalheWidget extends StatelessWidget {
   final Map<String, dynamic> produto;
@@ -12,6 +14,8 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: const GeneralAppBar(
         title: 'Produto',
@@ -104,45 +108,46 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 80),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+            if (usuarioProvider.userModel?.userType != 'USER')
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () {},
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      child: const Text('Editar'),
                     ),
-                    child: const Text('Editar'),
                   ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () {},
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      child: const Text('Excluir'),
                     ),
-                    child: const Text('Excluir'),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const Spacer(),
             Text(
               'Vendas somente na loja',

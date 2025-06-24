@@ -56,7 +56,8 @@ class AnuncieConoscoScreen extends StatelessWidget {
                   'Farmácias',
                   'Hortifrutis',
                   'Cosméticos',
-                  'Lojas e Serviços'
+                  'Lojas',
+                  'Outros'
                 ],
                 label: 'Tipo de Comércio',
               ),

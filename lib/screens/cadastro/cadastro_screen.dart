@@ -24,6 +24,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
   late TextEditingController dataNascimentoController;
   late TextEditingController generoController;
 
+  final List<String> listaGeneros = ['Feminino', 'Masculino', 'Outro'];
+
   @override
   void initState() {
     super.initState();
@@ -34,7 +36,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
     telefoneController = TextEditingController();
     emailController = TextEditingController();
     dataNascimentoController = TextEditingController();
-    generoController = TextEditingController();
+    generoController = TextEditingController(text: listaGeneros[0]);
   }
 
   @override
@@ -116,10 +118,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
                       Expanded(
                         child: LabeledDropdownWidget(
                           controller: generoController,
-                          value: generoController.text.isEmpty
-                              ? 'Feminino'
-                              : generoController.text,
-                          items: const ['Feminino', 'Masculino', 'Outro'],
+                          value: generoController.text,
+                          items: listaGeneros,
                           label: 'Gênero',
                         ),
                       ),
