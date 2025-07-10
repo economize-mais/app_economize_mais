@@ -11,6 +11,7 @@ class UserModel {
   final String? companyName;
   final String? tradeName;
   final String? logoUrl;
+  final Map<String, dynamic>? termsAcceptance;
 
   UserModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -23,5 +24,6 @@ class UserModel {
         gender = json['gender'],
         companyName = json['companyName'],
         tradeName = json['tradeName'],
-        logoUrl = json['logoUrl'];
+        logoUrl = json['logoUrl'],
+        termsAcceptance = json['termsAcceptance'];
 }

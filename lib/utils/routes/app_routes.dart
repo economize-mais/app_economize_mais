@@ -1,4 +1,6 @@
 import 'package:app_economize_mais/screens/cadastro/cadastro_senha_screen.dart';
+import 'package:app_economize_mais/screens/terms/single_term_screen.dart';
+import 'package:app_economize_mais/screens/terms/terms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/anuncie%20conosco/anuncie_conosco_screen.dart';
 import 'package:app_economize_mais/screens/cadastro/cadastro_endereco_screen.dart';
@@ -31,6 +33,12 @@ abstract class AppRoutes {
       case '/cadastro/recuperar-senha':
         return MaterialPageRoute(
             builder: (_) => const CadastroRecuperarSenhaScreen());
+      case '/terms':
+        return MaterialPageRoute(builder: (_) => const TermsScreen());
+      case '/terms/single':
+        return MaterialPageRoute(
+            builder: (_) =>
+                SingleTermScreen(type: settings.arguments as String));
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/home/empresas':

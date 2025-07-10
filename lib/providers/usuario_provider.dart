@@ -68,6 +68,37 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
+  Future pegarTermo(String type) async {
+    try {
+      hasError = false;
+      final response = await loginService.pegarTermo(type);
+
+      return response;
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    }
+  }
+
+  Future aceitarTermos() async {
+    try {
+      hasError = false;
+      
+      final response = await loginService.aceitarTermos(userModel!.id!);
+
+      return response;
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    }
+  }
+
   _setIsLoading(bool value) {
     isLoading = value;
     notifyListeners();

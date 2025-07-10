@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:app_economize_mais/models/zipcode_model.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/utils/functions/get_user_location.dart';
+import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
+import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -21,6 +25,8 @@ class CadastroEnderecoScreen extends StatefulWidget {
 }
 
 class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
+  late UsuarioProvider usuarioProvider;
+
   late GlobalKey<FormState> formKey;
   late TextEditingController cepController;
   late TextEditingController ruaController;
@@ -30,11 +36,15 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
   late TextEditingController ufController;
   late TextEditingController complementoController;
 
+  bool loadingLocation = false;
+
   Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
+
+    usuarioProvider = Provider.of(context, listen: false);
 
     formKey = GlobalKey<FormState>();
     cepController = TextEditingController();
@@ -44,6 +54,8 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     cidadeController = TextEditingController();
     ufController = TextEditingController();
     complementoController = TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => getCurrentLocation());
   }
 
   @override
@@ -84,6 +96,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                   ),
                   const SizedBox(height: 15),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 4,
@@ -104,9 +117,11 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: !loadingLocation ? getCurrentLocation : null,
                         iconSize: 30,
-                        icon: const Icon(Icons.help_outline_rounded),
+                        icon: !loadingLocation
+                            ? const Icon(Icons.location_on)
+                            : const CustomCircularProgressIndicator(size: 30),
                       ),
                     ],
                   ),
@@ -179,10 +194,48 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     );
   }
 
+  Future getCurrentLocation() async {
+    setState(() => loadingLocation = true);
+
+    String locationZipcode = '';
+    ZipcodeModel? zipcodeInfo;
+
+    try {
+      var latLong = await getUserLatLong();
+      if (latLong is bool) {
+        return;
+      }
+
+      var (latitude, longitude) = latLong;
+      locationZipcode = await mapMostProbableZipcode(latitude, longitude);
+      zipcodeInfo = await usuarioProvider.pegarCEP(locationZipcode);
+    } catch (e) {
+      if (!mounted) return;
+
+      showDialog(
+        context: context,
+        builder: (context) => const PopupErrorWidget(
+          content: 'Não foi possível pegar as informações de localização',
+        ),
+      );
+    }
+
+    setState(() {
+      cepController.text = locationZipcode;
+
+      if (zipcodeInfo != null) {
+        ruaController.text = zipcodeInfo.street;
+        bairroController.text = zipcodeInfo.neighborhood;
+        cidadeController.text = zipcodeInfo.city;
+        ufController.text = zipcodeInfo.state;
+      }
+
+      loadingLocation = false;
+    });
+  }
+
   Future onKeyEvent(KeyEvent keyEvent) async {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-
-    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
 
     _debounce = Timer(const Duration(milliseconds: 700), () async {
       if (cepController.text.length != 9) return;
@@ -199,6 +252,13 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
   }
 
   Future continuar() async {
+    if (loadingLocation) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Espere até a localização seja concluída'),
+      ));
+      return;
+    }
+
     if (!formKey.currentState!.validate()) return;
     ruaController.text = ruaController.text.trim();
     bairroController.text = bairroController.text.trim();

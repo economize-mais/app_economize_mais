@@ -38,11 +38,13 @@ class ProfileScreen extends StatelessWidget {
               title: 'Perguntas Frequentes',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, '/terms/single',
+                  arguments: 'USAGE'),
               title: 'Termos de Uso',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, '/terms/single',
+                  arguments: 'PRIVACY'),
               title: 'Políticas de Privacidade',
             ),
             CustomElevatedButtonWidget(

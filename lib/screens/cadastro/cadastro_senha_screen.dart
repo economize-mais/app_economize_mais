@@ -1,5 +1,6 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,8 +70,8 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
                   Consumer<UsuarioProvider>(
                     builder: (context, usuarioProvider, child) => Visibility(
                       visible: !usuarioProvider.isLoading,
-                      replacement:
-                          const Center(child: CircularProgressIndicator()),
+                      replacement: const Center(
+                          child: CustomCircularProgressIndicator()),
                       child: FilledButton(
                         onPressed: () => cadastrar(usuarioProvider),
                         child: const Text('Cadastrar'),
@@ -111,9 +112,9 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
 
     showDialog(
       context: context,
-      builder: (context) => PopupErrorWidget(
+      builder: (context) => const PopupErrorWidget(
         title: 'Usuário cadastrado!',
-        content: usuarioProvider.errorMessage,
+        content: '',
       ),
     ).then((_) => Navigator.popUntil(context, (route) => route.isFirst));
   }

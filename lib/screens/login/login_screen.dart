@@ -132,6 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context) => const PopupComoConheceuPesquisaWidget(),
     ).then((_) {
       Navigator.pushReplacementNamed(context, '/home');
+
+      // Navigator.pushNamed(context, '/home');
     });
   }
 }
