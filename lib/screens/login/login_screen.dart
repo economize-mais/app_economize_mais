@@ -131,9 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) => const PopupComoConheceuPesquisaWidget(),
     ).then((_) {
-      Navigator.pushReplacementNamed(context, '/home');
+      bool hasUnacceptedTerms =
+          usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
 
-      // Navigator.pushNamed(context, '/home');
+      Navigator.pushReplacementNamed(
+          context, hasUnacceptedTerms ? '/terms' : '/home');
     });
   }
 }

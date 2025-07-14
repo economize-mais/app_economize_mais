@@ -14,7 +14,7 @@ import 'package:app_economize_mais/screens/negocio/negocio_screen.dart';
 import 'package:app_economize_mais/screens/negocios%20detalhes/negocio_detalhes_screen.dart';
 import 'package:app_economize_mais/screens/negocios%20detalhes/widget/produto_item_detalhe_widget.dart';
 import 'package:app_economize_mais/screens/perguntas%20frequentes/perguntas_frequentes_screen.dart';
-import 'package:app_economize_mais/screens/profile/dados_empresa_screen.dart';
+import 'package:app_economize_mais/screens/profile/dados_perfil_screen.dart';
 import 'package:app_economize_mais/screens/trocar%20senha/trocar_senha_screen.dart';
 
 abstract class AppRoutes {
@@ -53,8 +53,8 @@ abstract class AppRoutes {
         final produto = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => ProdutoItemDetalheWidget(produto: produto));
-      case '/dados-empresa':
-        return MaterialPageRoute(builder: (_) => const DadosEmpresaScreen());
+      case '/dados-perfil':
+        return MaterialPageRoute(builder: (_) => const DadosPerfilScreen());
       case '/enderecos':
         return MaterialPageRoute(builder: (_) => const EnderecosScreen());
       case '/trocar-senha':

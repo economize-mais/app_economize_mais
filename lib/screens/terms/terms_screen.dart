@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/models/term_model.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
@@ -18,7 +19,7 @@ class _TermsScreenState extends State<TermsScreen> {
   late UsuarioProvider usuarioProvider;
 
   bool loadingTerms = true;
-  List terms = [];
+  List<TermModel> terms = [];
   int currentIndex = 0;
   bool acceptance = false;
 
@@ -103,7 +104,7 @@ class _TermsScreenState extends State<TermsScreen> {
             ),
             items: terms
                 .map((t) => Html(
-                      data: t,
+                      data: t.html,
                       shrinkWrap: true,
                     ))
                 .toList(),
@@ -149,7 +150,10 @@ class _TermsScreenState extends State<TermsScreen> {
     }
 
     try {
-      final teste = await usuarioProvider.aceitarTermos();
+      await Future.wait([
+        usuarioProvider.aceitarTermos(terms[0].id),
+        usuarioProvider.aceitarTermos(terms[1].id),
+      ]);
 
       if (!mounted) return;
 
@@ -167,7 +171,7 @@ class _TermsScreenState extends State<TermsScreen> {
 
   Future _inicializar() async {
     try {
-      List auxTerms = await Future.wait([
+      List<TermModel> auxTerms = await Future.wait([
         usuarioProvider.pegarTermo('USAGE'),
         usuarioProvider.pegarTermo('PRIVACY'),
       ]);

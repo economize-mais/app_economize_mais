@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileWidget extends StatelessWidget {
+  final String name;
+
   const ProfileWidget({
     super.key,
+    required this.name,
   });
 
   @override
@@ -15,7 +18,7 @@ class ProfileWidget extends StatelessWidget {
         children: [
           SvgPicture.asset('assets/icons/profile-icon.svg'),
           const SizedBox(width: 20),
-          const Text('Olá, Supermercados Alvorada'),
+          Text('Olá, $name'),
         ],
       ),
     );

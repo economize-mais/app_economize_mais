@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:app_economize_mais/models/usuario_model.dart';
-import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:app_economize_mais/utils/widgets/text_button_with_icon_widget.dart';
-import 'package:provider/provider.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
@@ -148,15 +145,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
         .replaceAll('/', '')
         .replaceAll('-', '');
 
-    Provider.of<UsuarioProvider>(context, listen: false).usuarioModel =
-        UsuarioModel(
-      nomeCompletoController.text,
-      cpfController.text,
-      telefoneController.text,
-      dataNascimentoController.text,
-      generoController.text,
-    );
-
     final birthDate =
         dataNascimentoController.text.split('/').reversed.join('-');
 
@@ -165,6 +153,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
       'fullName': nomeCompletoController.text,
       'birthDate': birthDate,
       'cpfCnpj': cpfController.text,
+      'phone': telefoneController.text,
       'gender': generoController.text[0],
     };
 
@@ -173,8 +162,3 @@ class _CadastroScreenState extends State<CadastroScreen> {
     });
   }
 }
-
-// {
-// 	"email": "marcusmigueell@gmail.com",
-// 	"password": "Mudar@123"
-// }

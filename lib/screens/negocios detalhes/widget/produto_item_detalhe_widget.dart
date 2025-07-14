@@ -108,46 +108,7 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 80),
-            if (usuarioProvider.userModel?.userType != 'USER')
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () {},
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: const Text('Editar'),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () {},
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: const Text('Excluir'),
-                    ),
-                  ),
-                ],
-              ),
+            _productActionButtons(usuarioProvider.userModel!.userType),
             const Spacer(),
             Text(
               'Vendas somente na loja',
@@ -159,6 +120,52 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _productActionButtons(String userType) {
+    if (userType == 'USER') {
+      return const SizedBox.shrink();
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: FilledButton(
+            onPressed: () {},
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            child: const Text('Editar'),
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: FilledButton(
+            onPressed: () {},
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            child: const Text('Excluir'),
+          ),
+        ),
+      ],
     );
   }
 }

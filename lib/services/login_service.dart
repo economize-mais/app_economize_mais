@@ -42,7 +42,6 @@ class LoginService {
 
   Future pegarTermo(String type) async {
     try {
-      print(accessToken);
       final response = await apiLoading.get(
         '/Terms/$type',
         options: Options(
@@ -58,11 +57,29 @@ class LoginService {
     }
   }
 
-  Future aceitarTermos(String id) async {
+  Future aceitarTermos(int id) async {
     try {
       final response = await apiLoading.post(
         '/Terms/accept',
         data: {'id': id},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future update(Map<String, dynamic> json) async {
+    try {
+      final response = await apiLoading.put(
+        '/User',
+        data: json,
         options: Options(
           headers: {
             'Authorization': 'Bearer $accessToken',

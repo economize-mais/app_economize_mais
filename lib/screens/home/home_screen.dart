@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app_economize_mais/screens/alertas/alertas_screen.dart';
@@ -5,6 +6,7 @@ import 'package:app_economize_mais/screens/announcement/announcement_screen.dart
 import 'package:app_economize_mais/screens/home/initial_screen.dart';
 import 'package:app_economize_mais/screens/profile/profile_screen.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,13 +16,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final listaTelas = [
-    const InitialScreen(),
-    const AnnouncementScreen(),
-    // const AlertasScreen(),
-    const ProfileScreen(),
-  ];
+  late UsuarioProvider usuarioProvider;
+
+  late List<Widget> listaTelas;
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    usuarioProvider = Provider.of(context, listen: false);
+
+    listaTelas = [
+      const InitialScreen(),
+      usuarioProvider.userModel!.userType == 'USER'
+          ? const AlertasScreen()
+          : const AnnouncementScreen(),
+      const ProfileScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,13 @@
+import 'package:app_economize_mais/models/term_model.dart';
 import 'package:app_economize_mais/models/user_model.dart';
 import 'package:app_economize_mais/models/zipcode_model.dart';
 import 'package:app_economize_mais/services/login_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:app_economize_mais/models/usuario_model.dart';
 
 class UsuarioProvider extends ChangeNotifier {
   final LoginService loginService = LoginService();
 
-  late UsuarioModel usuarioModel;
   late UserModel? userModel;
 
   bool isLoading = false;
@@ -42,8 +41,7 @@ class UsuarioProvider extends ChangeNotifier {
     _setIsLoading(true);
     try {
       hasError = false;
-      final response = await loginService.cadastrarUsuario(userJson);
-      print(response);
+      await loginService.cadastrarUsuario(userJson);
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
@@ -68,10 +66,26 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
-  Future pegarTermo(String type) async {
+  Future<TermModel> pegarTermo(String type) async {
     try {
       hasError = false;
       final response = await loginService.pegarTermo(type);
+
+      return TermModel.fromJson(response);
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    }
+  }
+
+  Future aceitarTermos(int id) async {
+    try {
+      hasError = false;
+      
+      final response = await loginService.aceitarTermos(id);
 
       return response;
     } catch (e) {
@@ -83,11 +97,11 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
-  Future aceitarTermos() async {
+  Future update(Map<String, dynamic> json) async {
     try {
       hasError = false;
-      
-      final response = await loginService.aceitarTermos(userModel!.id!);
+
+      final response = await loginService.update(json);
 
       return response;
     } catch (e) {
