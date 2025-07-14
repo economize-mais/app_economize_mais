@@ -15,4 +15,14 @@ class AddressModel {
         state = json['state'],
         complement = json['complement'],
         zipcode = json['zipcode'];
+
+  toJson() => {
+        "id": id,
+        "street": street,
+        "number": number,
+        "neighborhood": neighborhood,
+        "state": state,
+        "complement": complement,
+        "zipcode": zipcode,
+      };
 }
