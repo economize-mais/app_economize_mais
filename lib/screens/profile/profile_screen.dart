@@ -15,7 +15,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late UsuarioProvider usuarioProvider;
   late bool isUser;
-  late String name;
 
   @override
   void initState() {
@@ -24,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     usuarioProvider = Provider.of(context, listen: false);
     final userModel = usuarioProvider.userModel!;
     isUser = userModel.userType == 'USER';
-    name = isUser ? userModel.fullName : userModel.companyName!;
   }
 
   @override
@@ -40,17 +38,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ProfileWidget(
-              name: name,
+            Consumer<UsuarioProvider>(
+              builder: (context, usuarioProviderAux, child) {
+                final name = isUser
+                    ? usuarioProviderAux.userModel!.fullName
+                    : usuarioProviderAux.userModel!.companyName!;
+
+                return ProfileWidget(
+                  name: name,
+                );
+              },
             ),
             CustomElevatedButtonWidget(
               onPressed: () => Navigator.pushNamed(context, '/dados-perfil'),
               title: 'Dados ${isUser ? 'Pessoais' : 'da Empresa'} ',
             ),
-            CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/enderecos'),
-              title: 'Endereços',
-            ),
+            // CustomElevatedButtonWidget(
+            //   onPressed: () => Navigator.pushNamed(context, '/enderecos'),
+            //   title: 'Endereços',
+            // ),
             CustomElevatedButtonWidget(
               onPressed: () => Navigator.pushNamed(context, '/trocar-senha'),
               title: 'Trocar Senha',

@@ -84,7 +84,7 @@ class UsuarioProvider extends ChangeNotifier {
   Future aceitarTermos(int id) async {
     try {
       hasError = false;
-      
+
       final response = await loginService.aceitarTermos(id);
 
       return response;
@@ -102,8 +102,7 @@ class UsuarioProvider extends ChangeNotifier {
       hasError = false;
 
       final response = await loginService.update(json);
-
-      return response;
+      userModel = UserModel.fromJson(response);
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
@@ -111,6 +110,7 @@ class UsuarioProvider extends ChangeNotifier {
           : 'Um erro inesperado ocorreu';
       rethrow;
     }
+    notifyListeners();
   }
 
   _setIsLoading(bool value) {

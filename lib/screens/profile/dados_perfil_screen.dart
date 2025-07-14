@@ -1,5 +1,6 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/screens/profile/functions/text_formatters.dart';
+import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
@@ -30,6 +31,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
   late TextEditingController genderController;
 
   final List<String> listaGeneros = ['Feminino', 'Masculino', 'Outro'];
+  bool loading = false;
 
   @override
   void initState() {
@@ -40,7 +42,6 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
     usuarioProvider = Provider.of(context, listen: false);
     final userModel = usuarioProvider.userModel!;
     isUser = userModel.userType == 'USER';
-    print(userModel);
 
     nameController = TextEditingController(
         text: isUser ? userModel.fullName : userModel.companyName);
@@ -97,9 +98,13 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
               ),
               ...fields,
               const SizedBox(height: 25),
-              FilledButton(
-                onPressed: update,
-                child: const Text('Salvar'),
+              Visibility(
+                visible: !loading,
+                replacement: const CustomCircularProgressIndicator(),
+                child: FilledButton(
+                  onPressed: update,
+                  child: const Text('Salvar'),
+                ),
               ),
             ],
           ),
@@ -191,9 +196,12 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
 
   Future update() async {
     if (!formKey.currentState!.validate()) return;
+    setState(() => loading = true);
 
-    final auxMap = usuarioProvider.userModel!.toJson();
+    Map<String, dynamic> auxMap = usuarioProvider.userModel!.toJson();
 
+    auxMap.remove('id');
+    auxMap.remove('termsAcceptance');
     auxMap[isUser ? 'fullName' : 'companyName'] = nameController.text.trim();
     auxMap['cpfCnpj'] = cpfCnpjController.text
         .replaceAll('.', '')
@@ -209,14 +217,14 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
         genderController.text != '' ? genderController.text[0] : null;
 
     try {
-      final response = await usuarioProvider.update(auxMap);
-      print(response);
+      await usuarioProvider.update(auxMap);
       if (!mounted) return;
 
       showDialog(
         context: context,
         builder: (context) => const PopupErrorWidget(
-          content: 'Usuário atualizado',
+          title: 'Sucesso!',
+          content: 'Usuário atualizado.',
         ),
       ).then((_) => Navigator.pop(context));
     } catch (e) {
@@ -226,7 +234,8 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
           content: usuarioProvider.errorMessage,
         ),
       );
-      return;
     }
+
+    setState(() => loading = false);
   }
 }
