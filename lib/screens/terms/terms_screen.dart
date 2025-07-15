@@ -3,10 +3,9 @@ import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsScreen extends StatefulWidget {
   const TermsScreen({super.key});
@@ -87,39 +86,54 @@ class _TermsScreenState extends State<TermsScreen> {
       );
     }
 
-    final CarouselController controller = CarouselController();
+    final currentTerm = terms[currentIndex];
+    final webViewController = WebViewController()
+      ..loadHtmlString(currentTerm.html);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          child: CarouselSlider(
-            carouselController: controller,
-            options: CarouselOptions(
-              enlargeCenterPage: true,
-              viewportFraction: 1,
-              aspectRatio: 9 / 16,
-              onPageChanged: (index, reason) =>
-                  setState(() => currentIndex = index),
+        Wrap(
+          spacing: 8,
+          children: [
+            TextButton(
+              onPressed: () => setState(() => currentIndex = 0),
+              style: TextButton.styleFrom(
+                backgroundColor: currentIndex == 0
+                    ? AppScheme.brightGreen
+                    : AppScheme.gray[2],
+                foregroundColor: AppScheme.gray[4],
+                textStyle: const TextStyle(decoration: TextDecoration.none),
+              ),
+              child: const Text('TERMOS DE USO'),
             ),
-            items: terms
-                .map((t) => SingleChildScrollView(
-                      child: Html(
-                        data: t.html,
-                        shrinkWrap: true,
-                      ),
-                    ))
-                .toList(),
+            TextButton(
+              onPressed: () => setState(() => currentIndex = 1),
+              style: TextButton.styleFrom(
+                backgroundColor: currentIndex == 1
+                    ? AppScheme.brightGreen
+                    : AppScheme.gray[2],
+                foregroundColor: AppScheme.gray[4],
+                textStyle: const TextStyle(decoration: TextDecoration.none),
+              ),
+              child: const Text('PRIVACIDADE'),
+            ),
+          ],
+        ),
+        Expanded(
+          child: WebViewWidget(
+            controller: webViewController,
           ),
         ),
+        const SizedBox(height: 4),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
               onTap: () => setState(() => currentIndex = 0),
               child: CircleAvatar(
-                radius: 6,
+                radius: 10,
                 backgroundColor: currentIndex == 0
                     ? AppScheme.brightGreen
                     : AppScheme.gray[2],
@@ -129,7 +143,7 @@ class _TermsScreenState extends State<TermsScreen> {
             GestureDetector(
               onTap: () => setState(() => currentIndex = 1),
               child: CircleAvatar(
-                radius: 6,
+                radius: 10,
                 backgroundColor: currentIndex == 1
                     ? AppScheme.brightGreen
                     : AppScheme.gray[2],

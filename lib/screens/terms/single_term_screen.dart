@@ -3,8 +3,8 @@ import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indica
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class SingleTermScreen extends StatefulWidget {
   final String type;
@@ -77,11 +77,8 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
       );
     }
 
-    return SingleChildScrollView(
-      child: Html(
-        data: term,
-        shrinkWrap: true,
-      ),
-    );
+    final controller = WebViewController()..loadHtmlString(term);
+
+    return WebViewWidget(controller: controller);
   }
 }
