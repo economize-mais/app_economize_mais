@@ -42,7 +42,7 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
             : 'Políticas de Privacidade',
         hideActions: true,
       ),
-      body: Center(child: _buildTerm()),
+      body: _buildTerm(),
     );
   }
 
@@ -52,7 +52,7 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
 
       setState(() {
         loading = false;
-        term = responseTerm as String;
+        term = responseTerm.html;
       });
     } catch (e) {
       if (!mounted) return;
@@ -69,22 +69,19 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
 
   Widget _buildTerm() {
     if (loading) {
-      return CustomCircularProgressIndicator(
-        text:
-            'Carregando ${widget.type == 'USAGE' ? 'Termos de Uso' : 'Políticas de Privacidade'}...',
+      return Center(
+        child: CustomCircularProgressIndicator(
+          text:
+              'Carregando ${widget.type == 'USAGE' ? 'Termos de Uso' : 'Políticas de Privacidade'}...',
+        ),
       );
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Html(
-            data: term,
-            shrinkWrap: true,
-          ),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Html(
+        data: term,
+        shrinkWrap: true,
+      ),
     );
   }
 }

@@ -99,13 +99,16 @@ class _TermsScreenState extends State<TermsScreen> {
             options: CarouselOptions(
               enlargeCenterPage: true,
               viewportFraction: 1,
+              aspectRatio: 9 / 16,
               onPageChanged: (index, reason) =>
                   setState(() => currentIndex = index),
             ),
             items: terms
-                .map((t) => Html(
-                      data: t.html,
-                      shrinkWrap: true,
+                .map((t) => SingleChildScrollView(
+                      child: Html(
+                        data: t.html,
+                        shrinkWrap: true,
+                      ),
                     ))
                 .toList(),
           ),
