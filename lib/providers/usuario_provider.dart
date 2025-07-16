@@ -31,7 +31,7 @@ class UsuarioProvider extends ChangeNotifier {
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
-          ? e.response?.data['message']
+          ? e.response?.data['message'] ?? 'Não foi possível conectar. Verifique sua conexão com a internet'
           : 'Um erro inesperado ocorreu';
     }
     _setIsLoading(false);
