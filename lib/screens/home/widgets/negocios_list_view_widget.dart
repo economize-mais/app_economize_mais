@@ -1,9 +1,7 @@
-import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/home/widgets/anuncie_conosco_widget.dart';
 import 'package:app_economize_mais/screens/home/widgets/negocio_card_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
-import 'package:provider/provider.dart';
 
 class NegociosListViewWidget extends StatefulWidget {
   final Map<String, dynamic> negocios;
@@ -18,17 +16,6 @@ class NegociosListViewWidget extends StatefulWidget {
 }
 
 class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
-  bool isUser = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final usuarioProvider =
-        Provider.of<UsuarioProvider>(context, listen: false);
-    isUser = usuarioProvider.userModel!.userType == 'USER';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -79,7 +66,7 @@ class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
                   NegocioCardWidget(
                     empresa: widget.negocios['empresas'][i],
                   ),
-                  if (!isUser) const AnuncieConoscoWidget(),
+                  const AnuncieConoscoWidget(),
                 ],
               ),
               child: NegocioCardWidget(
