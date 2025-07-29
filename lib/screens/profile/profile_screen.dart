@@ -67,6 +67,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Perguntas Frequentes',
             ),
             CustomElevatedButtonWidget(
+              onPressed: () =>
+                  Navigator.pushNamed(context, '/anuncie-conosco'),
+              title: 'Anuncie com a gente',
+            ),
+            CustomElevatedButtonWidget(
               onPressed: () => Navigator.pushNamed(context, '/terms/single',
                   arguments: 'USAGE'),
               title: 'Termos de Uso',

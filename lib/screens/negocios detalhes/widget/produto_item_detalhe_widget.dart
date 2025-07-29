@@ -117,6 +117,14 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
+            Text(
+              'Promoção válida enquanto durarem os estoques',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppScheme.gray[4],
+                fontSize: 16,
+              ),
+            ),
           ],
         ),
       ),

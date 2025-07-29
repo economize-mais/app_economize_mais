@@ -36,11 +36,12 @@ class _AlertasScreenState extends State<AlertasScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Crie alertas com seus produtos favoritos que notificaremos em seu celular assim que entrarem em oferta!',
+              'Crie alertas com seus produtos favoritos que te avisaremos assim que entrarem em promoção!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppScheme.gray[4],
-                fontSize: 14,
+                fontSize: 15,
+                fontWeight: FontWeight.bold
               ),
             ),
             Padding(

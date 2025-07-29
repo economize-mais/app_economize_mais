@@ -36,7 +36,7 @@ class ContatoSuporteScreen extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () {},
-                child: const Text('Salvar'),
+                child: const Text('Enviar'),
               ),
             ],
           ),
