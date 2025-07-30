@@ -27,7 +27,7 @@ class CustomExpansionTileWidget extends StatelessWidget {
         shape: kRoundedRectangleBorder,
         collapsedShape: kRoundedRectangleBorder,
         tilePadding: const EdgeInsets.symmetric(horizontal: 20),
-        childrenPadding: const EdgeInsets.symmetric(horizontal: 20),
+        childrenPadding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
         title: Text(
           title,
           style: TextStyle(
