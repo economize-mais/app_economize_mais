@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/utils/widgets/checkbox_list_tile_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/image_picker_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -68,16 +69,9 @@ class _ProductContainerWidgetState extends State<ProductContainerWidget> {
             ],
           ),
           const SizedBox(height: 5),
-          CheckboxListTile(
-            value: naoTemValidade,
-            title: Text(
-              'Este produto não tem validade.',
-              style: TextStyle(
-                color: AppScheme.gray[4],
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          CheckboxListTileItemWidget(
+            valor: naoTemValidade,
+            titulo: 'Este produto não tem validade.',
             onChanged: (value) =>
                 setState(() => naoTemValidade = value ?? false),
           ),

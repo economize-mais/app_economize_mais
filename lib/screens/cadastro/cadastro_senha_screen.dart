@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/screens/cadastro/widgets/condicoes_senhas_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
@@ -22,6 +23,8 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
   late GlobalKey<FormState> formKey;
   late TextEditingController senhaController;
   late TextEditingController confirmaSenhaController;
+
+  bool cumpreCondicoesSenha = false;
 
   @override
   void initState() {
@@ -65,8 +68,17 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
                     label: 'Confirmar Senha',
                     isPassword: true,
                     paddingTop: 15,
-                    paddingBottom: 25,
+                    paddingBottom: 15,
                   ),
+                  ListenableBuilder(
+                    listenable: senhaController,
+                    builder: (context, child) => CondicoesSenhasWidget(
+                      controller: senhaController,
+                      cumpreCondicoes: (valor) =>
+                          setState(() => cumpreCondicoesSenha = valor),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
                   Consumer<UsuarioProvider>(
                     builder: (context, usuarioProvider, child) => Visibility(
                       visible: !usuarioProvider.isLoading,
@@ -89,6 +101,17 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
 
   Future cadastrar(UsuarioProvider usuarioProvider) async {
     if (!formKey.currentState!.validate()) return;
+
+    if (!cumpreCondicoesSenha) {
+      showDialog(
+        context: context,
+        builder: (context) => const PopupErrorWidget(
+          title: 'Atenção',
+          content: 'A senha precisa cumprir com as condições.',
+        ),
+      );
+      return;
+    }
 
     final userJson = {
       ...widget.userJson,
