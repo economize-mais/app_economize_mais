@@ -11,7 +11,7 @@ class DestaquesSemanaWidget extends StatefulWidget {
 
 class _DestaquesSemanaWidgetState extends State<DestaquesSemanaWidget> {
   int _current = 0;
-  final CarouselController _controller = CarouselController();
+  final CarouselSliderController _controller = CarouselSliderController();
   final destaqueItems = [
     {
       'imageUrl': '',

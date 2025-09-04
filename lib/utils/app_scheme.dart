@@ -53,7 +53,7 @@ abstract class AppScheme {
         ),
       ),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       titleTextStyle: TextStyle(
         color: gray[4],
         fontSize: 12,
