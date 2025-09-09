@@ -27,6 +27,7 @@ class App extends StatelessWidget {
         title: 'Projeto Supermercado',
         theme: AppScheme.themeData,
         onGenerateRoute: AppRoutes.onGenerateRoute,
+        debugShowCheckedModeBanner: false,
         home: const LoginScreen(),
       ),
     );
