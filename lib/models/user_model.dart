@@ -3,10 +3,10 @@ import 'package:app_economize_mais/models/address_model.dart';
 class UserModel {
   final String? id;
   final String email;
-  final String fullName;
-  final String userType;
+  final String name;
+  final String type;
   final String? birthDate;
-  final String? cpfCnpj;
+  final String? cpf;
   final String? phone;
   final List<AddressModel> addresses;
   final String gender;
@@ -14,14 +14,15 @@ class UserModel {
   final String? tradeName;
   final String? logoUrl;
   final Map<String, dynamic>? termsAcceptance;
+  final bool originAcceptance;
 
   UserModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         email = json['email'],
-        fullName = json['fullName'],
-        userType = json['userType'],
+        name = json['name'],
+        type = json['type'],
         birthDate = json['birthDate'],
-        cpfCnpj = json['cpfCnpj'],
+        cpf = json['cpf'],
         phone = json['phone'],
         addresses = List.from((json['addresses'] as List? ?? [])
             .map((e) => AddressModel.fromJson(e))),
@@ -29,15 +30,16 @@ class UserModel {
         companyName = json['companyName'],
         tradeName = json['tradeName'],
         logoUrl = json['logoUrl'],
-        termsAcceptance = json['termsAcceptance'];
+        termsAcceptance = json['termsAcceptance'],
+        originAcceptance = json['originAcceptance'] ?? false;
 
-  toJson() => {
+  Map<String, Object?> toJson() => {
         "id": id,
         "email": email,
-        "fullName": fullName,
-        "userType": userType,
+        "name": name,
+        "type": type,
         "birthDate": birthDate,
-        "cpfCnpj": cpfCnpj,
+        "cpf": cpf,
         "phone": phone,
         "addresses": addresses.map((i) => i.toJson()).toList(),
         "gender": gender,

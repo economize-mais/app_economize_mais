@@ -7,7 +7,7 @@ class LoginService {
 
   Future login(String email, String password) async {
     try {
-      final response = await apiLoading.post('/User/login', data: {
+      final response = await apiLoading.post('/login', data: {
         'email': email,
         'password': password,
       });
@@ -80,6 +80,41 @@ class LoginService {
       final response = await apiLoading.put(
         '/User',
         data: json,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getOrigin() async {
+    try {
+      final response = await apiLoading.get(
+        '/origin',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+        ),
+      );
+
+      return List.from(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future postOrigin(int id) async {
+    try {
+      final response = await apiLoading.post(
+        '/origin',
+        data: {'id': id},
         options: Options(
           headers: {
             'Authorization': 'Bearer $accessToken',

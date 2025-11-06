@@ -116,7 +116,7 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
     final userJson = {
       ...widget.userJson,
       'password': confirmaSenhaController.text,
-      'userType': 'USER'
+      'type': 'USER'
     };
 
     await usuarioProvider.cadastrarUsuario(userJson);

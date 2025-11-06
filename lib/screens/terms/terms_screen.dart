@@ -21,6 +21,7 @@ class _TermsScreenState extends State<TermsScreen> {
   List<TermModel> terms = [];
   int currentIndex = 0;
   bool acceptance = false;
+  bool accepting = false;
 
   @override
   void initState() {
@@ -65,9 +66,13 @@ class _TermsScreenState extends State<TermsScreen> {
                 ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                child: FilledButton(
-                  onPressed: _aceitarTermos,
-                  child: const Text('Continuar'),
+                child: Visibility(
+                  visible: !accepting,
+                  replacement: const CustomCircularProgressIndicator(),
+                  child: FilledButton(
+                    onPressed: _aceitarTermos,
+                    child: const Text('Continuar'),
+                  ),
                 ),
               ),
             ],
@@ -167,6 +172,8 @@ class _TermsScreenState extends State<TermsScreen> {
     }
 
     try {
+      setState(() => accepting = true);
+
       await Future.wait([
         usuarioProvider.aceitarTermos(terms[0].id),
         usuarioProvider.aceitarTermos(terms[1].id),
@@ -183,6 +190,8 @@ class _TermsScreenState extends State<TermsScreen> {
         ),
       );
       return;
+    } finally {
+      setState(() => accepting = false);
     }
   }
 

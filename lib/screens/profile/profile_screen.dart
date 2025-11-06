@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     usuarioProvider = Provider.of(context, listen: false);
     final userModel = usuarioProvider.userModel!;
-    isUser = userModel.userType == 'USER';
+    isUser = userModel.type == 'USER';
   }
 
   @override
@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Consumer<UsuarioProvider>(
               builder: (context, usuarioProviderAux, child) {
                 final name = isUser
-                    ? usuarioProviderAux.userModel!.fullName
+                    ? usuarioProviderAux.userModel!.name
                     : usuarioProviderAux.userModel!.companyName!;
 
                 return ProfileWidget(
@@ -67,8 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Perguntas Frequentes',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () =>
-                  Navigator.pushNamed(context, '/anuncie-conosco'),
+              onPressed: () => Navigator.pushNamed(context, '/anuncie-conosco'),
               title: 'Anuncie com a gente',
             ),
             CustomElevatedButtonWidget(

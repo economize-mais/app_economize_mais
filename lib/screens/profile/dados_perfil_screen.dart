@@ -24,7 +24,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
   late bool isUser;
   late GlobalKey<FormState> formKey;
   late TextEditingController nameController;
-  late TextEditingController cpfCnpjController;
+  late TextEditingController cpfController;
   late TextEditingController tradeNameController;
   late TextEditingController phoneController;
   late TextEditingController birthDateController;
@@ -41,12 +41,12 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
 
     usuarioProvider = Provider.of(context, listen: false);
     final userModel = usuarioProvider.userModel!;
-    isUser = userModel.userType == 'USER';
+    isUser = userModel.type == 'USER';
 
     nameController = TextEditingController(
-        text: isUser ? userModel.fullName : userModel.companyName);
-    cpfCnpjController = TextEditingController(
-        text: cpfCnpjFormatter(userModel.cpfCnpj, isUser));
+        text: isUser ? userModel.name : userModel.companyName);
+    cpfController =
+        TextEditingController(text: cpfFormatter(userModel.cpf, isUser));
     tradeNameController = TextEditingController(text: userModel.tradeName);
     phoneController =
         TextEditingController(text: phoneFormatter(userModel.phone));
@@ -67,7 +67,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
     super.dispose();
 
     nameController.dispose();
-    cpfCnpjController.dispose();
+    cpfController.dispose();
     tradeNameController.dispose();
     phoneController.dispose();
     birthDateController.dispose();
@@ -116,7 +116,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
   List<Widget> _userFields() {
     return [
       LabeledOutlineTextFieldWidget(
-        controller: cpfCnpjController,
+        controller: cpfController,
         label: 'CPF',
         paddingBottom: 15,
         inputFormatters: [
@@ -170,7 +170,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
         paddingBottom: 15,
       ),
       LabeledOutlineTextFieldWidget(
-        controller: cpfCnpjController,
+        controller: cpfController,
         label: 'CNPJ',
         inputFormatters: [
           MaskTextInputFormatter(
@@ -202,8 +202,8 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
 
     auxMap.remove('id');
     auxMap.remove('termsAcceptance');
-    auxMap[isUser ? 'fullName' : 'companyName'] = nameController.text.trim();
-    auxMap['cpfCnpj'] = cpfCnpjController.text
+    auxMap[isUser ? 'name' : 'companyName'] = nameController.text.trim();
+    auxMap['cpf'] = cpfController.text
         .replaceAll('.', '')
         .replaceAll('/', '')
         .replaceAll('-', '');

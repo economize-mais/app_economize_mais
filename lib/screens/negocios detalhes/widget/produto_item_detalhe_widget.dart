@@ -108,7 +108,7 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 80),
-            _productActionButtons(usuarioProvider.userModel!.userType),
+            _productActionButtons(usuarioProvider.userModel!.type),
             const Spacer(),
             Text(
               'Vendas somente na loja',
@@ -131,8 +131,8 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
     );
   }
 
-  Widget _productActionButtons(String userType) {
-    if (userType == 'USER') {
+  Widget _productActionButtons(String type) {
+    if (type == 'USER') {
       return const SizedBox.shrink();
     }
 

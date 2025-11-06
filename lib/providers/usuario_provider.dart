@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/models/origin_model.dart';
 import 'package:app_economize_mais/models/term_model.dart';
 import 'package:app_economize_mais/models/user_model.dart';
 import 'package:app_economize_mais/models/zipcode_model.dart';
@@ -31,7 +32,8 @@ class UsuarioProvider extends ChangeNotifier {
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
-          ? e.response?.data['message'] ?? 'Não foi possível conectar. Verifique sua conexão com a internet'
+          ? e.response?.data['message'] ??
+              'Não foi possível conectar. Verifique sua conexão com a internet'
           : 'Um erro inesperado ocorreu';
     }
     _setIsLoading(false);
@@ -113,7 +115,41 @@ class UsuarioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  _setIsLoading(bool value) {
+  Future<List<OriginModel>> getOrigin() async {
+    try {
+      hasError = false;
+
+      final response = await loginService.getOrigin();
+      return response.map((item) => OriginModel.fromJson(item)).toList();
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future postOrigin(int id) async {
+    try {
+      hasError = false;
+
+      final response = await loginService.postOrigin(id);
+      return response;
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void _setIsLoading(bool value) {
     isLoading = value;
     notifyListeners();
   }

@@ -1,6 +1,6 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-String? cpfCnpjFormatter(String? text, bool isCPF) {
+String? cpfFormatter(String? text, bool isCPF) {
   if (text == null) {
     return text;
   }

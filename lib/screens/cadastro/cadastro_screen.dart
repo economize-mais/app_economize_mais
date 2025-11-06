@@ -1,3 +1,5 @@
+import 'package:app_economize_mais/utils/functions/verify_age.dart';
+import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
@@ -147,12 +149,24 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
     final birthDate =
         dataNascimentoController.text.split('/').reversed.join('-');
+    final isAdult = is18YearsOld(birthDate);
+
+    if (!isAdult) {
+      showDialog(
+        context: context,
+        builder: (context) => PopupErrorWidget(
+          content:
+              "Você precisa ser maior de 18 anos para acessar o aplicativo.",
+        ),
+      );
+      return;
+    }
 
     final userJson = {
       'email': emailController.text,
-      'fullName': nomeCompletoController.text,
+      'name': nomeCompletoController.text,
       'birthDate': birthDate,
-      'cpfCnpj': cpfController.text,
+      'cpf': cpfController.text,
       'phone': telefoneController.text,
       'gender': generoController.text[0],
     };

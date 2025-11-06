@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     listaTelas = [
       const InitialScreen(),
-      usuarioProvider.userModel!.userType == 'USER'
+      usuarioProvider.userModel!.type == 'USER'
           ? const AlertasScreen()
           : const AnnouncementScreen(),
       const ProfileScreen(),

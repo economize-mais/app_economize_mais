@@ -127,15 +127,40 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    await verifyComoConhece(
+        usuarioProvider.userModel!.originAcceptance, usuarioProvider);
+
+    if (!mounted) return;
+
+    bool hasUnacceptedTerms =
+        usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
+
+    Navigator.pushReplacementNamed(
+        context, hasUnacceptedTerms ? '/terms' : '/home');
+  }
+
+  Future verifyComoConhece(
+      bool originAcceptance, UsuarioProvider usuarioProvider) async {
+    if (originAcceptance) return;
+
+    final optionsList = await usuarioProvider.getOrigin();
+    if (!mounted) return;
+
+    if (usuarioProvider.hasError) {
+      showDialog(
+        context: context,
+        builder: (context) => PopupErrorWidget(
+          content: usuarioProvider.errorMessage,
+        ),
+      );
+      return;
+    }
+
     await showDialog(
       context: context,
-      builder: (context) => const PopupComoConheceuPesquisaWidget(),
-    ).then((_) {
-      bool hasUnacceptedTerms =
-          usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
-
-      Navigator.pushReplacementNamed(
-          context, hasUnacceptedTerms ? '/terms' : '/home');
-    });
+      builder: (context) => PopupComoConheceuPesquisaWidget(
+        optionsList: optionsList,
+      ),
+    );
   }
 }

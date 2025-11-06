@@ -1,16 +1,14 @@
+import 'package:app_economize_mais/models/origin_model.dart';
+import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
+import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
-
-enum ComoConheceuPesquisa {
-  amigoFamiliar,
-  redesSociais,
-  lojasParceiras,
-  outdoor,
-  outro,
-}
+import 'package:provider/provider.dart';
 
 class PopupComoConheceuPesquisaWidget extends StatefulWidget {
-  const PopupComoConheceuPesquisaWidget({super.key});
+  final List<OriginModel> optionsList;
+  const PopupComoConheceuPesquisaWidget({super.key, required this.optionsList});
 
   @override
   State<PopupComoConheceuPesquisaWidget> createState() =>
@@ -19,31 +17,10 @@ class PopupComoConheceuPesquisaWidget extends StatefulWidget {
 
 class _PopupComoConheceuPesquisaWidgetState
     extends State<PopupComoConheceuPesquisaWidget> {
-  bool _selecionarOpcao = false;
-  ComoConheceuPesquisa? _pesquisa;
+  bool carregando = false;
 
-  final List<Map<String, dynamic>> _opcoesPesquisa = [
-    {
-      'title': 'Indicação de um amigo ou familiar',
-      'value': ComoConheceuPesquisa.amigoFamiliar
-    },
-    {
-      'title': 'Vi nas redes sociais',
-      'value': ComoConheceuPesquisa.redesSociais
-    },
-    {
-      'title': 'Vi nas lojas parceiras',
-      'value': ComoConheceuPesquisa.lojasParceiras
-    },
-    {
-      'title': 'Vi em um Outdoor',
-      'value': ComoConheceuPesquisa.outdoor,
-    },
-    {
-      'title': 'Outro',
-      'value': ComoConheceuPesquisa.outro,
-    },
-  ];
+  bool _selecionarOpcao = false;
+  int? _idPesquisa;
 
   @override
   Widget build(BuildContext context) {
@@ -82,15 +59,13 @@ class _PopupComoConheceuPesquisaWidgetState
             ),
           ),
           const SizedBox(height: 8),
-          ..._opcoesPesquisa.map(
-            (opcao) => RadioListTile(
+          ...widget.optionsList.map(
+            (item) => RadioListTile(
               contentPadding: EdgeInsets.zero,
-              title: Text(opcao['title']),
-              value: opcao['value'],
-              groupValue: _pesquisa,
-              onChanged: (value) => setState(() {
-                _pesquisa = value;
-              }),
+              title: Text(item.description),
+              value: item.id,
+              groupValue: _idPesquisa,
+              onChanged: (value) => setState(() => _idPesquisa = value),
             ),
           ),
           const SizedBox(height: 8),
@@ -104,19 +79,43 @@ class _PopupComoConheceuPesquisaWidgetState
               ),
             ),
           ),
-          FilledButton(
-            onPressed: () {
-              if (_pesquisa == null) {
-                setState(() => _selecionarOpcao = true);
-                return;
-              }
-
-              Navigator.pop(context);
-            },
-            child: const Text('Enviar'),
+          Visibility(
+            visible: !carregando,
+            replacement: const CustomCircularProgressIndicator(),
+            child: FilledButton(
+              onPressed: () async => await _onPressed(),
+              child: const Text('Enviar'),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  Future _onPressed() async {
+    if (_idPesquisa == null) {
+      setState(() => _selecionarOpcao = true);
+      return;
+    }
+    setState(() => carregando = true);
+
+    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
+    await usuarioProvider.postOrigin(_idPesquisa!);
+
+    setState(() => carregando = false);
+
+    if (!mounted) return;
+
+    if (usuarioProvider.hasError) {
+      showDialog(
+        context: context,
+        builder: (context) => PopupErrorWidget(
+          content: usuarioProvider.errorMessage,
+        ),
+      );
+      return;
+    }
+
+    Navigator.pop(context);
   }
 }
