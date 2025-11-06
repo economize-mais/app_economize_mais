@@ -211,13 +211,15 @@ class _TermsScreenState extends State<TermsScreen> {
     } catch (e) {
       if (!mounted) return;
 
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) => PopupErrorWidget(
           content: usuarioProvider.errorMessage,
         ),
-      ).then((_) => Navigator.popUntil(context, (route) => route.isFirst));
-      return;
+      );
+      if (!mounted) return;
+
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 }

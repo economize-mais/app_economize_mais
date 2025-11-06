@@ -52,7 +52,7 @@ class TrocarSenhaScreen extends StatelessWidget {
 
                   showDialog(
                     context: context,
-                    barrierColor: AppScheme.white.withOpacity(0.7),
+                    barrierColor: AppScheme.white..withValues(alpha: 0.7),
                     builder: (context) => AlertDialog(
                       backgroundColor: AppScheme.white,
                       elevation: 2,

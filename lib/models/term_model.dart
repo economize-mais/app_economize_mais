@@ -8,7 +8,7 @@ class TermModel {
         title = json['title'],
         html = json['html'];
 
-  toJson() => {
+  Map<String, Object> toJson() => {
         "id": id,
         "title": title,
         "html": html,

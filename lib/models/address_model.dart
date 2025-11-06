@@ -18,7 +18,7 @@ class AddressModel {
         complement = json['complement'],
         zipcode = json['zipcode'];
 
-  toJson() => {
+  Map<String, String?> toJson() => {
         "id": id,
         "street": street,
         "number": number,

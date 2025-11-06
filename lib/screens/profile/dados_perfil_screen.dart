@@ -220,13 +220,16 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
       await usuarioProvider.update(auxMap);
       if (!mounted) return;
 
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) => const PopupErrorWidget(
           title: 'Sucesso!',
           content: 'Usuário atualizado.',
         ),
-      ).then((_) => Navigator.pop(context));
+      );
+      if (!mounted) return;
+
+      Navigator.pop(context);
     } catch (e) {
       showDialog(
         context: context,

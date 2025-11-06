@@ -133,12 +133,15 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
       return;
     }
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) => const PopupErrorWidget(
         title: 'Usuário cadastrado!',
         content: '',
       ),
-    ).then((_) => Navigator.popUntil(context, (route) => route.isFirst));
+    );
+    if (!mounted) return;
+
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

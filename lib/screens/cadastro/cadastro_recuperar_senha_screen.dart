@@ -57,7 +57,7 @@ class _CadastroRecuperarSenhaScreenState
                   ),
                   const SizedBox(height: 25),
                   FilledButton(
-                    onPressed: recurarSenha,
+                    onPressed: () async => await recuperarSenha(),
                     child: const Text('Enviar'),
                   ),
                 ],
@@ -69,16 +69,19 @@ class _CadastroRecuperarSenhaScreenState
     );
   }
 
-  void recurarSenha() {
+  Future recuperarSenha() async {
     if (!formKey.currentState!.validate()) return;
 
-    showDialog(
+    await showDialog(
       context: context,
-      barrierColor: AppScheme.white.withOpacity(0.7),
+      barrierColor: AppScheme.white.withValues(alpha: 0.7),
       builder: (context) => const CommonPopupWidget(),
-    ).then((_) => Navigator.popUntil(
-          context,
-          (route) => route.isFirst,
-        ));
+    );
+    if (!mounted) return;
+
+    Navigator.popUntil(
+      context,
+      (route) => route.isFirst,
+    );
   }
 }

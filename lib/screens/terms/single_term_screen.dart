@@ -57,13 +57,15 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
     } catch (e) {
       if (!mounted) return;
 
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) => PopupErrorWidget(
           content: usuarioProvider.errorMessage,
         ),
-      ).then((_) => Navigator.pop(context));
-      return;
+      );
+      if (!mounted) return;
+
+      Navigator.pop(context);
     }
   }
 

@@ -84,12 +84,12 @@ class AnuncieConoscoScreen extends StatelessWidget {
                 paddingBottom: 25,
               ),
               FilledButton(
-                onPressed: () {
+                onPressed: () async {
                   if (!formKey.currentState!.validate()) return;
 
-                  showDialog(
+                  await showDialog(
                     context: context,
-                    barrierColor: AppScheme.white.withOpacity(0.7),
+                    barrierColor: AppScheme.white.withValues(alpha: 0.7),
                     builder: (context) => AlertDialog(
                       backgroundColor: AppScheme.white,
                       elevation: 2,
@@ -109,10 +109,13 @@ class AnuncieConoscoScreen extends StatelessWidget {
                       title: const Text('Nova senha enviada por e-mail.'),
                       titlePadding: const EdgeInsets.fromLTRB(40, 0, 40, 30),
                     ),
-                  ).then((_) => Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
-                      ));
+                  );
+                  if (!context.mounted) return;
+
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
                 },
                 child: const Text('Enviar'),
               ),
