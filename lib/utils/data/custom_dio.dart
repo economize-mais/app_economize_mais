@@ -1,7 +1,22 @@
 import 'package:dio/dio.dart';
 
-abstract class CustomDio {
-  static Dio get apiLogin => Dio(BaseOptions(
-        baseUrl: 'https://economize-mais.onrender.com/api',
-      ));
+class CustomDio {
+  static String? _token;
+
+  final Dio dio;
+
+  CustomDio()
+      : dio = Dio(BaseOptions(
+          baseUrl: 'https://economize-mais.onrender.com/api',
+        ));
+
+  CustomDio.auth()
+      : dio = Dio(BaseOptions(
+          baseUrl: 'https://economize-mais.onrender.com/api',
+          headers: {
+            'Authorization': 'Bearer $_token',
+          },
+        ));
+
+  static void setToken(String newValue) => _token = newValue;
 }

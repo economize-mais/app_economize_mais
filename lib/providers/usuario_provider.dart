@@ -3,12 +3,14 @@ import 'package:app_economize_mais/models/term_model.dart';
 import 'package:app_economize_mais/models/user_model.dart';
 import 'package:app_economize_mais/models/zipcode_model.dart';
 import 'package:app_economize_mais/services/login_service.dart';
+import 'package:app_economize_mais/services/origin_service.dart';
+import 'package:app_economize_mais/services/terms_service.dart';
+import 'package:app_economize_mais/services/user_service.dart';
+import 'package:app_economize_mais/services/zipcode_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class UsuarioProvider extends ChangeNotifier {
-  final LoginService loginService = LoginService();
-
   late UserModel? userModel;
 
   bool isLoading = false;
@@ -27,7 +29,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await loginService.login(email, password);
+      final response = await LoginService.login(email, password);
       userModel = UserModel.fromJson(response);
     } catch (e) {
       hasError = true;
@@ -43,7 +45,7 @@ class UsuarioProvider extends ChangeNotifier {
     _setIsLoading(true);
     try {
       hasError = false;
-      await loginService.cadastrarUsuario(userJson);
+      await UserService.registerUser(userJson);
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
@@ -56,7 +58,7 @@ class UsuarioProvider extends ChangeNotifier {
   Future<ZipcodeModel?> pegarCEP(String cep) async {
     try {
       hasError = false;
-      final response = await loginService.pegarCEP(cep);
+      final response = await ZipcodeService.getCEP(cep);
 
       return ZipcodeModel.fromJson(response);
     } catch (e) {
@@ -71,7 +73,7 @@ class UsuarioProvider extends ChangeNotifier {
   Future<TermModel> pegarTermo(String type) async {
     try {
       hasError = false;
-      final response = await loginService.pegarTermo(type);
+      final response = await TermsService.getTerms(type);
 
       return TermModel.fromJson(response);
     } catch (e) {
@@ -87,7 +89,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await loginService.aceitarTermos(id);
+      final response = await TermsService.acceptTerms(id);
 
       return response;
     } catch (e) {
@@ -103,7 +105,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await loginService.update(json);
+      final response = await UserService.updateUser(json);
       userModel = UserModel.fromJson(response);
     } catch (e) {
       hasError = true;
@@ -119,7 +121,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await loginService.getOrigin();
+      final response = await OriginService.getOrigin();
       return response.map((item) => OriginModel.fromJson(item)).toList();
     } catch (e) {
       hasError = true;
@@ -136,7 +138,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await loginService.postOrigin(id);
+      final response = await OriginService.postOrigin(id);
       return response;
     } catch (e) {
       hasError = true;
