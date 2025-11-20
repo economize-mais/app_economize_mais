@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:app_economize_mais/utils/widgets/checkbox_list_tile_item_widget.dart';
+import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/image_picker_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -10,6 +13,8 @@ class ProductContainerWidget extends StatefulWidget {
   final bool showValidade;
   final TextEditingController validadeOfertaInicioController;
   final TextEditingController validadeOfertaFimController;
+  final File? image;
+  final Future Function()? selectImage;
 
   const ProductContainerWidget({
     super.key,
@@ -18,6 +23,8 @@ class ProductContainerWidget extends StatefulWidget {
     this.showValidade = true,
     required this.validadeOfertaInicioController,
     required this.validadeOfertaFimController,
+    this.image,
+    this.selectImage,
   });
 
   @override
@@ -56,6 +63,7 @@ class _ProductContainerWidgetState extends State<ProductContainerWidget> {
                   controller: widget.valorDeController,
                   label: 'De:',
                   fillColor: AppScheme.gray[1]!,
+                  keyboardType: TextInputType.number,
                 ),
               ),
               const SizedBox(width: 90),
@@ -64,6 +72,7 @@ class _ProductContainerWidgetState extends State<ProductContainerWidget> {
                   controller: widget.valorParaController,
                   label: 'Para:',
                   fillColor: AppScheme.gray[1]!,
+                  keyboardType: TextInputType.number,
                 ),
               ),
             ],
@@ -91,7 +100,7 @@ class _ProductContainerWidgetState extends State<ProductContainerWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: LabeledOutlineTextFieldWidget(
+                  child: LabeledOutlineDatePicker(
                     controller: widget.validadeOfertaInicioController,
                     label: 'Início:',
                     fillColor: AppScheme.gray[1]!,
@@ -99,15 +108,19 @@ class _ProductContainerWidgetState extends State<ProductContainerWidget> {
                 ),
                 const SizedBox(width: 90),
                 Expanded(
-                  child: LabeledOutlineTextFieldWidget(
+                  child: LabeledOutlineDatePicker(
                     controller: widget.validadeOfertaFimController,
                     label: 'Fim:',
                     fillColor: AppScheme.gray[1]!,
+                    canPassMaxDate: true,
                   ),
                 ),
               ],
             ),
-          const ImagePickerWidget(),
+          ImagePickerWidget(
+            image: widget.image,
+            onTap: widget.selectImage,
+          ),
         ],
       ),
     );

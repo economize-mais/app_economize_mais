@@ -5,11 +5,15 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class LabeledOutlineDatePicker extends StatefulWidget {
   final TextEditingController controller;
   final String label;
+  final Color? fillColor;
+  final bool canPassMaxDate;
 
   const LabeledOutlineDatePicker({
     super.key,
     required this.controller,
     this.label = 'Data de Nascimento',
+    this.fillColor,
+    this.canPassMaxDate = false,
   });
 
   @override
@@ -31,8 +35,9 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
         TextFormField(
           controller: widget.controller,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
+            fillColor: widget.fillColor,
             border: OutlineInputBorder(borderSide: BorderSide.none),
             constraints: BoxConstraints(minHeight: 49, maxHeight: 49),
           ),
@@ -61,7 +66,7 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
       if (dataFormatada.isBefore(dataMinima)) {
         return 'Menor que ${formatter.format(dataMinima)}';
       }
-      if (dataFormatada.isAfter(dataMaxima)) {
+      if (!widget.canPassMaxDate && dataFormatada.isAfter(dataMaxima)) {
         return 'Maior que ${formatter.format(dataMaxima)}';
       }
 

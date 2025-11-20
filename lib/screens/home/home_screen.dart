@@ -18,12 +18,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> listaTelas;
   int currentIndex = 0;
+  String secondItemTitle = 'Alertas';
 
   @override
   void initState() {
     super.initState();
 
     final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
+    secondItemTitle =
+        usuarioProvider.userModel!.type == 'USER' ? 'Alertas' : 'Anúncios';
 
     listaTelas = [
       const InitialScreen(),
@@ -55,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: 'Alertas',
+            label: secondItemTitle,
             icon: SvgPicture.asset(
               currentIndex == 1
                   ? 'assets/icons/bullhorn.svg'

@@ -14,19 +14,29 @@ class EstablishmentsProvider extends ChangeNotifier {
   Future getEstablishmentsList() async {
     try {
       _establishmentsList = [];
+      _setError(false);
 
       final response = await EstablishmentService.getEstablishmentTypes();
       for (var i = 0; i < response.length; i++) {
         _establishmentsList.add(EstablishmentTypesModel.fromJson(response[i]));
       }
     } catch (e) {
-      hasError = true;
-      errorMessage = e is DioException
-          ? e.response?.data['message']
-          : 'Um erro inesperado ocorreu';
+      _setError(true,
+          message: e is DioException
+              ? e.response?.data['message']
+              : 'Um erro inesperado ocorreu');
       rethrow;
     } finally {
       notifyListeners();
+    }
+  }
+
+  void _setError(bool newValue, {String? message}) {
+    hasError = newValue;
+    errorMessage = '';
+
+    if (message != null) {
+      errorMessage = message;
     }
   }
 }

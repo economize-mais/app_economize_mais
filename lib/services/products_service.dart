@@ -12,4 +12,14 @@ abstract class ProductsService {
       rethrow;
     }
   }
+
+  static Future postProduct(Map json) async {
+    try {
+      final response = await _apiAuth.post('/products', data: json);
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/establishments_provider.dart';
+import 'package:app_economize_mais/providers/product_provider.dart';
 import 'package:app_economize_mais/providers/products_establishment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,6 +25,12 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ProductsEstablishmentProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
         ),
       ],
       child: MaterialApp(

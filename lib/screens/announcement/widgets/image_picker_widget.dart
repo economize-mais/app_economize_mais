@@ -1,8 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 
 class ImagePickerWidget extends StatelessWidget {
-  const ImagePickerWidget({super.key});
+  final File? image;
+  final Future Function()? onTap;
+
+  const ImagePickerWidget({
+    super.key,
+    this.image,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +29,36 @@ class ImagePickerWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Container(
-            height: 150,
-            width: 150,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: AppScheme.gray[1]!,
-                width: 2,
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              height: 150,
+              width: 150,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: AppScheme.gray[1]!,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Icon(
-              Icons.camera_alt,
-              size: 74,
-              color: AppScheme.gray[3],
+              child: _buildCamera(),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCamera() {
+    if (image != null) {
+      return Image.file(image!);
+    }
+
+    return Icon(
+      Icons.camera_alt,
+      size: 74,
+      color: AppScheme.gray[3],
     );
   }
 }

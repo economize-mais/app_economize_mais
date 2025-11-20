@@ -53,7 +53,7 @@ class _LabeledOutlineTextFieldWidgetState
             maxLines: widget.maxLines,
             decoration: InputDecoration(
               filled: true,
-              // fillColor: widget.fillColor,
+              fillColor: widget.fillColor,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(8),
