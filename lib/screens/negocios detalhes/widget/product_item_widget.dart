@@ -1,18 +1,17 @@
+import 'package:app_economize_mais/models/product_model.dart';
+import 'package:app_economize_mais/utils/functions/format_types.dart';
+import 'package:app_economize_mais/utils/widgets/custom_fade_in_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 
-class ProdutoItemWidget extends StatelessWidget {
-  final Map<String, dynamic> produto;
-  final String tipo;
-  final double width;
-  final double height;
+class ProductItemWidget extends StatelessWidget {
+  final String type;
+  final ProductModel product;
 
-  const ProdutoItemWidget({
+  const ProductItemWidget({
     super.key,
-    required this.produto,
-    required this.tipo,
-    this.width = 124,
-    this.height = 146,
+    required this.product,
+    required this.type,
   });
 
   @override
@@ -21,11 +20,11 @@ class ProdutoItemWidget extends StatelessWidget {
       onTap: () => Navigator.pushNamed(
         context,
         '/produto-item-detalhes',
-        arguments: produto,
+        arguments: product,
       ),
       child: SizedBox(
-        width: width,
-        height: height,
+        width: 124,
+        height: 146,
         child: Card(
           elevation: 2,
           color: AppScheme.white,
@@ -41,28 +40,31 @@ class ProdutoItemWidget extends StatelessWidget {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      FadeInImage(
+                      CustomFadeInImageWidget(
                         height: 67,
                         width: 78,
                         fit: BoxFit.contain,
-                        placeholder: const AssetImage(
-                          "assets/images/supermarket_placeholder.png",
-                        ),
-                        image: AssetImage(
-                          "assets/images/supermercados/${produto['assetUrl']}",
+                        image: NetworkImage(
+                          product.imageUrl ?? '',
                         ),
                       ),
                       Positioned(
                         top: 0,
                         right: 0,
                         child: CircleAvatar(
-                          radius: 12,
+                          radius: 15,
                           backgroundColor: AppScheme.brightGreen,
-                          child: Text(
-                            '-${produto['desconto']}',
-                            style: const TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.bold,
+                          child: Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: FittedBox(
+                              child: Text(
+                                '-${formatDecimalNumber(product.discountPercent)}%',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -72,7 +74,7 @@ class ProdutoItemWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  produto['nome'],
+                  product.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -86,7 +88,7 @@ class ProdutoItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'R\$ ${produto['precoAntigo']}',
+                      'R\$ ${product.priceOriginal}',
                       style: const TextStyle(
                         decoration: TextDecoration.lineThrough,
                         decorationColor: AppScheme.red,
@@ -104,7 +106,7 @@ class ProdutoItemWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
-                        'R\$ ${produto['precoComDesconto']}',
+                        'R\$ ${product.priceOffer}',
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,

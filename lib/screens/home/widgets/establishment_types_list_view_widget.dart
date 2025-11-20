@@ -1,21 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:app_economize_mais/models/establishment_types_model.dart';
 import 'package:app_economize_mais/screens/home/widgets/anuncie_conosco_widget.dart';
-import 'package:app_economize_mais/screens/home/widgets/negocio_card_widget.dart';
+import 'package:app_economize_mais/screens/home/widgets/establishment_card_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:flutter/material.dart';
 
-class NegociosListViewWidget extends StatefulWidget {
-  final Map<String, dynamic> negocios;
+class EstablishmentTypesListViewWidget extends StatelessWidget {
+  final EstablishmentTypesModel establishmentTypes;
 
-  const NegociosListViewWidget({
-    super.key,
-    required this.negocios,
-  });
+  const EstablishmentTypesListViewWidget(
+      {super.key, required this.establishmentTypes});
 
-  @override
-  State<NegociosListViewWidget> createState() => _NegociosListViewWidgetState();
-}
-
-class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +20,7 @@ class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              widget.negocios['grupo'],
+              establishmentTypes.name,
               style: TextStyle(
                 color: AppScheme.gray[4],
                 fontSize: 14,
@@ -37,7 +31,7 @@ class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
               onPressed: () => Navigator.pushNamed(
                 context,
                 '/home/empresas',
-                arguments: widget.negocios,
+                arguments: establishmentTypes,
               ),
               style: TextButton.styleFrom(
                 visualDensity: const VisualDensity(vertical: -4),
@@ -55,23 +49,19 @@ class _NegociosListViewWidgetState extends State<NegociosListViewWidget> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             clipBehavior: Clip.none,
-            itemCount: widget.negocios['empresas'].length,
-            separatorBuilder: (context, i) => const SizedBox(width: 10),
-            itemBuilder: (context, i) => Visibility(
-              visible: i < widget.negocios['empresas'].length - 1,
-              replacement: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  NegocioCardWidget(
-                    empresa: widget.negocios['empresas'][i],
-                  ),
+            itemCount: establishmentTypes.establishments.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            itemBuilder: (context, i) => Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                EstablishmentCardWidget(
+                  type: establishmentTypes.name,
+                  establishment: establishmentTypes.establishments[i],
+                ),
+                if (i == establishmentTypes.establishments.length - 1)
                   const AnuncieConoscoWidget(),
-                ],
-              ),
-              child: NegocioCardWidget(
-                empresa: widget.negocios['empresas'][i],
-              ),
+              ],
             ),
           ),
         ),

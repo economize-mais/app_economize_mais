@@ -16,8 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UsuarioProvider usuarioProvider;
-
   late List<Widget> listaTelas;
   int currentIndex = 0;
 
@@ -25,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    usuarioProvider = Provider.of(context, listen: false);
+    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
 
     listaTelas = [
       const InitialScreen(),

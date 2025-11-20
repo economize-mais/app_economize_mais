@@ -1,15 +1,18 @@
+import 'package:app_economize_mais/models/establishment_model.dart';
+import 'package:app_economize_mais/utils/widgets/custom_fade_in_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
-import 'package:app_economize_mais/utils/widgets/endereco_unidade_widget.dart';
 
-class NegocioCardWidget extends StatelessWidget {
-  final Map<String, dynamic> empresa;
+class EstablishmentCardWidget extends StatelessWidget {
+  final String type;
+  final EstablishmentModel establishment;
   final double width;
   final double height;
 
-  const NegocioCardWidget({
+  const EstablishmentCardWidget({
     super.key,
-    required this.empresa,
+    required this.type,
+    required this.establishment,
     this.width = 124,
     this.height = 105,
   });
@@ -18,7 +21,10 @@ class NegocioCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () =>
-          Navigator.pushNamed(context, '/negocio-detalhes', arguments: empresa),
+          Navigator.pushNamed(context, '/negocio-detalhes', arguments: {
+        "type": type,
+        "establishment": establishment,
+      }),
       child: SizedBox(
         width: width,
         height: height,
@@ -35,28 +41,29 @@ class NegocioCardWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: Center(
-                    child: FadeInImage(
-                      placeholder: const AssetImage(
-                        "assets/images/supermarket_placeholder.png",
-                      ),
-                      image: AssetImage(
-                        "assets/images/${empresa['assetUrl']}",
-                      ),
+                    child: CustomFadeInImageWidget(
+                      image: NetworkImage(establishment.logoUrl ?? ''),
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  empresa['nome'],
+                  establishment.name,
                   style: TextStyle(
                     color: AppScheme.gray[4],
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                EnderecoUnidadeWidget(
-                  unidade: empresa['unidade'],
-                  endereco: empresa['endereco'],
+                Text(
+                  establishment.street ?? '',
+                  style: TextStyle(
+                    color: AppScheme.gray[4],
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

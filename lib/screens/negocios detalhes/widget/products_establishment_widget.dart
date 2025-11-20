@@ -1,12 +1,15 @@
+import 'package:app_economize_mais/models/products_establishment_model.dart';
 import 'package:flutter/material.dart';
-import 'package:app_economize_mais/screens/negocios%20detalhes/widget/produto_item_widget.dart';
+import 'package:app_economize_mais/screens/negocios%20detalhes/widget/product_item_widget.dart';
 
-class NegocioProdutosWidget extends StatelessWidget {
-  final Map<String, dynamic> produtos;
+class ProductsEstablishmentWidget extends StatelessWidget {
+  final String type;
+  final ProductsEstablishmentModel productsEstablishment;
 
-  const NegocioProdutosWidget({
+  const ProductsEstablishmentWidget({
     super.key,
-    required this.produtos,
+    required this.type,
+    required this.productsEstablishment,
   });
 
   @override
@@ -18,7 +21,7 @@ class NegocioProdutosWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            produtos['tipo'],
+            productsEstablishment.categoryName,
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -28,12 +31,13 @@ class NegocioProdutosWidget extends StatelessWidget {
             height: 162,
             child: ListView.separated(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) => const SizedBox(width: 10),
-              itemCount: produtos['itens'].length,
-              itemBuilder: (context, i) => ProdutoItemWidget(
-                produto: produtos['itens'][i],
-                tipo: produtos['tipo'],
+              itemCount: productsEstablishment.products.length,
+              itemBuilder: (context, i) => ProductItemWidget(
+                type: type,
+                product: productsEstablishment.products[i],
               ),
             ),
           ),

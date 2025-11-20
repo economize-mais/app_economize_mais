@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     : usuarioProviderAux.userModel!.companyName!;
 
                 return ProfileWidget(
-                  name: name,
+                  name: name!,
                 );
               },
             ),

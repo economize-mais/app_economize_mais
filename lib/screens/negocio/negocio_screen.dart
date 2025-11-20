@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_economize_mais/screens/home/widgets/negocio_card_widget.dart';
+import 'package:app_economize_mais/screens/home/widgets/establishment_card_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/filter_search_text_field_widget.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
@@ -39,8 +39,9 @@ class EmpresasScreen extends StatelessWidget {
               runSpacing: 10,
               children: (negocios['empresas'] as List)
                   .map(
-                    (e) => NegocioCardWidget(
-                      empresa: e,
+                    (e) => EstablishmentCardWidget(
+                      type: 'teste',
+                      establishment: e,
                       width: 100,
                     ),
                   )

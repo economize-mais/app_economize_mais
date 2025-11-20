@@ -1,3 +1,5 @@
+import 'package:app_economize_mais/providers/establishments_provider.dart';
+import 'package:app_economize_mais/providers/products_establishment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
@@ -15,6 +17,12 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UsuarioProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EstablishmentsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductsEstablishmentProvider(),
         ),
       ],
       child: MaterialApp(

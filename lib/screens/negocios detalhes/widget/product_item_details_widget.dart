@@ -1,15 +1,18 @@
+import 'package:app_economize_mais/models/product_model.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
+import 'package:app_economize_mais/utils/functions/format_types.dart';
+import 'package:app_economize_mais/utils/widgets/custom_fade_in_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:provider/provider.dart';
 
-class ProdutoItemDetalheWidget extends StatelessWidget {
-  final Map<String, dynamic> produto;
+class ProductItemDetailsWidget extends StatelessWidget {
+  final ProductModel product;
 
-  const ProdutoItemDetalheWidget({
+  const ProductItemDetailsWidget({
     super.key,
-    required this.produto,
+    required this.product,
   });
 
   @override
@@ -33,16 +36,11 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  FadeInImage(
+                  CustomFadeInImageWidget(
                     height: 230,
                     width: 268,
                     fit: BoxFit.contain,
-                    placeholder: const AssetImage(
-                      "assets/images/supermarket_placeholder.png",
-                    ),
-                    image: AssetImage(
-                      "assets/images/supermercados/${produto['assetUrl']}",
-                    ),
+                    image: NetworkImage(product.imageUrl ?? ''),
                   ),
                   Positioned(
                     top: 0,
@@ -50,12 +48,15 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 48,
                       backgroundColor: AppScheme.brightGreen,
-                      child: Text(
-                        '${produto['desconto']} de desconto',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Text(
+                          _discountPrice(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -65,7 +66,7 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Text(
-              produto['nome'],
+              product.name,
               style: TextStyle(
                 color: AppScheme.gray[4],
                 fontSize: 16,
@@ -73,7 +74,9 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
             ),
             const SizedBox(height: 3),
             Text(
-              'Vencimento: ${produto['vencimento']}',
+              product.offerExpiration != null
+                  ? 'Vencimento: ${formatStringDate(product.offerExpiration!)}'
+                  : 'Sem data de vencimento',
               style: const TextStyle(
                 color: AppScheme.red,
                 fontSize: 12,
@@ -81,7 +84,7 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
             ),
             const SizedBox(height: 25),
             Text(
-              'De: R\$${produto['precoAntigo']}',
+              'De: R\$${formatDecimalNumber(product.priceOriginal)}',
               style: const TextStyle(
                 decoration: TextDecoration.lineThrough,
                 decorationColor: AppScheme.red,
@@ -100,7 +103,7 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Text(
-                'R\$ ${produto['precoComDesconto']}',
+                'R\$ ${formatDecimalNumber(product.priceOffer)}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -175,5 +178,12 @@ class ProdutoItemDetalheWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _discountPrice() {
+    final productPriceDifference = (num.tryParse(product.priceOriginal) ?? 0) -
+        (num.tryParse(product.priceOffer) ?? 0);
+
+    return 'R\$ ${formatDecimalNumber(productPriceDifference)} de desconto';
   }
 }
