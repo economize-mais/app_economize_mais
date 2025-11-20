@@ -47,13 +47,13 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
     usuarioProvider = Provider.of(context, listen: false);
 
     formKey = GlobalKey<FormState>();
-    cepController = TextEditingController(text: '37130-079');
+    cepController = TextEditingController();
     ruaController = TextEditingController();
-    numeroController = TextEditingController(text: '999');
+    numeroController = TextEditingController();
     bairroController = TextEditingController();
     cidadeController = TextEditingController();
     ufController = TextEditingController();
-    complementoController = TextEditingController(text: 'teste');
+    complementoController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => getCurrentLocation());
   }

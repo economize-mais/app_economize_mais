@@ -31,8 +31,8 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
     super.initState();
 
     formKey = GlobalKey<FormState>();
-    senhaController = TextEditingController(text: 'Teste@123');
-    confirmaSenhaController = TextEditingController(text: 'Teste@123');
+    senhaController = TextEditingController();
+    confirmaSenhaController = TextEditingController();
   }
 
   @override

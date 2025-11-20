@@ -30,12 +30,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
     super.initState();
 
     formKey = GlobalKey<FormState>();
-    nomeCompletoController = TextEditingController(text: 'Teste 2');
-    cpfController = TextEditingController(text: '265.138.550-63');
-    telefoneController = TextEditingController(text: '(35) 9 9999-9999');
-    emailController = TextEditingController(text: 'teste2@teste.com');
-    dataNascimentoController = TextEditingController(text: '17/12/1998');
-    generoController = TextEditingController(text: listaGeneros[0]);
+    nomeCompletoController = TextEditingController();
+    cpfController = TextEditingController();
+    telefoneController = TextEditingController();
+    emailController = TextEditingController();
+    dataNascimentoController = TextEditingController();
+    generoController = TextEditingController();
   }
 
   @override

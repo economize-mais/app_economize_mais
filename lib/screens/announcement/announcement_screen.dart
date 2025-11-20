@@ -86,13 +86,13 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     _formKey = GlobalKey<FormState>();
 
     categoriaController = TextEditingController();
-    descricaoController = TextEditingController(text: 'Quilo de Carne Moída');
-    pesoLiquidoController = TextEditingController(text: '1000');
-    dataValidadeController = TextEditingController(text: '27/11/2025');
-    valorDeController = TextEditingController(text: '30');
-    valorParaController = TextEditingController(text: '20');
-    validadeOfertaInicioController = TextEditingController(text: '20/11/2025');
-    validadeOfertaFimController = TextEditingController(text: '27/11/2025');
+    descricaoController = TextEditingController();
+    pesoLiquidoController = TextEditingController();
+    dataValidadeController = TextEditingController();
+    valorDeController = TextEditingController();
+    valorParaController = TextEditingController();
+    validadeOfertaInicioController = TextEditingController();
+    validadeOfertaFimController = TextEditingController();
   }
 
   void disposeTextControllers() {

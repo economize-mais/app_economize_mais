@@ -15,19 +15,13 @@ class EnderecosScreen extends StatefulWidget {
 
 class _EnderecosScreenState extends State<EnderecosScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController cepController =
-      TextEditingController(text: '37130-079');
-  final TextEditingController ruaController =
-      TextEditingController(text: 'Rua');
-  final TextEditingController numeroController =
-      TextEditingController(text: '079');
-  final TextEditingController bairroController =
-      TextEditingController(text: 'Bairro');
-  final TextEditingController cidadeController =
-      TextEditingController(text: 'Alfenas');
-  final TextEditingController ufController = TextEditingController(text: 'MG');
-  final TextEditingController complementoController =
-      TextEditingController(text: 'Casa');
+  final TextEditingController cepController = TextEditingController();
+  final TextEditingController ruaController = TextEditingController();
+  final TextEditingController numeroController = TextEditingController();
+  final TextEditingController bairroController = TextEditingController();
+  final TextEditingController cidadeController = TextEditingController();
+  final TextEditingController ufController = TextEditingController();
+  final TextEditingController complementoController = TextEditingController();
 
   final enderecos = [];
 

@@ -9,12 +9,10 @@ class TrocarSenhaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final TextEditingController senhaController =
-        TextEditingController(text: '12345678');
-    final TextEditingController novaSenhaController =
-        TextEditingController(text: '12345678');
+    final TextEditingController senhaController = TextEditingController();
+    final TextEditingController novaSenhaController = TextEditingController();
     final TextEditingController confirmarNovaSenhaController =
-        TextEditingController(text: '12345678');
+        TextEditingController();
 
     return Scaffold(
       appBar: const GeneralAppBar(
