@@ -31,7 +31,6 @@ class ProductsEstablishmentWidget extends StatelessWidget {
             height: 162,
             child: ListView.separated(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) => const SizedBox(width: 10),
               itemCount: productsEstablishment.products.length,

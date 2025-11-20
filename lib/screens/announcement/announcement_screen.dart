@@ -134,9 +134,9 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   Widget _buildContent(List<CategoryModel> categoriesList) {
     return RefreshIndicator(
+      onRefresh: () => initialize(tryAgain: true),
       backgroundColor: AppScheme.white,
       color: AppScheme.brightGreen,
-      onRefresh: () => initialize(tryAgain: true),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(

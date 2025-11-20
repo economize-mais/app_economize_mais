@@ -42,7 +42,8 @@ abstract class AppRoutes {
             builder: (_) =>
                 SingleTermScreen(type: settings.arguments as String));
       case '/home':
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        final userType = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => HomeScreen(type: userType));
       case '/home/empresas':
         final negocios = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(

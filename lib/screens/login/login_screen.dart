@@ -136,7 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
         usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
 
     Navigator.pushReplacementNamed(
-        context, hasUnacceptedTerms ? '/terms' : '/home');
+        context, hasUnacceptedTerms ? '/terms' : '/home',
+        arguments: usuarioProvider.userModel!.type);
   }
 
   Future verifyComoConhece(

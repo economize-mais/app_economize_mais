@@ -181,7 +181,8 @@ class _TermsScreenState extends State<TermsScreen> {
 
       if (!mounted) return;
 
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/home',
+          arguments: usuarioProvider.userModel!.type);
     } catch (e) {
       showDialog(
         context: context,

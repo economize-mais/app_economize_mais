@@ -97,13 +97,9 @@ class _EstablishmentDetailsScreenState
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: provider.productsEstablishment.length,
-                  itemBuilder: (context, i) {
-                    // return Text('aaaaaa');
-                    return ProductsEstablishmentWidget(
-                        type: provider.productsEstablishment[i].categoryName,
-                        productsEstablishment:
-                            provider.productsEstablishment[i]);
-                  },
+                  itemBuilder: (context, i) => ProductsEstablishmentWidget(
+                      type: provider.productsEstablishment[i].categoryName,
+                      productsEstablishment: provider.productsEstablishment[i]),
                 );
               },
             ),

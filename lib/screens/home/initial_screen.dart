@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/providers/establishments_provider.dart';
+import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/tentar_novamente_widget.dart';
 import 'package:flutter/material.dart';
@@ -78,23 +79,28 @@ class _InitialScreenState extends State<InitialScreen> {
   }
 
   Widget _buildContent(List establishmentsList) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const FilterSearchTextFieldWidget(),
-          const SizedBox(height: 15),
-          const DestaquesSemanaWidget(),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: establishmentsList.length,
-            itemBuilder: (context, index) => EstablishmentTypesListViewWidget(
-                establishmentTypes: establishmentsList[index]),
-          ),
-        ],
+    return RefreshIndicator(
+      onRefresh: () => initialize(tryAgain: true),
+      backgroundColor: AppScheme.white,
+      color: AppScheme.brightGreen,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const FilterSearchTextFieldWidget(),
+            const SizedBox(height: 15),
+            const DestaquesSemanaWidget(),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: establishmentsList.length,
+              itemBuilder: (context, index) => EstablishmentTypesListViewWidget(
+                  establishmentTypes: establishmentsList[index]),
+            ),
+          ],
+        ),
       ),
     );
   }

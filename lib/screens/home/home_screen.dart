@@ -1,4 +1,3 @@
-import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:app_economize_mais/screens/alertas/alertas_screen.dart';
@@ -6,10 +5,11 @@ import 'package:app_economize_mais/screens/announcement/announcement_screen.dart
 import 'package:app_economize_mais/screens/home/initial_screen.dart';
 import 'package:app_economize_mais/screens/profile/profile_screen.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String type;
+
+  const HomeScreen({super.key, required this.type});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,23 +18,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> listaTelas;
   int currentIndex = 0;
-  String secondItemTitle = 'Alertas';
 
   @override
   void initState() {
-    super.initState();
-
-    final UsuarioProvider usuarioProvider = Provider.of(context, listen: false);
-    secondItemTitle =
-        usuarioProvider.userModel!.type == 'USER' ? 'Alertas' : 'Anúncios';
-
     listaTelas = [
       const InitialScreen(),
-      usuarioProvider.userModel!.type == 'USER'
+      widget.type == 'USER'
           ? const AlertasScreen()
           : const AnnouncementScreen(),
       const ProfileScreen(),
     ];
+
+    super.initState();
   }
 
   @override
@@ -58,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           BottomNavigationBarItem(
-            label: secondItemTitle,
+            label: widget.type == 'USER' ? 'Alertas' : 'Anúncios',
             icon: SvgPicture.asset(
               currentIndex == 1
                   ? 'assets/icons/bullhorn.svg'
