@@ -4,6 +4,7 @@ import 'package:app_economize_mais/models/category_model.dart';
 import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/product_provider.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:app_economize_mais/utils/functions/choose_gallery_camera_dialog.dart';
 import 'package:app_economize_mais/utils/widgets/checkbox_list_tile_item_widget.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
@@ -216,8 +217,11 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   }
 
   Future _selectImage() async {
+    final imageSource = await chooseGalleryCameraDialog(context);
+    if (imageSource == null) return;
+
     final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    final imageFile = await picker.pickImage(source: imageSource);
     if (imageFile == null) return;
 
     setState(() => image = File(imageFile.path));
