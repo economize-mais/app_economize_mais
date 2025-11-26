@@ -18,6 +18,8 @@ class CheckboxListTileItemWidget extends StatelessWidget {
     return CheckboxListTile(
       onChanged: onChanged ?? (_) {},
       value: valor,
+      dense: true,
+      visualDensity: VisualDensity.compact,
       title: Text(
         titulo,
         style: TextStyle(

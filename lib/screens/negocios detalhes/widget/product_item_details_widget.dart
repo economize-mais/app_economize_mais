@@ -51,9 +51,10 @@ class ProductItemDetailsWidget extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(2),
                         child: Text(
-                          _discountPrice(),
+                          '${product.discountPercent}% de desconto',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
+                            color: AppScheme.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -94,20 +95,27 @@ class ProductItemDetailsWidget extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Container(
-              height: 50,
-              width: 150,
+              constraints: BoxConstraints(
+                minWidth: 150,
+                minHeight: 50,
+              ),
               padding: const EdgeInsets.all(6),
-              alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: AppScheme.brightGreen,
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: Text(
-                'R\$ ${formatDecimalNumber(product.priceOffer)}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Por R\$ ${formatDecimalNumber(product.priceOffer)}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 80),
@@ -178,12 +186,5 @@ class ProductItemDetailsWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _discountPrice() {
-    final productPriceDifference = (num.tryParse(product.priceOriginal) ?? 0) -
-        (num.tryParse(product.priceOffer) ?? 0);
-
-    return 'R\$ ${formatDecimalNumber(productPriceDifference)} de desconto';
   }
 }

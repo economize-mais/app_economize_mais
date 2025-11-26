@@ -55,8 +55,7 @@ class _EstablishmentDetailsScreenState
             ),
             const SizedBox(height: 5),
             CustomFadeInImageWidget(
-                width: 163,
-                height: 79,
+                height: 160,
                 image: NetworkImage(widget.establishment.logoUrl ?? '')),
             const SizedBox(height: 2),
             Visibility(
