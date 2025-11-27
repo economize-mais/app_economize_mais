@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:app_economize_mais/models/category_model.dart';
 import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/product_provider.dart';
+import 'package:app_economize_mais/screens/announcement/functions/validate_category_controller.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/functions/choose_gallery_camera_dialog.dart';
 import 'package:app_economize_mais/utils/widgets/checkbox_list_tile_item_widget.dart';
+import 'package:app_economize_mais/utils/widgets/custom_autocomplete_widget.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
@@ -13,7 +15,6 @@ import 'package:app_economize_mais/utils/widgets/tentar_novamente_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/product_container_widget.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
-import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -147,16 +148,12 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              LabeledDropdownWidget(
-                controller: categoriaController,
+              CustomAutocompleteWidget(
                 label: 'Categoria',
-                value: categoriaController.text,
-                items: [
-                  '',
-                  ...categoriesList.map((item) => item.name),
-                ],
-                onChanged: (value) =>
-                    setState(() => categoriaController.text = value ?? ''),
+                possibleOptions:
+                    categoriesList.map((item) => item.name).toList(),
+                onSelected: (value) =>
+                    setState(() => categoriaController.text = value),
               ),
               const SizedBox(height: 15),
               LabeledOutlineTextFieldWidget(
@@ -205,7 +202,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 visible: !sendingRequest,
                 replacement: const CustomCircularProgressIndicator(),
                 child: FilledButton(
-                  onPressed: _onPressed,
+                  onPressed: () => _onPressed(categoriesList),
                   child: const Text('Postar'),
                 ),
               ),
@@ -227,12 +224,12 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     setState(() => image = File(imageFile.path));
   }
 
-  Future _onPressed() async {
+  Future _onPressed(List<CategoryModel> categories) async {
     primaryFocus?.unfocus();
 
     if (!_formKey.currentState!.validate()) return;
 
-    if (categoriaController.text == '') {
+    if (!validateCategoryController(categoriaController, categories)) {
       return showDialog(
         context: context,
         builder: (context) =>
