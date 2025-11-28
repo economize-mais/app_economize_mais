@@ -7,6 +7,7 @@ import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
@@ -229,7 +230,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
       );
       if (!mounted) return;
 
-      Navigator.pop(context);
+      context.pop();
     } catch (e) {
       showDialog(
         context: context,

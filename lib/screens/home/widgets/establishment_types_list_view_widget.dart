@@ -3,6 +3,7 @@ import 'package:app_economize_mais/screens/home/widgets/anuncie_conosco_widget.d
 import 'package:app_economize_mais/screens/home/widgets/establishment_card_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EstablishmentTypesListViewWidget extends StatelessWidget {
   final EstablishmentTypesModel establishmentTypes;
@@ -28,10 +29,9 @@ class EstablishmentTypesListViewWidget extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                '/home/empresas',
-                arguments: establishmentTypes,
+              onPressed: () => context.push(
+                '/home/establishments',
+                extra: establishmentTypes,
               ),
               style: TextButton.styleFrom(
                 visualDensity: const VisualDensity(vertical: -4),

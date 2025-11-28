@@ -4,6 +4,7 @@ import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -181,8 +182,7 @@ class _TermsScreenState extends State<TermsScreen> {
 
       if (!mounted) return;
 
-      Navigator.pushReplacementNamed(context, '/home',
-          arguments: usuarioProvider.userModel!.type);
+      context.go('/home', extra: usuarioProvider.userModel!.type);
     } catch (e) {
       showDialog(
         context: context,
@@ -220,7 +220,7 @@ class _TermsScreenState extends State<TermsScreen> {
       );
       if (!mounted) return;
 
-      Navigator.popUntil(context, (route) => route.isFirst);
+      context.go('/');
     }
   }
 }

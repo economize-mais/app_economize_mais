@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/profile/widgets/profile_widget.dart';
 import 'package:app_economize_mais/utils/widgets/custom_elevated_button_widget.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -50,38 +51,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/dados-perfil'),
+              onPressed: () => context.push('/profile-data'),
               title: 'Dados ${isUser ? 'Pessoais' : 'da Empresa'} ',
             ),
             // CustomElevatedButtonWidget(
-            //   onPressed: () => Navigator.pushNamed(context, '/enderecos'),
+            //   onPressed: () => context.push('/addresses'),
             //   title: 'Endereços',
             // ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/trocar-senha'),
+              onPressed: () => context.push('/change-password'),
               title: 'Trocar Senha',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () =>
-                  Navigator.pushNamed(context, '/perguntas-frequentes'),
+              onPressed: () => context.push('/common-questions'),
               title: 'Perguntas Frequentes',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/anuncie-conosco'),
+              onPressed: () => context.push('/advertise-with-us'),
               title: 'Anuncie com a gente',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/terms/single',
-                  arguments: 'USAGE'),
+              onPressed: () => context.push('/terms/single', extra: 'USAGE'),
               title: 'Termos de Uso',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/terms/single',
-                  arguments: 'PRIVACY'),
+              onPressed: () => context.push('/terms/single', extra: 'PRIVACY'),
               title: 'Políticas de Privacidade',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => Navigator.pushNamed(context, '/contato-suporte'),
+              onPressed: () => context.push('/support-contact'),
               title: 'Contato e Suporte',
             ),
             CustomElevatedButtonWidget(
@@ -99,10 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _logout() {
     usuarioProvider.limparCampos();
 
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/',
-      ModalRoute.withName('/'),
-    );
+    context.go('/');
   }
 }

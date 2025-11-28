@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:go_router/go_router.dart';
 
 class GeneralAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool applyLeading;
@@ -28,7 +29,7 @@ class GeneralAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 32,
       titleSpacing: 8,
       leading: IconButton(
-        onPressed: applyLeading ? () => Navigator.pop(context) : null,
+        onPressed: applyLeading ? () => context.pop() : null,
         icon: Icon(applyLeading ? Icons.arrow_back_ios_new : null),
         iconSize: 16,
       ),

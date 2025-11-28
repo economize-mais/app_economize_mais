@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class TrocarSenhaScreen extends StatelessWidget {
   const TrocarSenhaScreen({super.key});
@@ -62,7 +63,7 @@ class TrocarSenhaScreen extends StatelessWidget {
                       icon: Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => context.pop(),
                           child: const Icon(Icons.close, size: 20),
                         ),
                       ),

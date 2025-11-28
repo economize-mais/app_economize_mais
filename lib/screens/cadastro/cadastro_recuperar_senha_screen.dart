@@ -2,6 +2,7 @@ import 'package:app_economize_mais/utils/widgets/common_popup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class CadastroRecuperarSenhaScreen extends StatefulWidget {
   const CadastroRecuperarSenhaScreen({super.key});
@@ -57,7 +58,7 @@ class _CadastroRecuperarSenhaScreenState
                   ),
                   const SizedBox(height: 25),
                   FilledButton(
-                    onPressed: () async => await recuperarSenha(),
+                    onPressed: recuperarSenha,
                     child: const Text('Enviar'),
                   ),
                 ],
@@ -79,9 +80,6 @@ class _CadastroRecuperarSenhaScreenState
     );
     if (!mounted) return;
 
-    Navigator.popUntil(
-      context,
-      (route) => route.isFirst,
-    );
+    context.go('/');
   }
 }

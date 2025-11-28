@@ -1,6 +1,7 @@
 import 'package:app_economize_mais/utils/functions/verify_age.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
@@ -35,7 +36,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
     telefoneController = TextEditingController();
     emailController = TextEditingController();
     dataNascimentoController = TextEditingController();
-    generoController = TextEditingController();
+    generoController = TextEditingController(text: listaGeneros[0]);
   }
 
   @override
@@ -171,8 +172,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
       'gender': generoController.text[0],
     };
 
-    Navigator.pushNamed(context, '/cadastro/endereco', arguments: {
-      'userJson': userJson,
-    });
+    context.push('/register/address', extra: userJson);
   }
 }

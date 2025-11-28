@@ -6,6 +6,7 @@ import 'package:app_economize_mais/utils/functions/get_user_location.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/formatters/uppercase_text_formatter.dart';
@@ -281,8 +282,6 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
       ],
     };
 
-    Navigator.pushNamed(context, '/cadastro/senha', arguments: {
-      'userJson': userJson,
-    });
+    context.push('/register/password', extra: userJson);
   }
 }

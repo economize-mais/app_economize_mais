@@ -18,63 +18,123 @@ import 'package:app_economize_mais/screens/negocios%20detalhes/widget/product_it
 import 'package:app_economize_mais/screens/perguntas%20frequentes/perguntas_frequentes_screen.dart';
 import 'package:app_economize_mais/screens/profile/dados_perfil_screen.dart';
 import 'package:app_economize_mais/screens/trocar%20senha/trocar_senha_screen.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class AppRoutes {
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case '/cadastro':
-        return MaterialPageRoute(builder: (_) => const CadastroScreen());
-      case '/cadastro/endereco':
-        return MaterialPageRoute(
-            builder: (_) => CadastroEnderecoScreen(
-                userJson: (settings.arguments as Map)['userJson']));
-      case '/cadastro/senha':
-        return MaterialPageRoute(
-            builder: (_) => CadastroSenhaScreen(
-                userJson: (settings.arguments as Map)['userJson']));
-      case '/cadastro/recuperar-senha':
-        return MaterialPageRoute(
-            builder: (_) => const CadastroRecuperarSenhaScreen());
-      case '/terms':
-        return MaterialPageRoute(builder: (_) => const TermsScreen());
-      case '/terms/single':
-        return MaterialPageRoute(
-            builder: (_) =>
-                SingleTermScreen(type: settings.arguments as String));
-      case '/home':
-        final userType = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => HomeScreen(type: userType));
-      case '/home/empresas':
-        final negocios = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(
-            builder: (_) => EmpresasScreen(negocios: negocios));
-      case '/negocio-detalhes':
-        final type =
-            (settings.arguments as Map<String, dynamic>)['type'] as String;
-        final establishment = (settings.arguments
-            as Map<String, dynamic>)['establishment'] as EstablishmentModel;
-        return MaterialPageRoute(
-            builder: (_) => EstablishmentDetailsScreen(
-                type: type, establishment: establishment));
-      case '/produto-item-detalhes':
-        final product = settings.arguments as ProductModel;
-        return MaterialPageRoute(
-            builder: (_) => ProductItemDetailsWidget(product: product));
-      case '/dados-perfil':
-        return MaterialPageRoute(builder: (_) => const DadosPerfilScreen());
-      case '/enderecos':
-        return MaterialPageRoute(builder: (_) => const EnderecosScreen());
-      case '/trocar-senha':
-        return MaterialPageRoute(builder: (_) => const TrocarSenhaScreen());
-      case '/perguntas-frequentes':
-        return MaterialPageRoute(
-            builder: (_) => const PerguntasFrequentesScreen());
-      case '/contato-suporte':
-        return MaterialPageRoute(builder: (_) => const ContatoSuporteScreen());
-      case '/anuncie-conosco':
-        return MaterialPageRoute(builder: (_) => const AnuncieConoscoScreen());
-      default:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
-    }
-  }
+  static final navigatorStateKey = GlobalKey<NavigatorState>();
+
+  static final router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => CadastroScreen(),
+      ),
+      GoRoute(
+        path: '/register/address',
+        builder: (context, state) {
+          final userJson = state.extra as Map<String, dynamic>;
+
+          return CadastroEnderecoScreen(
+            userJson: userJson,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/register/password',
+        builder: (context, state) {
+          final userJson = state.extra as Map<String, dynamic>;
+
+          return CadastroSenhaScreen(userJson: userJson);
+        },
+      ),
+      GoRoute(
+        path: '/register/recover-password',
+        builder: (context, state) => CadastroRecuperarSenhaScreen(),
+      ),
+      GoRoute(
+        path: '/terms',
+        builder: (context, state) => TermsScreen(),
+      ),
+      GoRoute(
+        path: '/terms/single',
+        builder: (context, state) {
+          final type = state.extra as String;
+
+          return SingleTermScreen(type: type);
+        },
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) {
+          final userType = state.extra as String;
+
+          return HomeScreen(type: userType);
+        },
+      ),
+      GoRoute(
+        path: '/home/establishments',
+        builder: (context, state) {
+          final establishments = state.extra as Map<String, dynamic>;
+
+          return EmpresasScreen(negocios: establishments);
+        },
+      ),
+      GoRoute(
+        path: '/establishment-details',
+        builder: (context, state) {
+          final type = (state.extra as Map)['type'] as String;
+          final establishment =
+              (state.extra as Map)['establishment'] as EstablishmentModel;
+
+          return EstablishmentDetailsScreen(
+              type: type, establishment: establishment);
+        },
+      ),
+      GoRoute(
+        path: '/product-item-details',
+        builder: (context, state) {
+          final product = state.extra as ProductModel;
+
+          return ProductItemDetailsWidget(product: product);
+        },
+      ),
+      GoRoute(
+        path: '/product-item-details',
+        builder: (context, state) {
+          final product = state.extra as ProductModel;
+
+          return ProductItemDetailsWidget(product: product);
+        },
+      ),
+      GoRoute(
+        path: '/profile-data',
+        builder: (context, state) => DadosPerfilScreen(),
+      ),
+      GoRoute(
+        path: '/addresses',
+        builder: (context, state) => EnderecosScreen(),
+      ),
+      GoRoute(
+        path: '/change-password',
+        builder: (context, state) => TrocarSenhaScreen(),
+      ),
+      GoRoute(
+        path: '/common-questions',
+        builder: (context, state) => PerguntasFrequentesScreen(),
+      ),
+      GoRoute(
+        path: '/support-contact',
+        builder: (context, state) => ContatoSuporteScreen(),
+      ),
+      GoRoute(
+        path: '/advertise-with-us',
+        builder: (context, state) => AnuncieConoscoScreen(),
+      ),
+    ],
+  );
 }

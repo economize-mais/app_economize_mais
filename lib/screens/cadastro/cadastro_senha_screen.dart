@@ -5,6 +5,7 @@ import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indica
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CadastroSenhaScreen extends StatefulWidget {
@@ -142,6 +143,6 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
     );
     if (!mounted) return;
 
-    Navigator.popUntil(context, (route) => route.isFirst);
+    context.go('/');
   }
 }

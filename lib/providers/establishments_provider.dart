@@ -25,7 +25,6 @@ class EstablishmentsProvider extends ChangeNotifier {
           message: e is DioException
               ? e.response?.data['message']
               : 'Um erro inesperado ocorreu');
-      rethrow;
     } finally {
       notifyListeners();
     }

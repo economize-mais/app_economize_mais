@@ -5,7 +5,6 @@ import 'package:app_economize_mais/providers/products_establishment_provider.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
-import 'package:app_economize_mais/screens/login/login_screen.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +32,7 @@ class App extends StatelessWidget {
           create: (_) => ProductProvider(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -42,9 +41,8 @@ class App extends StatelessWidget {
         supportedLocales: const [Locale('pt', 'BR')],
         title: 'Projeto Supermercado',
         theme: AppScheme.themeData,
-        onGenerateRoute: AppRoutes.onGenerateRoute,
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(),
+        routerConfig: AppRoutes.router,
       ),
     );
   }

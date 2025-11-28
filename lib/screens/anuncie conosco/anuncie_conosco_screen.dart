@@ -3,6 +3,7 @@ import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_dropdown_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class AnuncieConoscoScreen extends StatelessWidget {
   const AnuncieConoscoScreen({super.key});
@@ -101,7 +102,7 @@ class AnuncieConoscoScreen extends StatelessWidget {
                       icon: Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => context.pop(),
                           child: const Icon(Icons.close, size: 20),
                         ),
                       ),
@@ -112,10 +113,7 @@ class AnuncieConoscoScreen extends StatelessWidget {
                   );
                   if (!context.mounted) return;
 
-                  Navigator.popUntil(
-                    context,
-                    (route) => route.isFirst,
-                  );
+                  context.go('/');
                 },
                 child: const Text('Enviar'),
               ),

@@ -2,6 +2,7 @@ import 'package:app_economize_mais/models/establishment_model.dart';
 import 'package:app_economize_mais/utils/widgets/custom_fade_in_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:go_router/go_router.dart';
 
 class EstablishmentCardWidget extends StatelessWidget {
   final String type;
@@ -20,8 +21,7 @@ class EstablishmentCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, '/negocio-detalhes', arguments: {
+      onTap: () => context.push('/establishment-details', extra: {
         "type": type,
         "establishment": establishment,
       }),

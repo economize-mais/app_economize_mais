@@ -168,6 +168,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                   Expanded(
                     child: LabeledOutlineTextFieldWidget(
                       controller: pesoLiquidoController,
+                      keyboardType: TextInputType.number,
                       label: 'Peso Líquido',
                     ),
                   ),

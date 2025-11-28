@@ -3,6 +3,7 @@ import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indica
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -65,7 +66,7 @@ class _SingleTermScreenState extends State<SingleTermScreen> {
       );
       if (!mounted) return;
 
-      Navigator.pop(context);
+      context.pop();
     }
   }
 

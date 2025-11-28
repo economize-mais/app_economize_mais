@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
+import 'package:go_router/go_router.dart';
 
 class AnuncieConoscoWidget extends StatelessWidget {
   const AnuncieConoscoWidget({
@@ -9,7 +10,7 @@ class AnuncieConoscoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/anuncie-conosco'),
+      onTap: () => context.push('/advertise-with-us'),
       child: SizedBox(
         height: 105,
         child: Card(

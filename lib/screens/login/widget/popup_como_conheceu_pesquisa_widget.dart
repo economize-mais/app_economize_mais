@@ -4,6 +4,7 @@ import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indicator.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class PopupComoConheceuPesquisaWidget extends StatefulWidget {
@@ -36,7 +37,7 @@ class _PopupComoConheceuPesquisaWidgetState
       icon: Align(
         alignment: Alignment.centerRight,
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => context.pop(),
           child: const Icon(Icons.close, size: 20),
         ),
       ),
@@ -116,6 +117,6 @@ class _PopupComoConheceuPesquisaWidgetState
       return;
     }
 
-    Navigator.pop(context);
+    context.pop();
   }
 }

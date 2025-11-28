@@ -4,6 +4,7 @@ import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indica
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -85,8 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.pushNamed(
-                        context, '/cadastro/recuperar-senha'),
+                    onPressed: () => context.push('/register/recover-password'),
                     style: TextButton.styleFrom(
                       minimumSize: const Size.fromHeight(40),
                     ),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 4),
                   const Text('Não possui uma conta?'),
                   OutlinedButton(
-                    onPressed: () => Navigator.pushNamed(context, '/cadastro'),
+                    onPressed: () => context.push('/register'),
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(40),
                     ),
@@ -135,9 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
     bool hasUnacceptedTerms =
         usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
 
-    Navigator.pushReplacementNamed(
-        context, hasUnacceptedTerms ? '/terms' : '/home',
-        arguments: usuarioProvider.userModel!.type);
+    context.pushReplacement(hasUnacceptedTerms ? '/terms' : '/home',
+        extra: usuarioProvider.userModel!.type);
   }
 
   Future verifyComoConhece(

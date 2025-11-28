@@ -1,5 +1,6 @@
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PopupErrorWidget extends StatelessWidget {
   final String title;
@@ -25,7 +26,7 @@ class PopupErrorWidget extends StatelessWidget {
       icon: Align(
         alignment: Alignment.centerRight,
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => context.pop(),
           child: const Icon(Icons.close, size: 20),
         ),
       ),
