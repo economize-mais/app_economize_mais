@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/models/establishment_types_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/home/widgets/establishment_card_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -5,11 +6,11 @@ import 'package:app_economize_mais/utils/widgets/filter_search_text_field_widget
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 
 class EmpresasScreen extends StatelessWidget {
-  final Map negocios;
+  final EstablishmentTypesModel establishmentsTypes;
 
   const EmpresasScreen({
     super.key,
-    required this.negocios,
+    required this.establishmentsTypes,
   });
 
   @override
@@ -25,7 +26,7 @@ class EmpresasScreen extends StatelessWidget {
             const FilterSearchTextFieldWidget(),
             const SizedBox(height: 15),
             Text(
-              negocios['grupo'],
+              establishmentsTypes.name,
               style: TextStyle(
                 color: AppScheme.gray[4],
                 fontSize: 12,
@@ -37,10 +38,10 @@ class EmpresasScreen extends StatelessWidget {
               alignment: WrapAlignment.spaceBetween,
               spacing: 10,
               runSpacing: 10,
-              children: (negocios['empresas'] as List)
+              children: (establishmentsTypes.establishments as List)
                   .map(
                     (e) => EstablishmentCardWidget(
-                      type: 'teste',
+                      type: establishmentsTypes.name,
                       establishment: e,
                       width: 100,
                     ),

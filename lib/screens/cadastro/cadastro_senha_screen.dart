@@ -101,6 +101,8 @@ class _CadastroSenhaScreenState extends State<CadastroSenhaScreen> {
   }
 
   Future cadastrar(UsuarioProvider usuarioProvider) async {
+    primaryFocus?.unfocus();
+
     if (!formKey.currentState!.validate()) return;
 
     if (!cumpreCondicoesSenha) {

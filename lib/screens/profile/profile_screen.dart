@@ -51,19 +51,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/profile-data'),
+              onPressed: () => context.push('/profile/profile-data'),
               title: 'Dados ${isUser ? 'Pessoais' : 'da Empresa'} ',
             ),
             // CustomElevatedButtonWidget(
-            //   onPressed: () => context.push('/addresses'),
+            //   onPressed: () => context.push('/profile/addresses'),
             //   title: 'Endereços',
             // ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/change-password'),
+              onPressed: () => context.push('/profile/change-password'),
               title: 'Trocar Senha',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/common-questions'),
+              onPressed: () => context.push('/profile/common-questions'),
               title: 'Perguntas Frequentes',
             ),
             CustomElevatedButtonWidget(
@@ -71,15 +71,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Anuncie com a gente',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/terms/single', extra: 'USAGE'),
+              onPressed: () =>
+                  context.push('/profile/terms/single', extra: 'USAGE'),
               title: 'Termos de Uso',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/terms/single', extra: 'PRIVACY'),
+              onPressed: () =>
+                  context.push('/profile/terms/single', extra: 'PRIVACY'),
               title: 'Políticas de Privacidade',
             ),
             CustomElevatedButtonWidget(
-              onPressed: () => context.push('/support-contact'),
+              onPressed: () => context.push('/profile/support-contact'),
               title: 'Contato e Suporte',
             ),
             CustomElevatedButtonWidget(

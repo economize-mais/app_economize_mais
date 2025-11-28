@@ -21,7 +21,7 @@ class EstablishmentCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/establishment-details', extra: {
+      onTap: () => context.push('/home/establishment-details', extra: {
         "type": type,
         "establishment": establishment,
       }),

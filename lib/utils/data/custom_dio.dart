@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/utils/data/dio_interceptor.dart';
 import 'package:dio/dio.dart';
 
 class CustomDio {
@@ -16,7 +17,8 @@ class CustomDio {
           headers: {
             'Authorization': 'Bearer $_token',
           },
-        ));
+        ))
+          ..interceptors.add(DioInterceptor());
 
   static void setToken(String newValue) => _token = newValue;
 }

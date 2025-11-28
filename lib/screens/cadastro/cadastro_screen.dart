@@ -140,7 +140,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
   }
 
   void adicionarEndereco() {
+    primaryFocus?.unfocus();
+
     if (!formKey.currentState!.validate()) return;
+
     nomeCompletoController.text = nomeCompletoController.text.trim();
     emailController.text = emailController.text.trim();
     cpfController.text = cpfController.text

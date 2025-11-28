@@ -19,7 +19,7 @@ class ProductItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.push(
-        '/product-item-details',
+        '/home/product-item-details',
         extra: product,
       ),
       child: SizedBox(
