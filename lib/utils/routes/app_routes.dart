@@ -36,7 +36,13 @@ abstract class AppRoutes {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => LoginScreen(),
+        builder: (context, state) {
+          final unauthorizedAccess = state.extra as bool? ?? false;
+
+          return LoginScreen(
+            unauthorizedAccess: unauthorizedAccess,
+          );
+        },
       ),
       GoRoute(
         path: '/advertise-with-us',

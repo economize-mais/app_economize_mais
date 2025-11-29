@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final bool unauthorizedAccess;
+  const LoginScreen({super.key, this.unauthorizedAccess = false});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -23,9 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    formKey = GlobalKey<FormState>();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    _initialize();
   }
 
   @override
@@ -108,6 +107,22 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _initialize() {
+    formKey = GlobalKey<FormState>();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+
+    if (widget.unauthorizedAccess) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+            context: context,
+            builder: (_) => PopupErrorWidget(
+                content:
+                    'O token de acesso foi expirado. Entre com sua conta novamente.'));
+      });
+    }
   }
 
   Future login(UsuarioProvider usuarioProvider) async {
