@@ -1,5 +1,6 @@
 import 'package:app_economize_mais/models/products_establishment_model.dart';
 import 'package:app_economize_mais/services/products_service.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
@@ -29,6 +30,38 @@ class ProductsEstablishmentProvider extends ChangeNotifier {
               : 'Um erro inesperado ocorreu');
     } finally {
       _setIsLoading(false);
+    }
+  }
+
+  Future deleteProduct(String productId, String categoryId) async {
+    try {
+      _setError(false);
+
+      await ProductsService.deleteProduct(productId);
+      _removeProductFromList(productId, categoryId);
+    } catch (e) {
+      _setError(true,
+          message: e is DioException
+              ? e.response?.data['message']
+              : 'Um erro inesperado ocorreu');
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void _removeProductFromList(String productId, String categoryId) {
+    final currentProductsEstablishment = _productsEstablishment
+        .firstWhereOrNull((item) => item.categoryId == categoryId);
+    if (currentProductsEstablishment == null) {
+      return;
+    }
+
+    currentProductsEstablishment.products
+        .removeWhere((product) => product.id == productId);
+
+    if (currentProductsEstablishment.products.isEmpty) {
+      _productsEstablishment
+          .removeWhere((item) => item.categoryId == categoryId);
     }
   }
 

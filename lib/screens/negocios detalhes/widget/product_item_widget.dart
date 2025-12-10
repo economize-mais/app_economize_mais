@@ -7,12 +7,14 @@ import 'package:go_router/go_router.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final String type;
+  final String categoryId;
   final ProductModel product;
 
   const ProductItemWidget({
     super.key,
     required this.product,
     required this.type,
+    required this.categoryId,
   });
 
   @override
@@ -20,7 +22,7 @@ class ProductItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(
         '/home/product-item-details',
-        extra: product,
+        extra: {"product": product, "categoryId": categoryId},
       ),
       child: SizedBox(
         width: 124,

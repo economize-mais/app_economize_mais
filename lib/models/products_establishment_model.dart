@@ -3,7 +3,7 @@ import 'package:app_economize_mais/models/product_model.dart';
 class ProductsEstablishmentModel {
   final String categoryId;
   final String categoryName;
-  final List products;
+  final List<ProductModel> products;
 
   ProductsEstablishmentModel.fromJson(Map<String, dynamic> json)
       : categoryId = json['categoryId'],

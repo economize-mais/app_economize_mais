@@ -36,6 +36,7 @@ class ProductsEstablishmentWidget extends StatelessWidget {
               itemCount: productsEstablishment.products.length,
               itemBuilder: (context, i) => ProductItemWidget(
                 type: type,
+                categoryId: productsEstablishment.categoryId,
                 product: productsEstablishment.products[i],
               ),
             ),

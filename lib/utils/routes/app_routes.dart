@@ -78,14 +78,6 @@ abstract class AppRoutes {
         path: '/terms',
         builder: (context, state) => TermsScreen(),
       ),
-      GoRoute(
-        path: '/product-item-details',
-        builder: (context, state) {
-          final product = state.extra as ProductModel;
-
-          return ProductItemDetailsWidget(product: product);
-        },
-      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             HomeScaffoldWidget(navigationShell: navigationShell),
@@ -120,9 +112,15 @@ abstract class AppRoutes {
                   GoRoute(
                     path: '/product-item-details',
                     builder: (context, state) {
-                      final product = state.extra as ProductModel;
+                      final product =
+                          (state.extra as Map)['product'] as ProductModel;
+                      final categoryId =
+                          (state.extra as Map)['categoryId'] as String;
 
-                      return ProductItemDetailsWidget(product: product);
+                      return ProductItemDetailsWidget(
+                        product: product,
+                        categoryId: categoryId,
+                      );
                     },
                   ),
                 ],

@@ -269,9 +269,16 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       final String categoryId = _categoriesProvider.categoriesList
           .firstWhere((item) => item.name == categoriaController.text)
           .id;
+
+      final String auxParsedDate =
+          naoTemValidade || validadeOfertaFimController.text.isEmpty
+              ? DateFormat('dd/MM/yyyy').format(DateTime.now())
+              : validadeOfertaFimController.text;
+
       final formattedDateTime = DateFormat('dd/MM/yyyy')
-          .parse(validadeOfertaFimController.text)
+          .parse(auxParsedDate)
           .add(Duration(days: naoTemValidade ? 1 : 0));
+
       await productProvider.postProduct({
         "categoryId": categoryId,
         "name": descricaoController.text,

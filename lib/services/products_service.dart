@@ -22,4 +22,14 @@ abstract class ProductsService {
       rethrow;
     }
   }
+
+  static Future deleteProduct(String id) async {
+    try {
+      final response = await _apiAuth.delete('/products/$id');
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
