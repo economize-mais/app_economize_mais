@@ -13,6 +13,7 @@ import 'package:app_economize_mais/utils/widgets/custom_circular_progress_indica
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
 import 'package:app_economize_mais/utils/widgets/popup_error_widget.dart';
 import 'package:app_economize_mais/utils/widgets/tentar_novamente_widget.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/product_container_widget.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
@@ -171,6 +172,13 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                       controller: pesoLiquidoController,
                       keyboardType: TextInputType.number,
                       label: 'Peso Líquido',
+                      inputFormatters: [
+                        CurrencyTextInputFormatter.currency(
+                          locale: 'pt_BR',
+                          symbol: '',
+                          decimalDigits: 2,
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -277,8 +285,10 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       await productProvider.postProduct({
         "categoryId": categoryId,
         "name": descricaoController.text,
-        "originalPrice": num.parse(valorDeController.text),
-        "offerPrice": num.parse(valorParaController.text),
+        "originalPrice": num.parse(
+            valorDeController.text.replaceAll('.', '').replaceAll(',', '.')),
+        "offerPrice": num.parse(
+            valorParaController.text.replaceAll('.', '').replaceAll(',', '.')),
         "offerExpiration": DateFormat('yyyy-MM-dd').format(formattedDateTime),
         "imageUrl": responseImage.url,
       });

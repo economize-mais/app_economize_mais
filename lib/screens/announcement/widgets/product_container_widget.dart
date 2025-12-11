@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_economize_mais/utils/widgets/labeled_outline_date_picker_widget.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/image_picker_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -56,6 +57,13 @@ class ProductContainerWidget extends StatelessWidget {
                   label: 'De:',
                   fillColor: AppScheme.gray[1]!,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    CurrencyTextInputFormatter.currency(
+                      locale: 'pt_BR',
+                      symbol: '',
+                      decimalDigits: 2,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: 90),
@@ -65,6 +73,13 @@ class ProductContainerWidget extends StatelessWidget {
                   label: 'Para:',
                   fillColor: AppScheme.gray[1]!,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    CurrencyTextInputFormatter.currency(
+                      locale: 'pt_BR',
+                      symbol: '',
+                      decimalDigits: 2,
+                    ),
+                  ],
                 ),
               ),
             ],

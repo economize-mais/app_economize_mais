@@ -78,7 +78,7 @@ class CustomAutocompleteWidget extends StatelessWidget {
       ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        itemCount: options.length,
+        itemCount: 1,
         itemBuilder: (context, i) {
           final String option = options.elementAt(i);
 
