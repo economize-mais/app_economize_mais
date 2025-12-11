@@ -6,6 +6,7 @@ class CustomAutocompleteWidget extends StatelessWidget {
   final List<String> possibleOptions;
   final void Function(String)? onSelected;
   final Color fillColor;
+  final TextEditingValue? initialValue;
 
   const CustomAutocompleteWidget({
     super.key,
@@ -13,6 +14,7 @@ class CustomAutocompleteWidget extends StatelessWidget {
     required this.possibleOptions,
     required this.onSelected,
     this.fillColor = AppScheme.lightGray,
+    this.initialValue,
   });
 
   @override
@@ -25,6 +27,7 @@ class CustomAutocompleteWidget extends StatelessWidget {
         Autocomplete<String>(
           fieldViewBuilder: _fieldViewBuilder,
           optionsViewBuilder: _optionsViewBuilder,
+          initialValue: initialValue,
           onSelected: onSelected,
           optionsBuilder: (textEditingValue) {
             if (textEditingValue.text == '') {

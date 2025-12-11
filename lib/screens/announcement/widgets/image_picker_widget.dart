@@ -52,7 +52,9 @@ class ImagePickerWidget extends StatelessWidget {
 
   Widget _buildCamera() {
     if (image != null) {
-      return Image.file(image!);
+      return !image!.path.contains('https://')
+          ? Image.file(image!)
+          : Image.network(image!.path);
     }
 
     return Icon(

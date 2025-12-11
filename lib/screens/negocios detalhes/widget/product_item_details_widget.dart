@@ -12,13 +12,15 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProductItemDetailsWidget extends StatefulWidget {
-  final ProductModel product;
+  final String productId;
   final String categoryId;
+  final String establishmentId;
 
   const ProductItemDetailsWidget({
     super.key,
-    required this.product,
+    required this.productId,
     required this.categoryId,
+    required this.establishmentId,
   });
 
   @override
@@ -27,14 +29,12 @@ class ProductItemDetailsWidget extends StatefulWidget {
 }
 
 class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
-  late UsuarioProvider usuarioProvider;
   late ProductsEstablishmentProvider productsEstablishmentProvider;
   bool loading = false;
 
   @override
   void initState() {
     super.initState();
-
     _initialize();
   }
 
@@ -45,131 +45,140 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
         title: 'Produto',
         hideActions: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 15,
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  CustomFadeInImageWidget(
-                    height: 230,
-                    width: 268,
-                    fit: BoxFit.contain,
-                    image: NetworkImage(widget.product.imageUrl ?? ''),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: AppScheme.brightGreen,
-                      child: Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: Text(
-                          '${widget.product.discountPercent}% de desconto',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: AppScheme.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+      body: Consumer<ProductsEstablishmentProvider>(
+          builder: (context, provider, child) {
+        final product =
+            provider.findProductById(widget.productId, widget.categoryId);
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 15,
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CustomFadeInImageWidget(
+                      height: 230,
+                      width: 268,
+                      fit: BoxFit.contain,
+                      image: NetworkImage(product.imageUrl ?? ''),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: CircleAvatar(
+                        radius: 48,
+                        backgroundColor: AppScheme.brightGreen,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Text(
+                            '${formatDecimalNumber(product.discountPercent)}% de desconto',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: AppScheme.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            Text(
-              widget.product.name,
-              style: TextStyle(
-                color: AppScheme.gray[4],
-                fontSize: 16,
+              const SizedBox(height: 15),
+              Text(
+                product.name,
+                style: TextStyle(
+                  color: AppScheme.gray[4],
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              widget.product.offerExpiration != null
-                  ? 'Vencimento: ${formatStringDate(widget.product.offerExpiration!)}'
-                  : 'Sem data de vencimento',
-              style: const TextStyle(
-                color: AppScheme.red,
-                fontSize: 12,
+              const SizedBox(height: 3),
+              Text(
+                product.offerExpiration != null
+                    ? 'Vencimento: ${formatStringDate(product.offerExpiration!)}'
+                    : 'Sem data de vencimento',
+                style: const TextStyle(
+                  color: AppScheme.red,
+                  fontSize: 12,
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-            Text(
-              'De: R\$${formatDecimalNumber(widget.product.priceOriginal)}',
-              style: const TextStyle(
-                decoration: TextDecoration.lineThrough,
-                decorationColor: AppScheme.red,
-                color: AppScheme.red,
-                fontSize: 14,
+              const SizedBox(height: 25),
+              Text(
+                'De: R\$${formatDecimalNumber(product.priceOriginal)}',
+                style: const TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: AppScheme.red,
+                  color: AppScheme.red,
+                  fontSize: 14,
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            Container(
-              constraints: BoxConstraints(
-                minWidth: 150,
-                minHeight: 50,
-              ),
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: AppScheme.brightGreen,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Por R\$ ${formatDecimalNumber(widget.product.priceOffer)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              const SizedBox(height: 15),
+              Container(
+                constraints: BoxConstraints(
+                  minWidth: 150,
+                  minHeight: 50,
+                ),
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: AppScheme.brightGreen,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Por R\$ ${formatDecimalNumber(product.priceOffer)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 80),
-            _productActionButtons(usuarioProvider.userModel!.type),
-            const Spacer(),
-            Text(
-              'Vendas somente na loja',
-              style: TextStyle(
-                color: AppScheme.gray[4],
-                fontSize: 16,
+              const SizedBox(height: 80),
+              _productActionButtons(product),
+              const Spacer(),
+              Text(
+                'Vendas somente na loja',
+                style: TextStyle(
+                  color: AppScheme.gray[4],
+                  fontSize: 16,
+                ),
               ),
-            ),
-            Text(
-              'Promoção válida enquanto durarem os estoques',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppScheme.gray[4],
-                fontSize: 16,
+              Text(
+                'Promoção válida enquanto durarem os estoques',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppScheme.gray[4],
+                  fontSize: 16,
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
   void _initialize() {
-    usuarioProvider = Provider.of(context, listen: false);
     productsEstablishmentProvider = Provider.of(context, listen: false);
   }
 
-  Widget _productActionButtons(String type) {
-    if (type == 'USER') {
+  Widget _productActionButtons(ProductModel product) {
+    final userModel =
+        Provider.of<UsuarioProvider>(context, listen: false).userModel!;
+    bool isSameEstablishment = userModel.id == widget.establishmentId;
+
+    if (userModel.type == 'USER' || !isSameEstablishment) {
       return const SizedBox.shrink();
     }
 
@@ -182,7 +191,7 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
         children: [
           Expanded(
             child: FilledButton(
-              onPressed: _editProduct,
+              onPressed: () => _editProduct(product),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
                 shape: RoundedRectangleBorder(
@@ -199,7 +208,7 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
           const SizedBox(width: 20),
           Expanded(
             child: FilledButton(
-              onPressed: _deleteProduct,
+              onPressed: () => _deleteProduct(product),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
                 shape: RoundedRectangleBorder(
@@ -218,14 +227,17 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
     );
   }
 
-  Future _editProduct() async {}
+  void _editProduct(ProductModel product) {
+    context.go('/announcements/edit-product-item',
+        extra: {"product": product, "categoryId": widget.categoryId});
+  }
 
-  Future _deleteProduct() async {
+  Future _deleteProduct(ProductModel product) async {
     try {
       setState(() => loading = true);
 
       await productsEstablishmentProvider.deleteProduct(
-          widget.product.id, widget.categoryId);
+          product.id, widget.categoryId);
 
       if (!mounted) return;
 

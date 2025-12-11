@@ -9,12 +9,14 @@ class ProductItemWidget extends StatelessWidget {
   final String type;
   final String categoryId;
   final ProductModel product;
+  final String establishmentId;
 
   const ProductItemWidget({
     super.key,
     required this.product,
     required this.type,
     required this.categoryId,
+    required this.establishmentId,
   });
 
   @override
@@ -22,7 +24,11 @@ class ProductItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(
         '/home/product-item-details',
-        extra: {"product": product, "categoryId": categoryId},
+        extra: {
+          "productId": product.id,
+          "categoryId": categoryId,
+          "establishmentId": establishmentId
+        },
       ),
       child: SizedBox(
         width: 124,

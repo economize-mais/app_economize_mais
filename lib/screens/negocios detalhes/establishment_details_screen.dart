@@ -98,6 +98,7 @@ class _EstablishmentDetailsScreenState
                   itemCount: provider.productsEstablishment.length,
                   itemBuilder: (context, i) => ProductsEstablishmentWidget(
                       type: provider.productsEstablishment[i].categoryName,
+                      establishmentId: widget.establishment.id,
                       productsEstablishment: provider.productsEstablishment[i]),
                 );
               },

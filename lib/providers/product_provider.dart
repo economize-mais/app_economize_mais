@@ -46,6 +46,26 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>?> patchProduct(
+      String productId, Map<String, dynamic> json) async {
+    Map<String, dynamic>? patchedProduct;
+
+    try {
+      _setError(false);
+
+      patchedProduct = await ProductsService.patchProduct(productId, json);
+    } catch (e) {
+      _setError(true,
+          message: e is DioException
+              ? e.response?.data['message']
+              : 'Um erro inesperado ocorreu');
+    } finally {
+      notifyListeners();
+    }
+
+    return patchedProduct;
+  }
+
   void setIsLoading(bool newValue) {
     isLoading = newValue;
     notifyListeners();

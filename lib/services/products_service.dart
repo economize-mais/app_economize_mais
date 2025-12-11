@@ -23,6 +23,17 @@ abstract class ProductsService {
     }
   }
 
+  static Future<Map<String, dynamic>?> patchProduct(
+      String productId, Map json) async {
+    try {
+      final response = await _apiAuth.patch('/products/$productId', data: json);
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future deleteProduct(String id) async {
     try {
       final response = await _apiAuth.delete('/products/$id');

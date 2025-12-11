@@ -10,7 +10,7 @@ class ProductContainerWidget extends StatelessWidget {
   final TextEditingController valorDeController;
   final TextEditingController valorParaController;
   final bool showValidade;
-  final TextEditingController validadeOfertaInicioController;
+  final TextEditingController? validadeOfertaInicioController;
   final TextEditingController validadeOfertaFimController;
   final File? image;
   final Future Function()? selectImage;
@@ -97,15 +97,16 @@ class ProductContainerWidget extends StatelessWidget {
       Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 90,
         children: [
-          Expanded(
-            child: LabeledOutlineDatePicker(
-              controller: validadeOfertaInicioController,
-              label: 'Início:',
-              fillColor: AppScheme.gray[1]!,
+          if (validadeOfertaInicioController != null)
+            Expanded(
+              child: LabeledOutlineDatePicker(
+                controller: validadeOfertaInicioController!,
+                label: 'Início:',
+                fillColor: AppScheme.gray[1]!,
+              ),
             ),
-          ),
-          const SizedBox(width: 90),
           Expanded(
             child: LabeledOutlineDatePicker(
               controller: validadeOfertaFimController,

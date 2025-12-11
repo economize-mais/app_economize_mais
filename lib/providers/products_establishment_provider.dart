@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/models/product_model.dart';
 import 'package:app_economize_mais/models/products_establishment_model.dart';
 import 'package:app_economize_mais/services/products_service.dart';
 import 'package:collection/collection.dart';
@@ -63,6 +64,32 @@ class ProductsEstablishmentProvider extends ChangeNotifier {
       _productsEstablishment
           .removeWhere((item) => item.categoryId == categoryId);
     }
+  }
+
+  void patchProductFromList(
+      String productId, String categoryId, ProductModel product) {
+    final currentProductsEstablishment = _productsEstablishment
+        .firstWhereOrNull((item) => item.categoryId == categoryId);
+    if (currentProductsEstablishment == null) {
+      return;
+    }
+
+    final currentProductIndex = currentProductsEstablishment.products
+        .indexWhere((item) => item.id == productId);
+    if (currentProductIndex < 0) {
+      return;
+    }
+
+    currentProductsEstablishment.products[currentProductIndex] = product;
+    notifyListeners();
+  }
+
+  ProductModel findProductById(String id, String categoryId) {
+    final categoryList = _productsEstablishment
+        .firstWhere((item) => item.categoryId == categoryId);
+    final product = categoryList.products.firstWhere((item) => item.id == id);
+
+    return product;
   }
 
   void _setIsLoading(bool newValue) {

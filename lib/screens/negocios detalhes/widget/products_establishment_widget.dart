@@ -5,11 +5,13 @@ import 'package:app_economize_mais/screens/negocios%20detalhes/widget/product_it
 class ProductsEstablishmentWidget extends StatelessWidget {
   final String type;
   final ProductsEstablishmentModel productsEstablishment;
+  final String establishmentId;
 
   const ProductsEstablishmentWidget({
     super.key,
     required this.type,
     required this.productsEstablishment,
+    required this.establishmentId,
   });
 
   @override
@@ -37,6 +39,7 @@ class ProductsEstablishmentWidget extends StatelessWidget {
               itemBuilder: (context, i) => ProductItemWidget(
                 type: type,
                 categoryId: productsEstablishment.categoryId,
+                establishmentId: establishmentId,
                 product: productsEstablishment.products[i],
               ),
             ),

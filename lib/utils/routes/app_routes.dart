@@ -7,6 +7,7 @@ import 'package:app_economize_mais/screens/announcement/announcement_screen.dart
 import 'package:app_economize_mais/screens/cadastro/cadastro_senha_screen.dart';
 import 'package:app_economize_mais/screens/home/initial_screen.dart';
 import 'package:app_economize_mais/screens/home/widgets/home_scaffold_widget.dart';
+import 'package:app_economize_mais/screens/negocios%20detalhes/edit_product_item_screen.dart';
 import 'package:app_economize_mais/screens/profile/profile_screen.dart';
 import 'package:app_economize_mais/screens/terms/single_term_screen.dart';
 import 'package:app_economize_mais/screens/terms/terms_screen.dart';
@@ -112,14 +113,17 @@ abstract class AppRoutes {
                   GoRoute(
                     path: '/product-item-details',
                     builder: (context, state) {
-                      final product =
-                          (state.extra as Map)['product'] as ProductModel;
+                      final productId =
+                          (state.extra as Map)['productId'] as String;
                       final categoryId =
                           (state.extra as Map)['categoryId'] as String;
+                      final establishmentId =
+                          (state.extra as Map)['establishmentId'] as String;
 
                       return ProductItemDetailsWidget(
-                        product: product,
+                        productId: productId,
                         categoryId: categoryId,
+                        establishmentId: establishmentId,
                       );
                     },
                   ),
@@ -140,7 +144,22 @@ abstract class AppRoutes {
                       ? const AlertasScreen()
                       : AnnouncementScreen();
                 },
-              )
+                routes: [
+                  GoRoute(
+                    path: '/edit-product-item',
+                    builder: (context, state) {
+                      final stateExtraMap = state.extra as Map;
+                      final product = stateExtraMap['product'] as ProductModel;
+                      final categoryId = stateExtraMap['categoryId'] as String;
+
+                      return EditProductItemScreen(
+                        product: product,
+                        categoryId: categoryId,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
           StatefulShellBranch(
