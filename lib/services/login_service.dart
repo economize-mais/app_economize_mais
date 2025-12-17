@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/services/shared_preferences_service.dart';
 import 'package:app_economize_mais/utils/data/custom_dio.dart';
 
 abstract class LoginService {
@@ -10,7 +11,8 @@ abstract class LoginService {
         'password': password,
       });
 
-      CustomDio.setToken(response.data['accessToken']);
+      await SharedPreferencesService.setString(
+          SharedPreferencesEnum.accessToken, response.data['accessToken']);
 
       return response.data;
     } catch (e) {
