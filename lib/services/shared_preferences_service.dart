@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum SharedPreferencesEnum {
   accessToken('accessToken'),
-  email('email');
+  userModel('userModel');
 
   final String value;
   const SharedPreferencesEnum(this.value);

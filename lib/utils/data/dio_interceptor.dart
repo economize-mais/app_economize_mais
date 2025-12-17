@@ -18,8 +18,11 @@ class DioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
+  Future<void> onError(
+      DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
+      await SharedPreferencesService.clearAll();
+
       AppRoutes.navigatorStateKey.currentContext?.go('/', extra: true);
     }
 

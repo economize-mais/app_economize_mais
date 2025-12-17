@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_economize_mais/models/origin_model.dart';
 import 'package:app_economize_mais/models/term_model.dart';
 import 'package:app_economize_mais/models/user_model.dart';
@@ -12,7 +14,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class UsuarioProvider extends ChangeNotifier {
-  late UserModel? userModel;
+  UserModel? userModel;
 
   bool isLoading = false;
   bool hasError = false;
@@ -38,6 +40,9 @@ class UsuarioProvider extends ChangeNotifier {
 
       await SharedPreferencesService.setString(
           SharedPreferencesEnum.accessToken, response['accessToken']);
+
+      await SharedPreferencesService.setString(
+          SharedPreferencesEnum.userModel, jsonEncode(userModel!.toJson()));
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
@@ -156,6 +161,19 @@ class UsuarioProvider extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<bool> hasSavedCredentials() async {
+    final String? savedAccessToken = await SharedPreferencesService.getString(
+        SharedPreferencesEnum.accessToken);
+    final String? savedUserModel = await SharedPreferencesService.getString(
+        SharedPreferencesEnum.userModel);
+    if (savedAccessToken == null || savedUserModel == null) {
+      return false;
+    }
+
+    userModel = UserModel.fromJson(jsonDecode(savedUserModel));
+    return true;
   }
 
   void _setIsLoading(bool value) {

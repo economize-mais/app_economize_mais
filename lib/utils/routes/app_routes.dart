@@ -34,6 +34,7 @@ abstract class AppRoutes {
   static final router = GoRouter(
     navigatorKey: navigatorStateKey,
     initialLocation: '/',
+    redirect: _redirect,
     routes: [
       GoRoute(
         path: '/',
@@ -204,4 +205,18 @@ abstract class AppRoutes {
       ),
     ],
   );
+}
+
+Future<String?> _redirect(BuildContext context, GoRouterState state) async {
+  final provider = context.read<UsuarioProvider>();
+  final loggedIn = await provider.hasSavedCredentials();
+  final loggingIn = state.matchedLocation == '/';
+  if (!loggedIn) {
+    return '/';
+  }
+  if (loggingIn) {
+    return '/home';
+  }
+
+  return null;
 }
