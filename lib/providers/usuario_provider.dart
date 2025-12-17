@@ -4,6 +4,7 @@ import 'package:app_economize_mais/models/user_model.dart';
 import 'package:app_economize_mais/models/zipcode_model.dart';
 import 'package:app_economize_mais/services/login_service.dart';
 import 'package:app_economize_mais/services/origin_service.dart';
+import 'package:app_economize_mais/services/shared_preferences_service.dart';
 import 'package:app_economize_mais/services/terms_service.dart';
 import 'package:app_economize_mais/services/user_service.dart';
 import 'package:app_economize_mais/services/zipcode_service.dart';
@@ -17,20 +18,26 @@ class UsuarioProvider extends ChangeNotifier {
   bool hasError = false;
   String errorMessage = '';
 
-  void limparCampos() {
+  Future<void> limparCampos() async {
     userModel = null;
     isLoading = false;
     hasError = false;
     errorMessage = '';
+
+    await SharedPreferencesService.clearAll();
   }
 
   Future login(String email, String password) async {
     _setIsLoading(true);
     try {
       hasError = false;
+      await SharedPreferencesService.clearAll();
 
       final response = await LoginService.login(email, password);
       userModel = UserModel.fromJson(response);
+
+      await SharedPreferencesService.setString(
+          SharedPreferencesEnum.accessToken, response['accessToken']);
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException

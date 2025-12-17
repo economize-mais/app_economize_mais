@@ -96,8 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _logout() {
-    usuarioProvider.limparCampos();
+  Future<void> _logout() async {
+    await usuarioProvider.limparCampos();
+    if (!mounted) return;
 
     context.go('/');
   }

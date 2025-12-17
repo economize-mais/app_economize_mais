@@ -20,4 +20,10 @@ abstract class SharedPreferencesService {
 
     return instance.getString(key.value);
   }
+
+  static Future<void> clearAll() async {
+    final instance = await SharedPreferences.getInstance();
+
+    await instance.clear();
+  }
 }
