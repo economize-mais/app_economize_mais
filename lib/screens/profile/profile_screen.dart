@@ -40,15 +40,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Consumer<UsuarioProvider>(
-              builder: (context, usuarioProviderAux, child) {
-                final name = isUser
-                    ? usuarioProviderAux.userModel!.name
-                    : usuarioProviderAux.userModel!.companyName!;
-
-                return ProfileWidget(
-                  name: name!,
-                );
-              },
+              builder: (context, usuarioProviderAux, child) => ProfileWidget(
+                name: isUser
+                    ? usuarioProviderAux.userModel!.name!
+                    : usuarioProviderAux.userModel!.companyName!,
+              ),
             ),
             CustomElevatedButtonWidget(
               onPressed: () => context.push('/profile/profile-data'),

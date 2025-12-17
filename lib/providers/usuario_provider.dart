@@ -173,6 +173,7 @@ class UsuarioProvider extends ChangeNotifier {
     }
 
     userModel = UserModel.fromJson(jsonDecode(savedUserModel));
+
     return true;
   }
 
