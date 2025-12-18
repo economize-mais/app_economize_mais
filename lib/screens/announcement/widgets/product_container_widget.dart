@@ -10,7 +10,7 @@ import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widg
 class ProductContainerWidget extends StatelessWidget {
   final TextEditingController valorDeController;
   final TextEditingController valorParaController;
-  final bool showValidade;
+  final bool showOfferDates;
   final TextEditingController? validadeOfertaInicioController;
   final TextEditingController validadeOfertaFimController;
   final File? image;
@@ -20,7 +20,7 @@ class ProductContainerWidget extends StatelessWidget {
     super.key,
     required this.valorDeController,
     required this.valorParaController,
-    this.showValidade = true,
+    this.showOfferDates = true,
     required this.validadeOfertaInicioController,
     required this.validadeOfertaFimController,
     this.image,
@@ -96,7 +96,7 @@ class ProductContainerWidget extends StatelessWidget {
   }
 
   List<Widget> _buildOfferValidity() {
-    if (!showValidade) {
+    if (!showOfferDates) {
       return [];
     }
 

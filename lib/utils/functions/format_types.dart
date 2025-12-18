@@ -15,3 +15,19 @@ String formatStringDate(String date) {
 
   return formatter.format(dateTime);
 }
+
+List<String> formatStringDatesToYMD(List<String> dates) {
+  final List<String> parsedDateList = [];
+
+  for (var i = 0; i < dates.length; i++) {
+    final item = dates[i];
+    if (item.isEmpty) {
+      parsedDateList.add(item);
+      continue;
+    }
+
+    parsedDateList.add(item.split('/').reversed.join('-'));
+  }
+
+  return parsedDateList;
+}

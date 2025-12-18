@@ -210,7 +210,7 @@ class _EditProductItemScreenState extends State<EditProductItemScreen> {
               ProductContainerWidget(
                 valorDeController: valorDeController,
                 valorParaController: valorParaController,
-                showValidade:
+                showOfferDates:
                     categoriaController.text != 'Serviços' && !naoTemValidade,
                 validadeOfertaInicioController: null,
                 validadeOfertaFimController: validadeOfertaFimController,

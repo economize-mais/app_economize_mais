@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_economize_mais/models/category_model.dart';
 import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/product_provider.dart';
+import 'package:app_economize_mais/utils/functions/format_types.dart';
 import 'package:app_economize_mais/utils/functions/product/send_product_image.dart';
 import 'package:app_economize_mais/utils/functions/validate_category_controller.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -35,14 +36,14 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   late TextEditingController categoriaController;
   late TextEditingController descricaoController;
   late TextEditingController pesoLiquidoController;
-  late TextEditingController dataValidadeController;
+  late TextEditingController productExpirationDateController;
   late TextEditingController valorDeController;
   late TextEditingController valorParaController;
-  late TextEditingController validadeOfertaInicioController;
-  late TextEditingController validadeOfertaFimController;
+  late TextEditingController offerStartDateController;
+  late TextEditingController offerExpirationDateController;
   late GlobalKey<FormState> _formKey;
   File? image;
-  bool naoTemValidade = false;
+  bool hasntExpirationDate = false;
 
   bool isLoading = true;
   bool sendingRequest = false;
@@ -94,22 +95,22 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     categoriaController = TextEditingController();
     descricaoController = TextEditingController();
     pesoLiquidoController = TextEditingController();
-    dataValidadeController = TextEditingController();
+    productExpirationDateController = TextEditingController();
     valorDeController = TextEditingController();
     valorParaController = TextEditingController();
-    validadeOfertaInicioController = TextEditingController();
-    validadeOfertaFimController = TextEditingController();
+    offerStartDateController = TextEditingController();
+    offerExpirationDateController = TextEditingController();
   }
 
   void disposeTextControllers() {
     categoriaController.dispose();
     descricaoController.dispose();
     pesoLiquidoController.dispose();
-    dataValidadeController.dispose();
+    productExpirationDateController.dispose();
     valorDeController.dispose();
     valorParaController.dispose();
-    validadeOfertaInicioController.dispose();
-    validadeOfertaFimController.dispose();
+    offerStartDateController.dispose();
+    offerExpirationDateController.dispose();
   }
 
   void clearAllFields() {
@@ -117,11 +118,11 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       categoriaController.clear();
       descricaoController.clear();
       pesoLiquidoController.clear();
-      dataValidadeController.clear();
+      productExpirationDateController.clear();
       valorDeController.clear();
       valorParaController.clear();
-      validadeOfertaInicioController.clear();
-      validadeOfertaFimController.clear();
+      offerStartDateController.clear();
+      offerExpirationDateController.clear();
       image = null;
     });
   }
@@ -163,48 +164,20 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 label: 'Descrição',
               ),
               const SizedBox(height: 15),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: LabeledOutlineTextFieldWidget(
-                      controller: pesoLiquidoController,
-                      keyboardType: TextInputType.number,
-                      label: 'Peso Líquido',
-                      inputFormatters: [
-                        CurrencyTextInputFormatter.currency(
-                          locale: 'pt_BR',
-                          symbol: '',
-                          decimalDigits: 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: LabeledOutlineDatePicker(
-                      controller: dataValidadeController,
-                      label: 'Data de Validade',
-                      canPassMaxDate: true,
-                    ),
-                  ),
-                ],
-              ),
+              _buildNetWeightAndOfferDate(),
               const SizedBox(height: 5),
               CheckboxListTileItemWidget(
-                valor: naoTemValidade,
+                valor: hasntExpirationDate,
                 titulo: 'Este produto não tem validade.',
                 onChanged: (value) =>
-                    setState(() => naoTemValidade = value ?? false),
+                    setState(() => hasntExpirationDate = value ?? false),
               ),
               ProductContainerWidget(
                 valorDeController: valorDeController,
                 valorParaController: valorParaController,
-                showValidade:
-                    categoriaController.text != 'Serviços' && !naoTemValidade,
-                validadeOfertaInicioController: validadeOfertaInicioController,
-                validadeOfertaFimController: validadeOfertaFimController,
+                showOfferDates: categoriaController.text != 'Serviços',
+                validadeOfertaInicioController: offerStartDateController,
+                validadeOfertaFimController: offerExpirationDateController,
                 image: image,
                 selectImage: _selectImage,
               ),
@@ -220,6 +193,38 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNetWeightAndOfferDate() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 20,
+      children: [
+        Expanded(
+          child: LabeledOutlineTextFieldWidget(
+            controller: pesoLiquidoController,
+            keyboardType: TextInputType.number,
+            label: 'Peso Líquido',
+            inputFormatters: [
+              CurrencyTextInputFormatter.currency(
+                locale: 'pt_BR',
+                symbol: '',
+                decimalDigits: 2,
+              ),
+            ],
+          ),
+        ),
+        if (!hasntExpirationDate)
+          Expanded(
+            child: LabeledOutlineDatePicker(
+              controller: productExpirationDateController,
+              label: 'Data de Validade',
+              canPassMaxDate: true,
+            ),
+          ),
+      ],
     );
   }
 
@@ -273,14 +278,15 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           .firstWhere((item) => item.name == categoriaController.text)
           .id;
 
-      final String auxParsedDate =
-          naoTemValidade || validadeOfertaFimController.text.isEmpty
-              ? DateFormat('dd/MM/yyyy').format(DateTime.now())
-              : validadeOfertaFimController.text;
-
-      final formattedDateTime = DateFormat('dd/MM/yyyy')
-          .parse(auxParsedDate)
-          .add(Duration(days: naoTemValidade ? 1 : 0));
+      final [
+        parsedProductExpirationDate,
+        parsedOfferStartDate,
+        parsedOfferExpirationDate
+      ] = formatStringDatesToYMD([
+        productExpirationDateController.text,
+        offerStartDateController.text,
+        offerExpirationDateController.text,
+      ]);
 
       await productProvider.postProduct({
         "categoryId": categoryId,
@@ -289,7 +295,16 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             valorDeController.text.replaceAll('.', '').replaceAll(',', '.')),
         "offerPrice": num.parse(
             valorParaController.text.replaceAll('.', '').replaceAll(',', '.')),
-        "offerExpiration": DateFormat('yyyy-MM-dd').format(formattedDateTime),
+        "offerStartDate": parsedOfferStartDate.isNotEmpty
+            ? parsedOfferStartDate
+            : DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        "offerExpiration": parsedOfferExpirationDate.isNotEmpty
+            ? parsedOfferExpirationDate
+            : DateFormat('yyyy-MM-dd')
+                .format(DateTime.now().add(Duration(days: 1))),
+        "productExpirationDate": parsedProductExpirationDate.isNotEmpty
+            ? parsedProductExpirationDate
+            : null,
         "imageUrl": responseImage.url,
       });
 

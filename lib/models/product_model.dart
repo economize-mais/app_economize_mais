@@ -6,7 +6,9 @@ class ProductModel {
   final String priceOffer;
   final String discountPercent;
   final String? imageUrl;
+  final String? offerStartDate;
   final String? offerExpiration;
+  final String? productExpirationDate;
 
   ProductModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -22,5 +24,7 @@ class ProductModel {
             ? json['discountPercent']
             : json['discountPercent'].toString(),
         imageUrl = json['imageUrl'],
-        offerExpiration = json['offerExpiration'];
+        offerStartDate = json['offerStartDate'],
+        offerExpiration = json['offerExpiration'],
+        productExpirationDate = json['productExpirationDate'];
 }
