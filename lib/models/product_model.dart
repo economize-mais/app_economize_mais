@@ -1,18 +1,25 @@
 class ProductModel {
   final String id;
   final String name;
+  final String? weight;
+  final String? unitOfMeasure;
   final String? description;
   final String priceOriginal;
   final String priceOffer;
   final String discountPercent;
-  final String? imageUrl;
   final String? offerStartDate;
   final String? offerExpiration;
+  final bool productHasExpirationDate;
   final String? productExpirationDate;
+  final String? imageUrl;
 
   ProductModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
+        weight = (json['weight'] is String)
+            ? json['weight']
+            : json['weight'].toString(),
+        unitOfMeasure = json['unitOfMeasure'],
         description = json['description'],
         priceOriginal = (json['priceOriginal'] is String)
             ? json['priceOriginal']
@@ -23,8 +30,11 @@ class ProductModel {
         discountPercent = (json['discountPercent'] is String)
             ? json['discountPercent']
             : json['discountPercent'].toString(),
-        imageUrl = json['imageUrl'],
         offerStartDate = json['offerStartDate'],
         offerExpiration = json['offerExpiration'],
-        productExpirationDate = json['productExpirationDate'];
+        productHasExpirationDate = json['productHasExpirationDate'] ??
+            (json['productExpirationDate'] != null ||
+                json['productExpirationDate'] != ''),
+        productExpirationDate = json['productExpirationDate'],
+        imageUrl = json['imageUrl'];
 }

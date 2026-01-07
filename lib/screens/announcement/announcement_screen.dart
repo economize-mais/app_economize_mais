@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_economize_mais/models/category_model.dart';
 import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/product_provider.dart';
+import 'package:app_economize_mais/screens/announcement/widgets/measurement_units_widget.dart';
 import 'package:app_economize_mais/utils/functions/format_types.dart';
 import 'package:app_economize_mais/utils/functions/product/send_product_image.dart';
 import 'package:app_economize_mais/utils/functions/validate_category_controller.dart';
@@ -43,7 +44,9 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   late TextEditingController offerExpirationDateController;
   late GlobalKey<FormState> _formKey;
   File? image;
-  bool hasntExpirationDate = false;
+  bool productHasExpirationDate = true;
+  int selectedUnitIndex = 0;
+  List<String> units = const ['KG', 'LT'];
 
   bool isLoading = true;
   bool sendingRequest = false;
@@ -165,13 +168,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               ),
               const SizedBox(height: 15),
               _buildNetWeightAndOfferDate(),
-              const SizedBox(height: 5),
-              CheckboxListTileItemWidget(
-                valor: hasntExpirationDate,
-                titulo: 'Este produto não tem validade.',
-                onChanged: (value) =>
-                    setState(() => hasntExpirationDate = value ?? false),
-              ),
               ProductContainerWidget(
                 valorDeController: valorDeController,
                 valorParaController: valorParaController,
@@ -197,32 +193,47 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   }
 
   Widget _buildNetWeightAndOfferDate() {
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 20,
+      spacing: 5,
       children: [
-        Expanded(
-          child: LabeledOutlineTextFieldWidget(
-            controller: pesoLiquidoController,
-            keyboardType: TextInputType.number,
-            label: 'Peso Líquido',
-            inputFormatters: [
-              CurrencyTextInputFormatter.currency(
-                locale: 'pt_BR',
-                symbol: '',
-                decimalDigits: 2,
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          spacing: 8,
+          children: [
+            Expanded(
+              child: LabeledOutlineTextFieldWidget(
+                controller: pesoLiquidoController,
+                keyboardType: TextInputType.number,
+                label: 'Peso Líquido',
+                inputFormatters: [
+                  CurrencyTextInputFormatter.currency(
+                    locale: 'pt_BR',
+                    symbol: '',
+                    decimalDigits: 3,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        if (!hasntExpirationDate)
-          Expanded(
-            child: LabeledOutlineDatePicker(
-              controller: productExpirationDateController,
-              label: 'Data de Validade',
-              canPassMaxDate: true,
             ),
+            MeasurementUnitsWidget(
+              selectedUnitIndex: selectedUnitIndex,
+              units: units,
+              onSelected: (value) => setState(() => selectedUnitIndex = value),
+            ),
+          ],
+        ),
+        CheckboxListTileItemWidget(
+          valor: productHasExpirationDate,
+          titulo: 'Este produto tem validade.',
+          onChanged: (value) =>
+              setState(() => productHasExpirationDate = value ?? false),
+        ),
+        if (productHasExpirationDate)
+          LabeledOutlineDatePicker(
+            controller: productExpirationDateController,
+            label: 'Data de Validade',
+            canPassMaxDate: true,
           ),
       ],
     );
@@ -291,6 +302,10 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       await productProvider.postProduct({
         "categoryId": categoryId,
         "name": descricaoController.text,
+        "weight": num.parse(pesoLiquidoController.text
+            .replaceAll('.', '')
+            .replaceAll(',', '.')),
+        "unitOfMeasure": units[selectedUnitIndex],
         "originalPrice": num.parse(
             valorDeController.text.replaceAll('.', '').replaceAll(',', '.')),
         "offerPrice": num.parse(
@@ -302,9 +317,11 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             ? parsedOfferExpirationDate
             : DateFormat('yyyy-MM-dd')
                 .format(DateTime.now().add(Duration(days: 1))),
-        "productExpirationDate": parsedProductExpirationDate.isNotEmpty
-            ? parsedProductExpirationDate
-            : null,
+        "productHasExpirationDate": productHasExpirationDate,
+        "productExpirationDate":
+            parsedProductExpirationDate.isNotEmpty && productHasExpirationDate
+                ? parsedProductExpirationDate
+                : null,
         "imageUrl": responseImage.url,
       });
 
