@@ -101,8 +101,8 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
               ),
               const SizedBox(height: 3),
               Text(
-                product.offerExpiration != null
-                    ? 'Vencimento: ${formatStringDate(product.offerExpiration!)}'
+                product.productExpirationDate != null
+                    ? 'Vencimento: ${formatStringDate(product.productExpirationDate!)}'
                     : 'Sem data de vencimento',
                 style: const TextStyle(
                   color: AppScheme.red,
