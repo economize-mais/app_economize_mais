@@ -28,6 +28,14 @@ class CategoriesProvider extends ChangeNotifier {
     }
   }
 
+  bool isAlcoholicBeverage(String categoryId) {
+    return _categoriesList.indexWhere((item) =>
+                item.id == categoryId && item.name == "Bebidas Alcoólicas") >=
+            0
+        ? true
+        : false;
+  }
+
   void _setError(bool newValue, {String? message}) {
     hasError = newValue;
     errorMessage = '';

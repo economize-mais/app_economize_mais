@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/models/product_model.dart';
+import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/products_establishment_provider.dart';
 import 'package:app_economize_mais/providers/usuario_provider.dart';
 import 'package:app_economize_mais/utils/functions/format_types.dart';
@@ -30,6 +31,7 @@ class ProductItemDetailsWidget extends StatefulWidget {
 
 class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
   late ProductsEstablishmentProvider productsEstablishmentProvider;
+  late bool alcoholicBeverage;
   bool loading = false;
 
   @override
@@ -144,6 +146,11 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
                   ],
                 ),
               ),
+              const SizedBox(height: 4),
+              Visibility(
+                visible: alcoholicBeverage,
+                child: Text('Venda proibida para menores de 18 anos'),
+              ),
               const SizedBox(height: 80),
               _productActionButtons(product),
               const Spacer(),
@@ -171,6 +178,11 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
 
   void _initialize() {
     productsEstablishmentProvider = Provider.of(context, listen: false);
+
+    final categoriesProvider =
+        Provider.of<CategoriesProvider>(context, listen: false);
+    alcoholicBeverage =
+        categoriesProvider.isAlcoholicBeverage(widget.categoryId);
   }
 
   Widget _productActionButtons(ProductModel product) {

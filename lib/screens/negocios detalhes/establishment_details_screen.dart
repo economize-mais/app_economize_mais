@@ -1,4 +1,5 @@
 import 'package:app_economize_mais/models/establishment_model.dart';
+import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/products_establishment_provider.dart';
 import 'package:app_economize_mais/screens/negocios%20detalhes/widget/products_establishment_widget.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
@@ -112,8 +113,14 @@ class _EstablishmentDetailsScreenState
   void _initialize() {
     final ProductsEstablishmentProvider productsEstablishmentProvider =
         Provider.of(context, listen: false);
+    final CategoriesProvider categoriesProvider =
+        Provider.of(context, listen: false);
 
     productsEstablishmentProvider
         .getProductsEstablishment(widget.establishment.id);
+
+    if (categoriesProvider.categoriesList.isEmpty) {
+      categoriesProvider.getCategories();
+    }
   }
 }
