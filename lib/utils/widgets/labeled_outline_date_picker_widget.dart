@@ -7,6 +7,7 @@ class LabeledOutlineDatePicker extends StatefulWidget {
   final String label;
   final Color? fillColor;
   final bool canPassMaxDate;
+  final bool canBePreviousDate;
 
   const LabeledOutlineDatePicker({
     super.key,
@@ -14,6 +15,7 @@ class LabeledOutlineDatePicker extends StatefulWidget {
     this.label = 'Data de Nascimento',
     this.fillColor,
     this.canPassMaxDate = false,
+    this.canBePreviousDate = true,
   });
 
   @override
@@ -66,6 +68,11 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
       if (dataFormatada.isBefore(dataMinima)) {
         return 'Menor que ${formatter.format(dataMinima)}';
       }
+
+      if (!widget.canBePreviousDate && dataFormatada.isBefore(dataMaxima)) {
+        return 'Menor que data atual (${formatter.format(dataMaxima)})';
+      }
+
       if (!widget.canPassMaxDate && dataFormatada.isAfter(dataMaxima)) {
         return 'Maior que ${formatter.format(dataMaxima)}';
       }

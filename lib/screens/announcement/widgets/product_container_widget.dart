@@ -120,6 +120,8 @@ class ProductContainerWidget extends StatelessWidget {
                 controller: validadeOfertaInicioController!,
                 label: 'Início:',
                 fillColor: AppScheme.gray[1]!,
+                canPassMaxDate: true,
+                canBePreviousDate: false,
               ),
             ),
           Expanded(
