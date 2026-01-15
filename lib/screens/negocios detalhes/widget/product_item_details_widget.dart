@@ -113,15 +113,15 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
                     ),
                   ),
                 ),
-              Text(
-                product.productExpirationDate != null
-                    ? 'Vencimento: ${formatStringDate(product.productExpirationDate!)}'
-                    : 'Sem data de vencimento',
-                style: const TextStyle(
-                  color: AppScheme.red,
-                  fontSize: 12,
+              if (product.productExpirationDate != null &&
+                  product.productExpirationDate!.trim() != '')
+                Text(
+                  'Vencimento: ${formatStringDate(product.productExpirationDate!)}',
+                  style: const TextStyle(
+                    color: AppScheme.red,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
               const SizedBox(height: 25),
               Text(
                 'De: R\$${formatDecimalNumber(product.priceOriginal)}',

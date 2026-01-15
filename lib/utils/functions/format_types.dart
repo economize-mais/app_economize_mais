@@ -6,7 +6,8 @@ String formatDecimalNumber(dynamic number) {
     formattedNumber = num.tryParse(number) ?? 0;
   }
 
-  return NumberFormat.decimalPattern('pt-BR').format(formattedNumber);
+  return NumberFormat.decimalPatternDigits(locale: 'pt-BR', decimalDigits: 2)
+      .format(formattedNumber);
 }
 
 String formatStringDate(String date) {
