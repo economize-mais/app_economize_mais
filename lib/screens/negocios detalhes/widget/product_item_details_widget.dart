@@ -101,7 +101,18 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: 2),
+              if (product.weight != null && product.weight != '0')
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    'Peso: ${product.weight} ${product.unitOfMeasure}',
+                    style: TextStyle(
+                      color: AppScheme.gray[4],
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               Text(
                 product.productExpirationDate != null
                     ? 'Vencimento: ${formatStringDate(product.productExpirationDate!)}'
@@ -151,7 +162,7 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
                 visible: alcoholicBeverage,
                 child: Text('Venda proibida para menores de 18 anos'),
               ),
-              const SizedBox(height: 80),
+              const Spacer(),
               _productActionButtons(product),
               const Spacer(),
               Text(

@@ -207,6 +207,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 controller: pesoLiquidoController,
                 keyboardType: TextInputType.number,
                 label: 'Peso Líquido',
+                isOptional: true,
                 inputFormatters: [
                   CurrencyTextInputFormatter.currency(
                     locale: 'pt_BR',
@@ -299,12 +300,16 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
         offerExpirationDateController.text,
       ]);
 
+      num weight = pesoLiquidoController.text.trim().isNotEmpty
+          ? num.parse(pesoLiquidoController.text
+              .replaceAll('.', '')
+              .replaceAll(',', '.'))
+          : 0;
+
       await productProvider.postProduct({
         "categoryId": categoryId,
         "name": descricaoController.text,
-        "weight": num.parse(pesoLiquidoController.text
-            .replaceAll('.', '')
-            .replaceAll(',', '.')),
+        "weight": weight,
         "unitOfMeasure": units[selectedUnitIndex],
         "originalPrice": num.parse(
             valorDeController.text.replaceAll('.', '').replaceAll(',', '.')),

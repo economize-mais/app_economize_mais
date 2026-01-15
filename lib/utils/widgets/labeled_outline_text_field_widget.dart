@@ -12,6 +12,7 @@ class LabeledOutlineTextFieldWidget extends StatefulWidget {
   final double paddingTop;
   final double paddingBottom;
   final int maxLines;
+  final bool isOptional;
 
   const LabeledOutlineTextFieldWidget({
     super.key,
@@ -24,6 +25,7 @@ class LabeledOutlineTextFieldWidget extends StatefulWidget {
     this.paddingTop = 0,
     this.paddingBottom = 0,
     this.maxLines = 1,
+    this.isOptional = false,
   });
 
   @override
@@ -72,7 +74,8 @@ class _LabeledOutlineTextFieldWidgetState
             obscureText: obscureText,
             inputFormatters: widget.inputFormatters,
             validator: (value) {
-              if (value == null || value.trim().isEmpty) {
+              if (!widget.isOptional &&
+                  (value == null || value.trim().isEmpty)) {
                 return 'Este campo precisa ser preenchido';
               }
 
