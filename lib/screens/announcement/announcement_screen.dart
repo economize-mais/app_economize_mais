@@ -272,6 +272,29 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       );
     }
 
+    final [
+      parsedProductExpirationDate,
+      parsedOfferStartDate,
+      parsedOfferExpirationDate
+    ] = formatStringDatesToYMD([
+      productExpirationDateController.text,
+      offerStartDateController.text,
+      offerExpirationDateController.text,
+    ]);
+
+    final dateTimeProductExpiration =
+        DateTime.parse(parsedProductExpirationDate);
+    final dateTimeOfferExpiration = DateTime.parse(parsedOfferExpirationDate);
+
+    if (dateTimeOfferExpiration.isAfter(dateTimeProductExpiration)) {
+      return showDialog(
+        context: context,
+        builder: (context) => PopupErrorWidget(
+            content:
+                'A data final da validade da oferta não pode ser maior que a validade do produto!'),
+      );
+    }
+
     try {
       setState(() => sendingRequest = true);
       // <ENVIO DA IMAGEM>
@@ -289,16 +312,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       final String categoryId = _categoriesProvider.categoriesList
           .firstWhere((item) => item.name == categoriaController.text)
           .id;
-
-      final [
-        parsedProductExpirationDate,
-        parsedOfferStartDate,
-        parsedOfferExpirationDate
-      ] = formatStringDatesToYMD([
-        productExpirationDateController.text,
-        offerStartDateController.text,
-        offerExpirationDateController.text,
-      ]);
 
       num weight = pesoLiquidoController.text.trim().isNotEmpty
           ? num.parse(pesoLiquidoController.text
