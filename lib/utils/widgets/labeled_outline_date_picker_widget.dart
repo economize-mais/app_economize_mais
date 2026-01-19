@@ -1,3 +1,4 @@
+import 'package:app_economize_mais/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -25,7 +26,7 @@ class LabeledOutlineDatePicker extends StatefulWidget {
 
 class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
   final DateTime dataMinima = DateTime(1900);
-  final DateTime dataMaxima = DateTime.now();
+  final DateTime dataMaxima = DateTime.now().dateOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -48,20 +49,18 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
             MaskTextInputFormatter(
                 mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')})
           ],
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return 'Este campo precisa ser preenchido';
-            }
-
-            return _validarData(value);
-          },
+          validator: _validarData,
         ),
       ],
     );
   }
 
-  String? _validarData(String value) {
+  String? _validarData(String? value) {
     try {
+      if (value == null || value.trim().isEmpty) {
+        return 'Este campo precisa ser preenchido';
+      }
+
       final formatter = DateFormat('dd/MM/yyyy');
       final dataFormatada = formatter.parseStrict(value);
 
