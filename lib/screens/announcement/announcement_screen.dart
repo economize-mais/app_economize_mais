@@ -346,11 +346,14 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       offerExpirationDateController.text,
     ]);
 
-    final dateTimeProductExpiration =
-        DateTime.parse(parsedProductExpirationDate);
+    final DateTime? dateTimeProductExpiration =
+        parsedProductExpirationDate.isNotEmpty
+            ? DateTime.parse(parsedProductExpirationDate)
+            : null;
     final dateTimeOfferExpiration = DateTime.parse(parsedOfferExpirationDate);
 
-    if (dateTimeOfferExpiration.isAfter(dateTimeProductExpiration)) {
+    if (productHasExpirationDate &&
+        dateTimeOfferExpiration.isAfter(dateTimeProductExpiration!)) {
       return showDialog(
         context: context,
         builder: (context) => PopupErrorWidget(
