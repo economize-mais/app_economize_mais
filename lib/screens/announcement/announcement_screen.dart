@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:app_economize_mais/models/category_model.dart';
+import 'package:app_economize_mais/models/product_model.dart';
 import 'package:app_economize_mais/providers/categories_provider.dart';
 import 'package:app_economize_mais/providers/product_provider.dart';
+import 'package:app_economize_mais/providers/products_establishment_provider.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/measurement_units_widget.dart';
 import 'package:app_economize_mais/utils/functions/format_types.dart';
 import 'package:app_economize_mais/utils/functions/product/send_product_image.dart';
@@ -20,12 +22,20 @@ import 'package:flutter/material.dart';
 import 'package:app_economize_mais/screens/announcement/widgets/product_container_widget.dart';
 import 'package:app_economize_mais/utils/widgets/general_app_bar_widget.dart';
 import 'package:app_economize_mais/utils/widgets/labeled_outline_text_field_widget.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AnnouncementScreen extends StatefulWidget {
-  const AnnouncementScreen({super.key});
+  final ProductModel? product;
+  final String? categoryId;
+
+  const AnnouncementScreen({
+    super.key,
+    this.product,
+    this.categoryId,
+  });
 
   @override
   State<AnnouncementScreen> createState() => _AnnouncementScreenState();
@@ -55,7 +65,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   void initState() {
     super.initState();
 
-    setTextControllers();
     WidgetsBinding.instance.addPostFrameCallback((_) => initialize());
   }
 
@@ -68,41 +77,92 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GeneralAppBar(
-        applyLeading: false,
-        title: 'Anúncio',
+      appBar: GeneralAppBar(
+        applyLeading: widget.product == null ? false : true,
+        title: widget.product == null ? 'Anúncio' : 'Editar Anúncio',
         hideActions: true,
       ),
-      body: Consumer<CategoriesProvider>(builder: (context, provider, child) {
-        if (isLoading) {
-          return CustomCircularProgressIndicator(
-            text: 'Carregando informações...',
-          );
-        }
+      body: Consumer<CategoriesProvider>(
+        builder: (context, provider, child) {
+          if (isLoading) {
+            return CustomCircularProgressIndicator(
+              text: 'Carregando informações...',
+            );
+          }
 
-        if (provider.hasError) {
-          return TentarNovamenteWidget(
-              title:
-                  'Não foi possível buscar as informações. Por favor, tente novamente.',
-              onPressed: () => initialize(tryAgain: true));
-        }
+          if (provider.hasError) {
+            return TentarNovamenteWidget(
+                title:
+                    'Não foi possível buscar as informações. Por favor, tente novamente.',
+                onPressed: () => initialize(tryAgain: true));
+          }
 
-        return _buildContent(provider.categoriesList);
-      }),
+          return _buildContent(provider.categoriesList);
+        },
+      ),
     );
   }
 
   void setTextControllers() {
     _formKey = GlobalKey<FormState>();
 
-    categoriaController = TextEditingController();
-    descricaoController = TextEditingController();
-    pesoLiquidoController = TextEditingController();
-    productExpirationDateController = TextEditingController();
-    valorDeController = TextEditingController();
-    valorParaController = TextEditingController();
-    offerStartDateController = TextEditingController();
-    offerExpirationDateController = TextEditingController();
+    final String textCategoria = widget.categoryId != null
+        ? _categoriesProvider.categoriesList
+            .firstWhere((item) => item.id == widget.categoryId)
+            .name
+        : '';
+
+    categoriaController = TextEditingController(text: textCategoria);
+    descricaoController = TextEditingController(text: widget.product?.name);
+    pesoLiquidoController = TextEditingController(
+        text: widget.product?.weight?.replaceAll('.', ','));
+    productExpirationDateController =
+        TextEditingController(text: widget.product?.priceOriginal);
+
+    valorDeController = TextEditingController(
+        text: widget.product?.priceOriginal != null
+            ? formatDecimalNumber(widget.product!.priceOriginal)
+            : null);
+    valorParaController = TextEditingController(
+        text: widget.product?.priceOffer != null
+            ? formatDecimalNumber(widget.product!.priceOffer)
+            : null);
+
+    // DATAS
+    final formatterDMY = DateFormat('dd/MM/yyyy');
+
+    final String? offerStartExpirationText = widget.product?.offerStartDate !=
+            null
+        ? formatterDMY.format(DateTime.parse(widget.product!.offerStartDate!))
+        : null;
+
+    offerStartDateController =
+        TextEditingController(text: offerStartExpirationText);
+
+    final String? offerExpirationText = widget.product?.offerExpiration != null
+        ? formatterDMY.format(DateTime.parse(widget.product!.offerExpiration!))
+        : null;
+    offerExpirationDateController =
+        TextEditingController(text: offerExpirationText);
+
+    productHasExpirationDate = widget.product?.productHasExpirationDate ?? true;
+    final String? productExpirationText = widget.product != null &&
+            widget.product!.productHasExpirationDate &&
+            widget.product!.productExpirationDate != null
+        ? formatterDMY
+            .format(DateTime.parse(widget.product!.productExpirationDate!))
+        : null;
+    productExpirationDateController =
+        TextEditingController(text: productExpirationText);
+
+    //IMAGES
+    image = widget.product?.imageUrl != null
+        ? File.fromUri(Uri(path: widget.product!.imageUrl!))
+        : null;
+
+    selectedUnitIndex = widget.product?.unitOfMeasure != null
+        ? units.indexOf(widget.product!.unitOfMeasure!)
+        : 0;
   }
 
   void disposeTextControllers() {
@@ -139,7 +199,10 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
     await _categoriesProvider.getCategories();
 
-    setState(() => isLoading = false);
+    setState(() {
+      setTextControllers();
+      isLoading = false;
+    });
   }
 
   Widget _buildContent(List<CategoryModel> categoriesList) {
@@ -156,6 +219,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             children: [
               CustomAutocompleteWidget(
                 label: 'Categoria',
+                initialValue: categoriaController.value,
                 possibleOptions:
                     categoriesList.map((item) => item.name).toList(),
                 onSelected: (value) =>
@@ -182,7 +246,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 replacement: const CustomCircularProgressIndicator(),
                 child: FilledButton(
                   onPressed: () => _onPressed(categoriesList),
-                  child: const Text('Postar'),
+                  child: Text(widget.product == null ? 'Postar' : 'Editar'),
                 ),
               ),
             ],
@@ -301,14 +365,20 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       final ProductProvider productProvider =
           Provider.of(context, listen: false);
 
-      final responseImage = await sendProductImage(context, image!, 'product');
+      String? imageUrl = widget.product?.imageUrl;
+      if (imageUrl == null || !imageUrl.contains('https://')) {
+        final responseImage =
+            await sendProductImage(context, image!, 'product');
 
-      if (responseImage == null) return;
+        if (responseImage == null) return;
 
-      if (!mounted) return;
+        imageUrl = responseImage.url;
+
+        if (!mounted) return;
+      }
       // </ENVIO DA IMAGEM>
 
-      // <CRIANDO PRODUTO>
+      // <CRIANDO OU ATUALIZANDO PRODUTO>
       final String categoryId = _categoriesProvider.categoriesList
           .firstWhere((item) => item.name == categoriaController.text)
           .id;
@@ -319,15 +389,23 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               .replaceAll(',', '.'))
           : 0;
 
-      await productProvider.postProduct({
+      num originalPrice = valorDeController.text.trim().isNotEmpty
+          ? num.parse(
+              valorDeController.text.replaceAll('.', '').replaceAll(',', '.'))
+          : 0;
+
+      num offerPrice = valorParaController.text.trim().isNotEmpty
+          ? num.parse(
+              valorParaController.text.replaceAll('.', '').replaceAll(',', '.'))
+          : 0;
+
+      final Map<String, dynamic> productMap = {
         "categoryId": categoryId,
         "name": descricaoController.text,
         "weight": weight,
         "unitOfMeasure": units[selectedUnitIndex],
-        "originalPrice": num.parse(
-            valorDeController.text.replaceAll('.', '').replaceAll(',', '.')),
-        "offerPrice": num.parse(
-            valorParaController.text.replaceAll('.', '').replaceAll(',', '.')),
+        "originalPrice": originalPrice,
+        "offerPrice": offerPrice,
         "offerStartDate": parsedOfferStartDate.isNotEmpty
             ? parsedOfferStartDate
             : DateFormat('yyyy-MM-dd').format(DateTime.now()),
@@ -340,8 +418,12 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             parsedProductExpirationDate.isNotEmpty && productHasExpirationDate
                 ? parsedProductExpirationDate
                 : null,
-        "imageUrl": responseImage.url,
-      });
+        "imageUrl": imageUrl,
+      };
+
+      final result = widget.product == null
+          ? await productProvider.postProduct(productMap)
+          : await productProvider.patchProduct(widget.product!.id, productMap);
 
       if (!mounted) return;
 
@@ -352,17 +434,31 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               PopupErrorWidget(content: productProvider.errorMessage),
         );
       }
-      // </CRIANDO PRODUTO>
+      if (widget.product != null) {
+        final ProductsEstablishmentProvider productsEstablishmentProvider =
+            Provider.of(context, listen: false);
+        productsEstablishmentProvider.patchProductFromList(widget.product!.id,
+            widget.categoryId!, ProductModel.fromJson(result!));
+      }
+
+      // </CRIANDO OU ATUALIZANDO PRODUTO>
 
       await showDialog(
         context: context,
-        builder: (context) => const PopupErrorWidget(
+        builder: (context) => PopupErrorWidget(
           title: 'Sucesso!',
-          content: 'O produto foi cadastrado com sucesso!',
+          content:
+              'O produto foi ${widget.product == null ? 'cadastrado' : 'editado'} com sucesso!',
         ),
       );
 
       clearAllFields();
+
+      if (!mounted) return;
+
+      if (widget.product != null) {
+        context.pop();
+      }
     } catch (e) {
       if (!mounted) return;
 

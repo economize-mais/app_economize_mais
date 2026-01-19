@@ -7,7 +7,6 @@ import 'package:app_economize_mais/screens/announcement/announcement_screen.dart
 import 'package:app_economize_mais/screens/cadastro/cadastro_senha_screen.dart';
 import 'package:app_economize_mais/screens/home/initial_screen.dart';
 import 'package:app_economize_mais/screens/home/widgets/home_scaffold_widget.dart';
-import 'package:app_economize_mais/screens/negocios%20detalhes/edit_product_item_screen.dart';
 import 'package:app_economize_mais/screens/profile/profile_screen.dart';
 import 'package:app_economize_mais/screens/terms/single_term_screen.dart';
 import 'package:app_economize_mais/screens/terms/terms_screen.dart';
@@ -153,7 +152,7 @@ abstract class AppRoutes {
                       final product = stateExtraMap['product'] as ProductModel;
                       final categoryId = stateExtraMap['categoryId'] as String;
 
-                      return EditProductItemScreen(
+                      return AnnouncementScreen(
                         product: product,
                         categoryId: categoryId,
                       );
