@@ -56,7 +56,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   File? image;
   bool productHasExpirationDate = true;
   int selectedUnitIndex = 0;
-  List<String> units = const ['KG', 'LT'];
+  List<String> units = const ['KG', 'LT', 'UN'];
 
   bool isLoading = true;
   bool sendingRequest = false;

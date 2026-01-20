@@ -20,8 +20,18 @@ class MeasurementUnitsWidget extends StatelessWidget {
         final double leftRadius = unitIndex == 0 ? 8 : 0;
         final double rightRadius = unitIndex == units.length - 1 ? 8 : 0;
 
+        final double commonPadding = 6;
+        final double leftPadding = commonPadding + (unitIndex == 0 ? 0 : 2);
+        final double rightPadding =
+            commonPadding + (unitIndex == units.length - 1 ? 0 : 2);
+
         return Container(
-          padding: EdgeInsets.all(6),
+          padding: EdgeInsets.only(
+            left: leftPadding,
+            top: commonPadding,
+            right: rightPadding,
+            bottom: commonPadding,
+          ),
           decoration: BoxDecoration(
             color: selectedUnitIndex == unitIndex
                 ? AppScheme.brightGreen
