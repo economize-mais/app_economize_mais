@@ -26,4 +26,15 @@ abstract class UserService {
       rethrow;
     }
   }
+
+  static Future deleteUser(String id) async {
+    try {
+      final response =
+          await _apiAuth.delete('/user', queryParameters: {'id': id});
+
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

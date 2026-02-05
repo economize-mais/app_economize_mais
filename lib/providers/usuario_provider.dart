@@ -177,6 +177,23 @@ class UsuarioProvider extends ChangeNotifier {
     return true;
   }
 
+  Future deleteProfile() async {
+    try {
+      hasError = false;
+
+      final response = await UserService.deleteUser(userModel!.id!);
+      print(response);
+    } catch (e) {
+      hasError = true;
+      errorMessage = e is DioException
+          ? e.response?.data['message']
+          : 'Um erro inesperado ocorreu';
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
+
   void _setIsLoading(bool value) {
     isLoading = value;
     notifyListeners();

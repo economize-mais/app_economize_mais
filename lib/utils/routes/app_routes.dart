@@ -7,6 +7,7 @@ import 'package:app_economize_mais/screens/announcement/announcement_screen.dart
 import 'package:app_economize_mais/screens/cadastro/cadastro_senha_screen.dart';
 import 'package:app_economize_mais/screens/home/initial_screen.dart';
 import 'package:app_economize_mais/screens/home/widgets/home_scaffold_widget.dart';
+import 'package:app_economize_mais/screens/profile/delete_profile_screen.dart';
 import 'package:app_economize_mais/screens/profile/profile_screen.dart';
 import 'package:app_economize_mais/screens/terms/single_term_screen.dart';
 import 'package:app_economize_mais/screens/terms/terms_screen.dart';
@@ -179,6 +180,10 @@ abstract class AppRoutes {
                   GoRoute(
                     path: '/change-password',
                     builder: (context, state) => TrocarSenhaScreen(),
+                  ),
+                  GoRoute(
+                    path: '/delete-profile',
+                    builder: (context, state) => DeleteProfileScreen(),
                   ),
                   GoRoute(
                     path: '/common-questions',

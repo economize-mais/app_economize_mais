@@ -59,6 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Trocar Senha',
             ),
             CustomElevatedButtonWidget(
+              onPressed: () => context.push('/profile/delete-profile'),
+              title: 'Excluir Conta',
+            ),
+            CustomElevatedButtonWidget(
               onPressed: () => context.push('/profile/common-questions'),
               title: 'Perguntas Frequentes',
             ),
