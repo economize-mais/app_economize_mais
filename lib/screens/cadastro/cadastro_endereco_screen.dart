@@ -114,6 +114,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                                 filter: {'#': RegExp(r'[0-9]')},
                               ),
                             ],
+                            isOptional: true,
                           ),
                         ),
                       ),
@@ -130,6 +131,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                   LabeledOutlineTextFieldWidget(
                     controller: ruaController,
                     label: 'Rua/Avenida/Travessia',
+                    isOptional: true,
                   ),
                   const SizedBox(height: 15),
                   Row(
@@ -139,6 +141,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                           controller: numeroController,
                           label: 'Número',
                           keyboardType: TextInputType.number,
+                          isOptional: true,
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -146,6 +149,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                         child: LabeledOutlineTextFieldWidget(
                           controller: bairroController,
                           label: 'Bairro',
+                          isOptional: true,
                         ),
                       ),
                     ],
@@ -156,6 +160,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                         child: LabeledOutlineTextFieldWidget(
                           controller: cidadeController,
                           label: 'Cidade',
+                          isOptional: true,
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -172,6 +177,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                               },
                             ),
                           ],
+                          isOptional: true,
                         ),
                       ),
                     ],
@@ -180,6 +186,7 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
                   LabeledOutlineTextFieldWidget(
                     controller: complementoController,
                     label: 'Complemento',
+                    isOptional: true,
                   ),
                   const SizedBox(height: 25),
                   FilledButton(
@@ -269,17 +276,19 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
 
     final userJson = {
       ...widget.userJson,
-      'addresses': [
-        {
-          'street': ruaController.text,
-          'number': numeroController.text,
-          'neighborhood': bairroController.text,
-          'city': cidadeController.text,
-          'state': ufController.text,
-          'complement': complementoController.text,
-          'zipcode': cepController.text,
-        },
-      ],
+      'addresses': ruaController.text.isNotEmpty
+          ? [
+              {
+                'street': ruaController.text,
+                'number': numeroController.text,
+                'neighborhood': bairroController.text,
+                'city': cidadeController.text,
+                'state': ufController.text,
+                'complement': complementoController.text,
+                'zipcode': cepController.text,
+              },
+            ]
+          : [],
     };
 
     context.push('/register/password', extra: userJson);

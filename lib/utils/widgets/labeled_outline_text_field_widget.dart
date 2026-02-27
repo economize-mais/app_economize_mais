@@ -48,7 +48,7 @@ class _LabeledOutlineTextFieldWidgetState
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.label),
+          Text('${widget.label} ${!widget.isOptional ? '*' : ''}'),
           TextFormField(
             controller: widget.controller,
             keyboardType: widget.keyboardType,

@@ -31,7 +31,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
   late TextEditingController birthDateController;
   late TextEditingController genderController;
 
-  final List<String> listaGeneros = ['Feminino', 'Masculino', 'Outro'];
+  final List<String> listaGeneros = ['', 'Feminino', 'Masculino', 'Outro'];
   bool loading = false;
 
   @override
@@ -141,6 +141,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
             filter: {"#": RegExp(r'[0-9]')},
           ),
         ],
+        isOptional: true,
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
@@ -149,6 +150,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
           Expanded(
             child: LabeledOutlineDatePicker(
               controller: birthDateController,
+              canBeOptional: true,
             ),
           ),
           const SizedBox(width: 20),

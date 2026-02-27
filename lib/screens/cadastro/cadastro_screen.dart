@@ -24,7 +24,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
   late TextEditingController dataNascimentoController;
   late TextEditingController generoController;
 
-  final List<String> listaGeneros = ['Feminino', 'Masculino', 'Outro'];
+  final List<String> listaGeneros = ['', 'Feminino', 'Masculino', 'Outro'];
 
   @override
   void initState() {
@@ -98,6 +98,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                           filter: {"#": RegExp(r'[0-9]')})
                     ],
                     keyboardType: TextInputType.number,
+                    isOptional: true,
                   ),
                   LabeledOutlineTextFieldWidget(
                     controller: emailController,
@@ -112,6 +113,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                       Expanded(
                         child: LabeledOutlineDatePicker(
                           controller: dataNascimentoController,
+                          canBeOptional: true,
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -153,7 +155,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
     final birthDate =
         dataNascimentoController.text.split('/').reversed.join('-');
-    final isAdult = is18YearsOld(birthDate);
+    final isAdult = birthDate.isNotEmpty ? is18YearsOld(birthDate) : true;
 
     if (!isAdult) {
       showDialog(
@@ -169,10 +171,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
     final userJson = {
       'email': emailController.text,
       'name': nomeCompletoController.text,
-      'birthDate': birthDate,
+      'birthDate': birthDate.isNotEmpty ? birthDate : null,
       'cpf': cpfController.text,
-      'phone': telefoneController.text,
-      'gender': generoController.text[0],
+      'phone':
+          telefoneController.text.isNotEmpty ? telefoneController.text : null,
+      'gender':
+          generoController.text.isNotEmpty ? generoController.text[0] : null,
     };
 
     context.push('/register/address', extra: userJson);

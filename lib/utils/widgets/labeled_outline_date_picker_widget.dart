@@ -9,6 +9,7 @@ class LabeledOutlineDatePicker extends StatefulWidget {
   final Color? fillColor;
   final bool canPassMaxDate;
   final bool canBePreviousDate;
+  final bool canBeOptional;
 
   const LabeledOutlineDatePicker({
     super.key,
@@ -17,6 +18,7 @@ class LabeledOutlineDatePicker extends StatefulWidget {
     this.fillColor,
     this.canPassMaxDate = false,
     this.canBePreviousDate = true,
+    this.canBeOptional = false,
   });
 
   @override
@@ -34,7 +36,7 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(widget.label),
+        Text('${widget.label} ${!widget.canBeOptional ? '*' : ''}'),
         TextFormField(
           controller: widget.controller,
           keyboardType: TextInputType.number,
@@ -49,7 +51,13 @@ class _LabeledOutlineDatePickerState extends State<LabeledOutlineDatePicker> {
             MaskTextInputFormatter(
                 mask: "##/##/####", filter: {"#": RegExp(r'[0-9]')})
           ],
-          validator: _validarData,
+          validator: (value) {
+            if (widget.canBeOptional) {
+              return null;
+            }
+
+            return _validarData(value);
+          },
         ),
       ],
     );
