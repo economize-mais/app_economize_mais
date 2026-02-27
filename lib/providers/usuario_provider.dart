@@ -181,8 +181,7 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       hasError = false;
 
-      final response = await UserService.deleteUser(userModel!.id!);
-      print(response);
+      await UserService.deleteUser();
     } catch (e) {
       hasError = true;
       errorMessage = e is DioException
