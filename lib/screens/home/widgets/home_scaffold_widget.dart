@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/widgets/popup_error_widget.dart';
+
 class HomeScaffoldWidget extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -20,7 +22,7 @@ class HomeScaffoldWidget extends StatelessWidget {
         backgroundColor: AppScheme.brightGreen,
         selectedItemColor: AppScheme.black,
         currentIndex: navigationShell.currentIndex,
-        onTap: _onTap,
+        onTap: (i) async => await _onTap(i, context),
         items: [
           BottomNavigationBarItem(
             label: 'Início',
@@ -33,7 +35,8 @@ class HomeScaffoldWidget extends StatelessWidget {
             ),
           ),
           BottomNavigationBarItem(
-            label: usuarioProvider.userModel!.type == 'USER'
+            label: (usuarioProvider.userModel == null ||
+                    usuarioProvider.userModel!.type == 'USER')
                 ? 'Alertas'
                 : 'Anúncios',
             icon: SvgPicture.asset(
@@ -59,7 +62,23 @@ class HomeScaffoldWidget extends StatelessWidget {
     );
   }
 
-  void _onTap(int i) {
+  Future<void> _onTap(int i, BuildContext context) async {
+    final provider = context.read<UsuarioProvider>();
+    final loggedIn = await provider.hasSavedCredentials();
+
+    if (!context.mounted) return;
+
+    if (i > 0 && !loggedIn) {
+      showDialog(
+        context: context,
+        builder: (_) => PopupErrorWidget(
+          content: 'Para acessar este conteúdo, conecte-se à uma conta.',
+        ),
+      );
+
+      return;
+    }
+
     navigationShell.goBranch(i);
   }
 }

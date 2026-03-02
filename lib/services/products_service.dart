@@ -1,11 +1,12 @@
 import 'package:app_economize_mais/utils/data/custom_dio.dart';
 
 abstract class ProductsService {
+  static final _api = CustomDio().dio;
   static final _apiAuth = CustomDio.auth().dio;
 
   static Future<List> getProductsEstablishment(String id) async {
     try {
-      final response = await _apiAuth.get('/products/establishment/$id');
+      final response = await _api.get('/products/establishment/$id');
 
       return List.from(response.data);
     } catch (e) {

@@ -215,7 +215,9 @@ Future<String?> _redirect(BuildContext context, GoRouterState state) async {
   final provider = context.read<UsuarioProvider>();
   final loggedIn = await provider.hasSavedCredentials();
   final loggingIn = state.matchedLocation == '/';
-  if (!loggedIn && !state.fullPath!.contains('/register')) {
+  if (!loggedIn &&
+      !state.fullPath!.contains('/register') &&
+      !state.fullPath!.contains('/home')) {
     return '/';
   }
   if (loggingIn) {

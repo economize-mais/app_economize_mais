@@ -3,6 +3,10 @@ import 'package:app_economize_mais/utils/widgets/custom_fade_in_image_widget.dar
 import 'package:flutter/material.dart';
 import 'package:app_economize_mais/utils/app_scheme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/usuario_provider.dart';
+import '../../../utils/widgets/popup_error_widget.dart';
 
 class EstablishmentCardWidget extends StatelessWidget {
   final String type;
@@ -21,10 +25,29 @@ class EstablishmentCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/home/establishment-details', extra: {
-        "type": type,
-        "establishment": establishment,
-      }),
+      onTap: () async {
+        final provider = context.read<UsuarioProvider>();
+        final loggedIn = await provider.hasSavedCredentials();
+
+        if (!context.mounted) return;
+
+        if (!loggedIn) {
+          showDialog(
+            context: context,
+            builder: (_) => PopupErrorWidget(
+              content:
+                  'Para acessar as informações do estabelicimento, conecte-se à uma conta.',
+            ),
+          );
+
+          return;
+        }
+
+        context.push('/home/establishment-details', extra: {
+          "type": type,
+          "establishment": establishment,
+        });
+      },
       child: SizedBox(
         width: width,
         height: height,

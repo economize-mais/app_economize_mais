@@ -226,6 +226,8 @@ class _CadastroEnderecoScreenState extends State<CadastroEnderecoScreen> {
           content: 'Não foi possível pegar as informações de localização',
         ),
       );
+    } finally {
+      setState(() => loadingLocation = false);
     }
 
     setState(() {

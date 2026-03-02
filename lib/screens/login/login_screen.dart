@@ -72,7 +72,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     isPassword: true,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 25, bottom: 15),
+                    padding: const EdgeInsets.only(top: 25),
+                    child: OutlinedButton(
+                      onPressed: () => context.pushReplacement('/home'),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(40),
+                      ),
+                      child: const Text('Entrar sem conta'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5, bottom: 15),
                     child: Consumer<UsuarioProvider>(
                       builder: (context, usuarioProvider, child) => Visibility(
                         visible: !usuarioProvider.isLoading,
@@ -150,8 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
     bool hasUnacceptedTerms =
         usuarioProvider.userModel!.termsAcceptance!.containsValue(false);
 
-    context.pushReplacement(hasUnacceptedTerms ? '/terms' : '/home',
-        extra: usuarioProvider.userModel!.type);
+    context.pushReplacement(hasUnacceptedTerms ? '/terms' : '/home');
   }
 
   Future verifyComoConhece(
