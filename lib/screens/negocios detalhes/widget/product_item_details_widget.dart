@@ -198,7 +198,12 @@ class _ProductItemDetailsWidgetState extends State<ProductItemDetailsWidget> {
 
   Widget _productActionButtons(ProductModel product) {
     final userModel =
-        Provider.of<UsuarioProvider>(context, listen: false).userModel!;
+        Provider.of<UsuarioProvider>(context, listen: false).userModel;
+
+    if (userModel == null) {
+      return const SizedBox.shrink();
+    }
+
     bool isSameEstablishment = userModel.id == widget.establishmentId;
 
     if (userModel.type == 'USER' || !isSameEstablishment) {

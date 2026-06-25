@@ -61,7 +61,7 @@ class _DadosPerfilScreenState extends State<DadosPerfilScreen> {
 
     genderController = TextEditingController(
         text: userModel.gender != null
-            ? listaGeneros.firstWhere((item) => item[0] == userModel.gender)
+            ? listaGeneros.firstWhere((item) => item.isNotEmpty && item[0] == userModel.gender)
             : '');
   }
 

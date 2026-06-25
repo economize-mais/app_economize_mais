@@ -65,14 +65,17 @@ class HomeScaffoldWidget extends StatelessWidget {
   Future<void> _onTap(int i, BuildContext context) async {
     final provider = context.read<UsuarioProvider>();
     final loggedIn = await provider.hasSavedCredentials();
-
+    
     if (!context.mounted) return;
 
     if (i > 0 && !loggedIn) {
       showDialog(
         context: context,
         builder: (_) => PopupErrorWidget(
-          content: 'Para acessar este conteúdo, conecte-se à uma conta.',
+          title: 'Acesso restrito',
+          content: i == 2
+              ? 'Faça login para acessar seu perfil'
+              : 'Faça login para receber alertas personalizadas',
         ),
       );
 

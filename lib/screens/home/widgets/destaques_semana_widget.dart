@@ -15,15 +15,11 @@ class _DestaquesSemanaWidgetState extends State<DestaquesSemanaWidget> {
   final destaqueItems = [
     {
       'imageUrl': '',
-      'assetUrl': 'assets/images/padaria_alvorada.png',
+      'assetUrl': 'assets/images/destaque_1.png',
     },
     {
       'imageUrl': '',
-      'assetUrl': 'assets/images/lacerda.png',
-    },
-    {
-      'imageUrl': '',
-      'assetUrl': 'assets/images/boticario.png',
+      'assetUrl': 'assets/images/destaque_2.png',
     },
   ];
 
@@ -50,15 +46,18 @@ class _DestaquesSemanaWidgetState extends State<DestaquesSemanaWidget> {
               autoPlay: true,
               enlargeCenterPage: true,
               viewportFraction: 1,
-              height: 95,
+              height: 118,
               onPageChanged: (index, reason) =>
                   setState(() => _current = index),
             ),
             items: destaqueItems
-                .map((destaque) => Image.asset(
-                      destaque['assetUrl']!,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
+                .map((destaque) => ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        destaque['assetUrl']!,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ))
                 .toList(),
           ),

@@ -31,17 +31,17 @@ class EstablishmentCardWidget extends StatelessWidget {
 
         if (!context.mounted) return;
 
-        if (!loggedIn) {
-          showDialog(
-            context: context,
-            builder: (_) => PopupErrorWidget(
-              content:
-                  'Para acessar as informações do estabelicimento, conecte-se à uma conta.',
-            ),
-          );
+        // if (!loggedIn) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (_) => PopupErrorWidget(
+        //       content:
+        //           'Para acessar as informações do estabelicimento, conecte-se à uma conta.',
+        //     ),
+        //   );
 
-          return;
-        }
+        //   return;
+        // }
 
         context.push('/home/establishment-details', extra: {
           "type": type,
